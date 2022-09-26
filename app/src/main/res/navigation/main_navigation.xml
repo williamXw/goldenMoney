@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navation"
+    app:startDestination="@id/loanfragment">
+
+    <fragment
+        android:id="@+id/loanfragment"
+        android:name="com.gexiaobao.hdw.bw.ui.fragment.loan.LoanFragment"
+        android:label="fragment_loan"
+        tools:layout="@layout/fragment_loan">
+
+        <action
+            android:id="@+id/action_loan_to_indentification"
+            app:destination="@id/indentification_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/loanfragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/matchfragment"
+        android:name="com.gexiaobao.hdw.bw.ui.fragment.match.MatchFragment"
+        android:label="fragment_match"
+        tools:layout="@layout/fragment_match">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/marketfragment"
+        android:name="com.gexiaobao.hdw.bw.ui.fragment.market.MarketFragment"
+        android:label="fragment_market"
+        tools:layout="@layout/fragment_market">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/indentification_fragment"
+        android:name="com.gexiaobao.hdw.bw.ui.fragment.indentification.IndentificationFragment"
+        android:label="fragment_indentification"
+        tools:layout="@layout/fragment_indentification_card">
+
+        <action
+            android:id="@+id/action_inden_card_to_inden_no"
+            app:destination="@id/inden_no_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/indentification_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/inden_no_fragment"
+        android:name="com.gexiaobao.hdw.bw.ui.fragment.indentification.IndentificationNoFragment"
+        android:label="fragment_inden_no"
+        tools:layout="@layout/fragment_indentification_no">
+
+
+    </fragment>
+
+</navigation>

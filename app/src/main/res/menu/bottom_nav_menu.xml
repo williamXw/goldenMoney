@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/loanfragment"
+        android:icon="@mipmap/loan_normal"
+        android:title="LOAN" />
+    <item
+        android:id="@+id/matchfragment"
+        android:icon="@mipmap/repayment_normal"
+        android:title="REPAYMENT" />
+
+    <item
+        android:id="@+id/marketfragment"
+        android:icon="@mipmap/account_normal"
+        android:title="ACCOUNT" />
+</menu>
