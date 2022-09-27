@@ -1,4 +1,4 @@
-package com.gexiaobao.hdw.bw.ui.fragment.market
+package com.gexiaobao.hdw.bw.ui.fragment.account
 
 import android.os.Bundle
 import com.gexiaobao.hdw.bw.app.base.BaseFragment
@@ -10,7 +10,7 @@ import com.gexiaobao.hdw.bw.ui.viewmodel.MarketFragmentViewModel
  * @date : 20220920
  * Describe :
  */
-class MarketFragment:BaseFragment<MarketFragmentViewModel,FragmentMarketBinding>() {
+class AccountFragment:BaseFragment<MarketFragmentViewModel,FragmentMarketBinding>() {
 
 
     override fun initView(savedInstanceState: Bundle?) {

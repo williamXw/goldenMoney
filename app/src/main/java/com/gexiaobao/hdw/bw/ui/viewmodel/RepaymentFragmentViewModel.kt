@@ -7,5 +7,5 @@ import me.hgj.mvvmhelper.base.BaseViewModel
  * @date : 20220920
  * Describe :
  */
-class MatchFragmentViewModel : BaseViewModel() {
+class RepaymentFragmentViewModel : BaseViewModel() {
 }

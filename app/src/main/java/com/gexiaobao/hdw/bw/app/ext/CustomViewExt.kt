@@ -11,8 +11,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.gexiaobao.hdw.bw.R
 import com.gexiaobao.hdw.bw.app.util.SettingUtil
 import com.gexiaobao.hdw.bw.app.util.toHtml
-import com.gexiaobao.hdw.bw.ui.fragment.market.MarketFragment
-import com.gexiaobao.hdw.bw.ui.fragment.match.MatchFragment
+import com.gexiaobao.hdw.bw.ui.fragment.account.AccountFragment
+import com.gexiaobao.hdw.bw.ui.fragment.repayment.RePaymentFragment
 import com.gexiaobao.hdw.bw.ui.fragment.loan.LoanFragment
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import me.hgj.mvvmhelper.base.appContext
@@ -50,10 +50,10 @@ fun ViewPager2.initMain(fragment: Fragment): ViewPager2 {
                     return LoanFragment()
                 }
                 1 -> {
-                    return MatchFragment()
+                    return RePaymentFragment()
                 }
                 2 -> {
-                    return MarketFragment()
+                    return AccountFragment()
                 }
                 else -> {
                     return LoanFragment()

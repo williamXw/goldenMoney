@@ -14,26 +14,34 @@
         tools:ignore="MissingConstraints">
 
         <fragment
-            android:id="@+id/nav_host"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:id="@+id/host_fragment"
+            android:name="com.gexiaobao.hdw.bw.ui.navigation.NavHostFragmentHideShow"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/main_navigation"
-            tools:ignore="FragmentTagUsage" />
+            app:navGraph="@navigation/main_navigation" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_25_stroke"
-            app:itemIconTint="@drawable/selector_bottom_nav_icon_color"
-            app:itemTextColor="@drawable/selector_bottom_nav_icon_color"
-            android:paddingBottom="@dimen/dp_10"
-            android:paddingTop="@dimen/dp.8"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav_menu" />
+<!--        <fragment-->
+<!--            android:id="@+id/nav_host"-->
+<!--            android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            app:defaultNavHost="true"-->
+<!--            app:navGraph="@navigation/main_navigation"-->
+<!--            tools:ignore="FragmentTagUsage" />-->
+
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/bottom_nav_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/round_25_stroke"-->
+<!--            app:itemIconTint="@drawable/selector_bottom_nav_icon_color"-->
+<!--            app:itemTextColor="@drawable/selector_bottom_nav_icon_color"-->
+<!--            android:paddingBottom="@dimen/dp_10"-->
+<!--            android:paddingTop="@dimen/dp.8"-->
+<!--            app:labelVisibilityMode="labeled"-->
+<!--            app:menu="@menu/bottom_nav_menu" />-->
 
     </LinearLayout>
 </layout>

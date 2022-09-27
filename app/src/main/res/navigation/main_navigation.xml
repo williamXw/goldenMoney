@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navation"
-    app:startDestination="@id/loanfragment">
+    app:startDestination="@id/main_fragment">
 
     <fragment
-        android:id="@+id/loanfragment"
-        android:name="com.gexiaobao.hdw.bw.ui.fragment.loan.LoanFragment"
-        android:label="fragment_loan"
-        tools:layout="@layout/fragment_loan">
+        android:id="@+id/main_fragment"
+        android:name="com.gexiaobao.hdw.bw.ui.fragment.MainFragment"
+        tools:layout="LoanFragment">
 
         <action
             android:id="@+id/action_loan_to_indentification"
@@ -18,22 +17,12 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/loanfragment" />
-
+            app:popUpTo="@id/main_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/matchfragment"
-        android:name="com.gexiaobao.hdw.bw.ui.fragment.match.MatchFragment"
-        android:label="fragment_match"
-        tools:layout="@layout/fragment_match">
-
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/marketfragment"
-        android:name="com.gexiaobao.hdw.bw.ui.fragment.market.MarketFragment"
+        android:id="@+id/account_fragment"
+        android:name="com.gexiaobao.hdw.bw.ui.fragment.account.AccountFragment"
         android:label="fragment_market"
         tools:layout="@layout/fragment_market">
 
