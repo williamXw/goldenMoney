@@ -24,8 +24,7 @@ import com.luck.picture.lib.listener.OnResultCallbackListener
  *  date : 2022/9/25 13:39
  *  description :
  */
-class IndentificationNoFragment :
-    BaseFragment<IndentificationViewModel, FragmentIndentificationNoBinding>() {
+class IndentificationNoFragment : BaseFragment<IndentificationViewModel, FragmentIndentificationNoBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.viewmodel = mViewModel
