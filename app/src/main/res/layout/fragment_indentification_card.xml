@@ -12,10 +12,11 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBgGray_EBEBEB"
+        android:orientation="vertical"
         android:paddingTop="@dimen/dp.44">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,25 +50,22 @@
         <ScrollView
             android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:paddingTop="@dimen/dp_10"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toTopOf="@+id/btn_continue"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/con_title">
+            android:scrollbars="none">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dp.20"
+                android:paddingEnd="@dimen/dp.20">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/con_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp.20"
                     android:layout_marginTop="@dimen/dp.25"
-                    android:layout_marginEnd="@dimen/dp.20"
                     android:background="@drawable/round_white_12"
                     android:paddingStart="@dimen/dp.20">
 
@@ -111,9 +109,7 @@
                     android:id="@+id/con_back"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp.20"
                     android:layout_marginTop="@dimen/dp.15"
-                    android:layout_marginEnd="@dimen/dp.20"
                     android:background="@drawable/round_white_12"
                     android:paddingStart="@dimen/dp.20"
                     app:layout_constraintTop_toBottomOf="@+id/con_font">
@@ -158,9 +154,7 @@
                     android:id="@+id/con_pan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp.20"
                     android:layout_marginTop="@dimen/dp.15"
-                    android:layout_marginEnd="@dimen/dp.20"
                     android:background="@drawable/round_white_12"
                     android:paddingStart="@dimen/dp.20"
                     app:layout_constraintTop_toBottomOf="@+id/con_back">
@@ -205,9 +199,7 @@
                     android:id="@+id/tv_marked_words"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp.20"
                     android:layout_marginTop="@dimen/dp.25"
-                    android:layout_marginEnd="@dimen/dp.20"
                     android:text="1.Please make sure that all your documents which uploaded are real and clear.\n\n
 2.Incomplete information may lead to verification failure."
                     android:textColor="@color/colorBlack"
@@ -221,20 +213,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_continue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/btn_bottom_style"
             android:layout_marginStart="@dimen/dp.20"
             android:layout_marginTop="@dimen/dp_40"
             android:layout_marginEnd="@dimen/dp.20"
             android:layout_marginBottom="@dimen/dp_40"
-            android:background="@drawable/round_btn_12_click"
-            android:text="Continue"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/sp_18"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scroll" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="Continue" />
+    </LinearLayout>
 </layout>

@@ -12,10 +12,11 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBgGray_EBEBEB"
+        android:orientation="vertical"
         android:paddingTop="@dimen/dp.44">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,13 +50,10 @@
         <ScrollView
             android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:paddingTop="@dimen/dp_10"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toTopOf="@+id/btn_continue"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/con_title">
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,6 +76,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_name_Adahaar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_10"
@@ -86,7 +85,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.name}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -100,6 +99,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_name_pan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
@@ -108,7 +108,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.namePan}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -122,6 +122,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_pan_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
@@ -130,7 +131,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.panNo}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -144,6 +145,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_aadhaar_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
@@ -152,7 +154,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.aadhaarNo}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -166,6 +168,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_Date_of_birth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
@@ -174,7 +177,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.dateOfBirth}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -188,6 +191,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_Gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
@@ -196,7 +200,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.gender}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -210,6 +214,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_Pincode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
@@ -218,7 +223,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.pincode}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -232,6 +237,7 @@
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_Email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
@@ -240,7 +246,7 @@
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.email}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -249,20 +255,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
-                        android:text="Name（Aadhaar）"
+                        android:text="ADDRESS"
                         android:textColor="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_Address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.12"
                         android:background="@drawable/round_white_12"
-                        android:hint="Abc Def Ger"
+                        android:hint="address"
                         android:paddingStart="@dimen/dp.15"
                         android:paddingTop="@dimen/dp.13"
                         android:paddingBottom="@dimen/dp.15"
-                        android:text=""
+                        android:text="@={viewmodel.address}"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorText_999999"
                         android:textSize="@dimen/sp_15" />
@@ -274,19 +281,10 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_continue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/btn_bottom_style"
             android:layout_marginStart="@dimen/dp.20"
             android:layout_marginEnd="@dimen/dp.20"
             android:layout_marginBottom="@dimen/dp.22"
-            android:background="@drawable/round_btn_12_click"
-            android:text="Continue"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/sp_18"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scroll" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="Continue" />
+    </LinearLayout>
 </layout>

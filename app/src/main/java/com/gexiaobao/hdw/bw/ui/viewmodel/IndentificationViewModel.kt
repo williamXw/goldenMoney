@@ -11,5 +11,15 @@ import me.hgj.mvvmhelper.core.databinding.StringObservableField
 class IndentificationViewModel : BaseViewModel() {
 
     var title = StringObservableField()
+    var name = StringObservableField()
+    var namePan = StringObservableField()
+    var panNo = StringObservableField()
+    var aadhaarNo = StringObservableField()
+    var dateOfBirth = StringObservableField()
+    var gender = StringObservableField()
+    var pincode = StringObservableField()
+    var email = StringObservableField()
+    var address = StringObservableField()
+
 
 }

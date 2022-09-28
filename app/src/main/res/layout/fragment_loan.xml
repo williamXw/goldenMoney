@@ -161,15 +161,10 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/lan_request"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/btn_bottom_style"
             android:layout_marginStart="@dimen/dp.30"
             android:layout_marginTop="@dimen/dp.30"
             android:layout_marginEnd="@dimen/dp.30"
-            android:background="@drawable/round_btn_12_click"
-            android:text="Request"
-            android:textSize="@dimen/sp_18"
-            android:textColor="@color/colorWhite"
-            android:textAllCaps="false" />
+            android:text="Request" />
     </LinearLayout>
 </layout>
