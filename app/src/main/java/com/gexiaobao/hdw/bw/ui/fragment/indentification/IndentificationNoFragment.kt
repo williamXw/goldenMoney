@@ -52,6 +52,7 @@ class IndentificationNoFragment :
     }
 
     override fun onRequestSuccess() {
+
         super.onRequestSuccess()
     }
 }
