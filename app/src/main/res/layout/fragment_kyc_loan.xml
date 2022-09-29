@@ -263,7 +263,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alpha="0.3"
-                        android:background="@drawable/round_black_12">
+                        android:background="@drawable/round_black_12"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/iv_loan_kyc_lock"
