@@ -136,7 +136,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                         )
                         !mViewModel.isChecked.get() -> showDialogMessage("Please selected...")
                         else -> {
-                            mViewModel.customerOtpCallBack(body)?.observe(this) {
+                            mViewModel.customerOtpCallBack(paramsBody)?.observe(this) {
                                 hideSoftKeyboard(activity)
                                 nav().navigateAction(R.id.action_mobile_to_code, Bundle().apply {
                                     putString(Constant.MOBILE_NUMBER, mViewModel.mobileNum.get())

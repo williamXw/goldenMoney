@@ -65,7 +65,7 @@ class LoginViewModel : BaseViewModel() {
                 iAwaitLiveData?.value = UserRepository.customerOtp(body).await()
             }
             loadingType = LoadingType.LOADING_DIALOG //选传 默认为 LoadingType.LOADING_NULL
-            loadingMessage = "加请求中....." // 选传
+            loadingMessage = "请求中....." // 选传
             requestCode = NetUrl.CUSTOMER_OTP // 选传，如果要判断接口错误业务的话必传
         }
     }
@@ -76,9 +76,9 @@ class LoginViewModel : BaseViewModel() {
             onRequest = {
                 loginResult?.value = UserRepository.login(body).await()
             }
-            loadingType = LoadingType.LOADING_DIALOG //选传 默认为 LoadingType.LOADING_NULL
-            loadingMessage = "请求中....." // 选传
-            requestCode = NetUrl.LOGIN // 选传，如果要判断接口错误业务的话必传
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "请求中....."
+            requestCode = NetUrl.LOGIN
         }
     }
 }

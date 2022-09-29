@@ -1,6 +1,7 @@
 package com.gexiaobao.hdw.bw.data.repository
 
 import com.gexiaobao.hdw.bw.app.api.NetUrl
+import com.gexiaobao.hdw.bw.app.util.EncryptUtil
 import com.gexiaobao.hdw.bw.data.response.*
 import okhttp3.RequestBody
 import rxhttp.wrapper.coroutines.Await
@@ -17,7 +18,7 @@ object UserRepository {
 
     /**获取手机验证码*/
     fun customerOtp(body: RequestBody): Await<CustomerOtpResponse> {
-        return RxHttp.postBody(NetUrl.CUSTOMER_OTP).setBody(body)
+        return RxHttp.postBody(EncryptUtil.encode(NetUrl.CUSTOMER_OTP)).setBody(body)
             .toResponse()
     }
 

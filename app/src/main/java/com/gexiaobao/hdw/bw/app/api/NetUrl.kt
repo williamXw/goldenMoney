@@ -13,7 +13,7 @@ object NetUrl {
     const val SUCCESS_CODE = 0
 
     @DefaultDomain //设置为默认域名
-    const val DEV_URL = "http://115.238.46.58:20002"
+    const val DEV_URL = "http://115.238.46.58:20222"
 
     /**登录*/
     const val LOGIN = "/customer/loginOrRegByOtp"

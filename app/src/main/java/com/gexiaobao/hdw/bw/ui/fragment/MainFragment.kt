@@ -8,10 +8,10 @@ import com.gexiaobao.hdw.bw.app.base.BaseFragment
 import com.gexiaobao.hdw.bw.databinding.FragmentMainBinding
 import com.gexiaobao.hdw.bw.ui.fragment.loan.LoanFragment
 import com.gexiaobao.hdw.bw.ui.fragment.account.AccountFragment
+import com.gexiaobao.hdw.bw.ui.fragment.loan.LoanKYCFragment
 import com.gexiaobao.hdw.bw.ui.fragment.repayment.RePaymentFragment
 import com.gexiaobao.hdw.bw.ui.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 
 /**
  * created by : huxiaowei
@@ -23,6 +23,8 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     private val loanFragmentPage = LoanFragment()
     private val rePaymentFragmentPage = RePaymentFragment()
     private val accountFragmentPage = AccountFragment()
+    private val loanKYCFragment = LoanKYCFragment()
+    private var isKYC: Boolean = true
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.mainViewpager.addOnPageChangeListener(viewPagerListener)
@@ -35,7 +37,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
             override fun getItem(position: Int): Fragment {
                 when (position) {
                     0 -> {
-                        return loanFragmentPage
+                        return if (isKYC) loanKYCFragment else loanFragmentPage
                     }
                     1 -> {
                         return rePaymentFragmentPage
@@ -69,8 +71,8 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
         }
     }
 
-    private val navigationViewListener =  BottomNavigationView.OnNavigationItemSelectedListener {
-            mBind.mainViewpager?.currentItem = it.order
-            return@OnNavigationItemSelectedListener true
-        }
+    private val navigationViewListener = BottomNavigationView.OnNavigationItemSelectedListener {
+        mBind.mainViewpager?.currentItem = it.order
+        return@OnNavigationItemSelectedListener true
+    }
 }

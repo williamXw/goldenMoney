@@ -14,7 +14,7 @@ import me.hgj.mvvmhelper.net.LoadStatusEntity
 /**
  * created by : huxiaowei
  * @date : 20220920
- * Describe : 我的
+ * Describe : 认证之前的首页
  */
 class LoanFragment : BaseFragment<LoanFragmentViewModel, FragmentLoanBinding>() {
 

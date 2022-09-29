@@ -8,5 +8,6 @@ package com.gexiaobao.hdw.bw.data.response
 data class ApiResponse<T>(
     var data: T,
     var code: Int = -1,
-    var msg: String = ""
+    var msg: String = "",
+    var msgCn: String = ""
 )

@@ -52,14 +52,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingTop="@dimen/dp_10"
             android:scrollbars="none">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:paddingStart="@dimen/dp.20"
-                android:paddingEnd="@dimen/dp.20">
+                android:paddingEnd="@dimen/dp.20"
+                android:paddingBottom="@dimen/dp_40">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/con_font"
@@ -197,25 +198,21 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_marked_words"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp.25"
+                    android:lineSpacingExtra="@dimen/dp.8"
                     android:text="1.Please make sure that all your documents which uploaded are real and clear.\n\n
 2.Incomplete information may lead to verification failure."
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/sp_13"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/con_pan" />
+                    android:textColor="@color/colorBlack" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </ScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_continue"
             style="@style/btn_bottom_style"
             android:layout_marginStart="@dimen/dp.20"
-            android:layout_marginTop="@dimen/dp_40"
             android:layout_marginEnd="@dimen/dp.20"
             android:layout_marginBottom="@dimen/dp_40"
             android:text="Continue" />
