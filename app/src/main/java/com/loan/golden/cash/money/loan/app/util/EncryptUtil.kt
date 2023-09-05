@@ -9,7 +9,7 @@ import kotlin.experimental.xor
  */
 object EncryptUtil {
 
-    private const val key = ""
+    private const val key = "6mmnZNKbxbkAkERn"//接口请求AES密钥
 
     private fun parseByte2HexStr(buf: ByteArray): String {
         val sb = StringBuffer()

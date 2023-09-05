@@ -29,7 +29,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.btnLogin) {
+        setOnclickNoRepeat(mBind.btnLogin) { it ->
             when (it) {
                 mBind.btnLogin -> {
                     when {

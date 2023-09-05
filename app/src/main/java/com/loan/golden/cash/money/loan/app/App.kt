@@ -4,8 +4,13 @@ import android.app.Application
 import com.effective.android.anchors.AnchorsManager
 import com.effective.android.anchors.Project
 import com.loan.golden.cash.money.loan.BuildConfig
+import com.loan.golden.cash.money.loan.app.util.AdvertisingIdClient
+import com.loan.golden.cash.money.loan.app.util.DeviceUtil
 import me.hgj.mvvmhelper.base.MvvmHelper
 import me.hgj.mvvmhelper.ext.currentProcessName
+import me.hgj.mvvmhelper.net.interception.logging.util.LogUtils
+import java.util.concurrent.Executors
+
 
 /**
  * 作者　: hxw
@@ -14,8 +19,15 @@ import me.hgj.mvvmhelper.ext.currentProcessName
  */
 class App : Application() {
 
+    companion object {
+        lateinit var instance: App
+        var aDid = ""
+        var versionName = ""
+    }
+
     override fun onCreate() {
         super.onCreate()
+        instance = this
         MvvmHelper.init(this, BuildConfig.DEBUG)
         val processName = currentProcessName
         if (currentProcessName == packageName) {
@@ -24,6 +36,19 @@ class App : Application() {
         } else {
             // 其他进程初始化
             processName?.let { onOtherProcessInit(it) }
+        }
+        initADid()
+        versionName = DeviceUtil.getVerName()
+    }
+
+    private fun initADid() {
+        Executors.newSingleThreadExecutor().execute {
+            try {
+                aDid = AdvertisingIdClient.getGoogleAdId(applicationContext)
+                LogUtils.debugInfo("aDid:$aDid")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -34,8 +59,10 @@ class App : Application() {
         AnchorsManager.getInstance()
             .debuggable(BuildConfig.DEBUG)
             //设置锚点
-            .addAnchor(InitNetWork.TASK_ID, InitUtils.TASK_ID, InitComm.TASK_ID
-            ).start(Project.Builder("app", AppTaskFactory())
+            .addAnchor(
+                InitNetWork.TASK_ID, InitUtils.TASK_ID, InitComm.TASK_ID
+            ).start(
+                Project.Builder("app", AppTaskFactory())
                     .add(InitNetWork.TASK_ID)
                     .add(InitComm.TASK_ID)
                     .add(InitUtils.TASK_ID)

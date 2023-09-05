@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
+import me.hgj.mvvmhelper.base.appContext
 import java.util.*
 
 /**
@@ -53,11 +54,11 @@ object DeviceUtil {
      * @param
      * @return
      */
-    fun getVerName(activity: Activity): String {
+    fun getVerName(): String {
         var verName = ""
         try {
             verName =
-                activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
+                appContext.packageManager.getPackageInfo(appContext.packageName, 0).versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }

@@ -11,7 +11,7 @@ import me.hgj.mvvmhelper.util.XLog
  */
 class LogUtils private constructor() {
     companion object {
-        private const val DEFAULT_TAG = "loan"
+        private const val DEFAULT_TAG = "goldenMoney"
         private var isLog = true
         fun isLog(): Boolean {
             return isLog
