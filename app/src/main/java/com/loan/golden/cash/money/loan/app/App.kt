@@ -45,7 +45,6 @@ class App : Application() {
         Executors.newSingleThreadExecutor().execute {
             try {
                 aDid = AdvertisingIdClient.getGoogleAdId(applicationContext)
-                LogUtils.debugInfo("aDid:$aDid")
             } catch (e: Exception) {
                 e.printStackTrace()
             }

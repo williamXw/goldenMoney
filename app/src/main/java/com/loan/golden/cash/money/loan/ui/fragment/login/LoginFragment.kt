@@ -52,7 +52,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     override fun onRequestSuccess() {
         super.onRequestSuccess()
         mViewModel.loginResult.observe(this) {
-            LogUtils.debugInfo("sdsdsdsdsd")
+
         }
     }
 
