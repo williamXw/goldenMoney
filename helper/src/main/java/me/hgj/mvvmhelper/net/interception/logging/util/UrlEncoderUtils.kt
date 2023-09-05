@@ -1,7 +1,7 @@
 package me.hgj.mvvmhelper.net.interception.logging.util
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2020/3/26
  * 描述　:
  */

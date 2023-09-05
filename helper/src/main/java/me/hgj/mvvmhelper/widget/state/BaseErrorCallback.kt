@@ -4,7 +4,7 @@ import me.hgj.mvvmhelper.R
 import me.hgj.mvvmhelper.loadsir.callback.Callback
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2021/6/8
  * 描述　:
  */

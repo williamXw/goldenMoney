@@ -8,7 +8,7 @@ import me.hgj.mvvmhelper.ext.finishActivity
 import me.hgj.mvvmhelper.ext.removeActivity
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2020/11/17
  * 描述　:
  */

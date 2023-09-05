@@ -6,7 +6,7 @@ import me.hgj.mvvmhelper.entity.BasePage
 import me.hgj.mvvmhelper.net.LoadStatusEntity
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2020/11/5
  * 描述　:
  */

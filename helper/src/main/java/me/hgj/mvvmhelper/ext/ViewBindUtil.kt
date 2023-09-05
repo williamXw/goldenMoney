@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.ParameterizedType
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2021/12/21
  * 描述　: ViewBinding DataBinding 反射
  */

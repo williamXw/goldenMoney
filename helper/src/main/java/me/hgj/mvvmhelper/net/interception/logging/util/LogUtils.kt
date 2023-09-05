@@ -5,13 +5,13 @@ import android.util.Log
 import me.hgj.mvvmhelper.util.XLog
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2020/3/26
  * 描述　:
  */
 class LogUtils private constructor() {
     companion object {
-        private const val DEFAULT_TAG = "MvvmHelper"
+        private const val DEFAULT_TAG = "loan"
         private var isLog = true
         fun isLog(): Boolean {
             return isLog

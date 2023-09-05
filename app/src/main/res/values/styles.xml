@@ -50,28 +50,6 @@
         <item name="android:layout_marginLeft">@dimen/dp.5</item>
     </style>
 
-    <style name="register_style_et12_black">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/colorBlack</item>
-        <item name="android:textSize">@dimen/sp_12</item>
-        <item name="android:layout_marginStart">@dimen/dp.5</item>
-        <item name="android:padding">@dimen/dp_10</item>
-        <item name="android:layout_marginEnd">@dimen/dp.30</item>
-        <item name="android:background">@null</item>
-        <item name="android:textCursorDrawable">@drawable/text_cursor_drawable_blue</item>
-    </style>
-
-    <style name="btn_bottom_sty_blue">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/round_btn_blue50_b_g</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/dp_10</item>
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">@dimen/sp_16</item>
-        <item name="android:elevation">@dimen/dp_10</item>
-    </style>
-
     <style name="register_text1">
         <item name="android:textSize">@dimen/dp.15</item>
         <item name="android:textColor">@color/color_red</item>
@@ -88,13 +66,14 @@
 
     <!--=================================================================================-->
 
-    <style name="btn_bottom_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">@dimen/sp_18</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:background">@drawable/round_btn_12_click</item>
+    <!--选中的样式，可以设置选择的字体颜色，这里只是为了改变选择时的字体大小-->
+    <style name="bottom_tab_title_active">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--没有选中的样式，导航默认的字体大小就是12sp-->
+    <style name="bottom_tab_title_inactive">
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

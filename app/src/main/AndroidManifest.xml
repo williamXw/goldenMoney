@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.gexiaobao.hdw.bw">
+    package="com.loan.golden.cash.money.loan">
 
     <application
-        android:name="com.gexiaobao.hdw.bw.app.App"
+        android:name=".app.App"
         android:allowBackup="false"
         android:exported="true"
         android:hardwareAccelerated="true"
@@ -21,7 +21,7 @@
         tools:replace="android:allowBackup,android:networkSecurityConfig">
 
         <activity
-            android:name="com.gexiaobao.hdw.bw.ui.activity.WelcomeActivity"
+            android:name=".ui.activity.WelcomeActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -37,13 +37,6 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true" />
-
-        <!--        <activity-->
-        <!--            android:name="com.gexiaobao.hdw.bw.ui.activity.LoginActivity"-->
-        <!--            android:launchMode="singleTask"-->
-        <!--            android:windowSoftInputMode="adjustResize"-->
-        <!--            android:screenOrientation="portrait" />-->
-
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -69,15 +62,6 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.zb.mypictureselectdemo.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
-        </provider>
     </application>
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />

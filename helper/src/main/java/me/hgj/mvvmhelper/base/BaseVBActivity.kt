@@ -6,7 +6,7 @@ import com.noober.background.BackgroundLibrary
 import me.hgj.mvvmhelper.ext.inflateBinding
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2021/8/10
  * 描述　:
  */

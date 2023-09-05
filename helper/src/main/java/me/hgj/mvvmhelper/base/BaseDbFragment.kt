@@ -8,7 +8,7 @@ import androidx.databinding.ViewDataBinding
 import me.hgj.mvvmhelper.ext.inflateBinding
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2020/11/18
  * 描述　:
  */

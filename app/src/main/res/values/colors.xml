@@ -39,5 +39,7 @@
     <color name="grayf9">#f9f9f9</color>
     <color name="gray_gb">#dddddd</color>
     <color name="colorGray">#333</color>
+    <color name="comm_text_hint_gray">#CACACA</color>
+    <color name="comm_text_gray">#666666</color>
 
 </resources>

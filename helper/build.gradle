@@ -100,4 +100,5 @@ dependencies {
     //rxHttp
     api "com.squareup.okhttp3:okhttp:4.10.0"
     api 'com.github.liujingxing.rxhttp:rxhttp:2.9.3'
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
 }

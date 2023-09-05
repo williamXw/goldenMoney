@@ -60,8 +60,7 @@ class LogInterceptor : Interceptor {
             bodyString = printResult(request, originalResponse, logResponse)
         }
         if (logResponse) {
-            val segmentList =
-                request.url.encodedPathSegments
+            val segmentList = request.url.encodedPathSegments
             val header: String = if (originalResponse.networkResponse == null) {
                 originalResponse.headers.toString()
             } else {

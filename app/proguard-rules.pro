@@ -108,8 +108,8 @@
   public static * bind(android.view.View);
 }
 #所有GSON生成的对象类不能被混淆
--keep class com.gexiaobao.hdw.bw.data.response.**{*;}
--keep class com.gexiaobao.hdw.bw.data.request.**{*;}
+-keep class com.loan.golden.cash.data.response.**{*;}
+-keep class com.loan.golden.cash.data.request.**{*;}
 
 
 

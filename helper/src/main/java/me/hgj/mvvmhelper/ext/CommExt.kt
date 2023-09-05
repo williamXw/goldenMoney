@@ -20,7 +20,7 @@ import com.hjq.toast.ToastUtils
 import me.hgj.mvvmhelper.base.appContext
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2020/11/18
  * 描述　:一些常用的方法
  */

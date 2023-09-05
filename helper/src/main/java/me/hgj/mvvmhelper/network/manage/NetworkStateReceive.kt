@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2020/5/2
  * 描述　: 网络变化接收器
  */

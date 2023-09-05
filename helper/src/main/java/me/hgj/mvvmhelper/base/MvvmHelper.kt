@@ -3,7 +3,7 @@ package me.hgj.mvvmhelper.base
 import android.app.Application
 import android.view.Gravity
 import com.hjq.toast.ToastUtils
-import com.gexiaobao.library.common.ext.dp
+import com.loan.library.common.ext.dp
 import me.hgj.mvvmhelper.loadsir.callback.SuccessCallback
 import me.hgj.mvvmhelper.loadsir.core.LoadSir
 import me.hgj.mvvmhelper.util.KtxActivityLifecycleCallbacks
@@ -13,7 +13,7 @@ import me.hgj.mvvmhelper.widget.state.BaseErrorCallback
 import me.hgj.mvvmhelper.widget.state.BaseLoadingCallback
 
 /**
- * 作者　: hegaojian
+ * 作者　: hxw
  * 时间　: 2022/1/13
  * 描述　:
  */
