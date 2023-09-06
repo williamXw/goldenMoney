@@ -38,6 +38,7 @@
             android:padding="@dimen/dp.20">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCancel"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp.42"
                 android:layout_marginEnd="@dimen/dp.20"
@@ -49,6 +50,7 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvContinue"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp.42"
                 android:layout_weight="1"

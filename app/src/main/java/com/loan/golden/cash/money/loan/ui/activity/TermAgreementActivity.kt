@@ -14,18 +14,18 @@ import me.hgj.mvvmhelper.base.BaseViewModel
 
 /**
  * @Author      : hxw
- * @Date        : 2023/9/6 8:20
- * @Describe    : 隐私协议
+ * @Date        : 2023/9/6 10:00
+ * @Describe    : 条款协议
  */
-class PrivacyPolicyActivity : BaseActivity<BaseViewModel, ActivityPrivacyPolicyBinding>() {
+class TermAgreementActivity : BaseActivity<BaseViewModel, ActivityPrivacyPolicyBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
-        mBind.customToolbar.setCenterTitle("Privacy Policy")
+        mBind.customToolbar.setCenterTitle("Term Agreement")
         initWebView()
     }
 
     private fun initWebView() {
-        mBind.webView.loadUrl("https://app.goldenmoney.shop/html/agreement/ultfii.html")
+        mBind.webView.loadUrl("https://app.goldenmoney.shop/html/agreement/xeptze.html")
         val webSettings = mBind.webView.settings
         webSettings.userAgentString = webSettings.userAgentString + "Android-GoldenMoney"
         webSettings.cacheMode = WebSettings.LOAD_NO_CACHE//不使用缓存，只从网络获取数据.
@@ -64,7 +64,7 @@ class PrivacyPolicyActivity : BaseActivity<BaseViewModel, ActivityPrivacyPolicyB
         setOnclickNoRepeat(mBind.tvContinue) {
             when (it) {
                 mBind.tvContinue -> {
-                    startActivity<PermissionAgreementActivity>()
+                    startActivity<LoginActivity>()
                 }
             }
         }
