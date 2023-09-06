@@ -10,7 +10,6 @@ import com.loan.golden.cash.money.loan.ui.viewmodel.LoginViewModel
 import me.hgj.mvvmhelper.ext.setOnclickNoRepeat
 import me.hgj.mvvmhelper.ext.showDialogMessage
 import me.hgj.mvvmhelper.net.LoadStatusEntity
-import me.hgj.mvvmhelper.net.interception.logging.util.LogUtils
 
 /**
  * created by : huxiaowei

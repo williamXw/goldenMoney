@@ -15,11 +15,11 @@ import com.loan.golden.cash.money.loan.app.widget.CustomToolBar
  */
 fun CustomToolBar.initBack(
     titleStr: String = "标题",
-    backImg: Int = R.drawable.ic_back,
+    backImg: Int = R.mipmap.icon_gray_back,
     onBack: (toolbar: CustomToolBar) -> Unit
 ): CustomToolBar {
-//    this.setCenterTitle(titleStr)
-//    this.getBaseToolBar().setNavigationIcon(backImg)
-//    this.getBaseToolBar().setNavigationOnClickListener { onBack.invoke(this) }
+    this.setCenterTitle(titleStr)
+    this.getBaseToolBar().setNavigationIcon(backImg)
+    this.getBaseToolBar().setNavigationOnClickListener { onBack.invoke(this) }
     return this
 }

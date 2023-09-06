@@ -11,7 +11,23 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
 
+<!--        <action-->
+<!--            android:id="@+id/action_login_fragment_privacy_policy"-->
+<!--            app:destination="@+id/fragmentPrivacyPolicy"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right" />-->
+
     </fragment>
 
+<!--    <fragment-->
+<!--        android:id="@+id/fragmentPrivacyPolicy"-->
+<!--        android:name="com.loan.golden.cash.money.loan.ui.activity.PrivacyPolicyActivity"-->
+<!--        android:label="FragmentPrivacy"-->
+<!--        tools:layout="@layout/fragment_privacy_policy">-->
+
+
+<!--    </fragment>-->
 
 </navigation>

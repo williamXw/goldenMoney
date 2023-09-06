@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:progressDrawable="@drawable/progress_style"
+            android:visibility="visible" />
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp.20">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp.42"
+                android:layout_marginEnd="@dimen/dp.20"
+                android:layout_weight="1"
+                android:background="@drawable/border_gray_tv_bg_21dp"
+                android:gravity="center"
+                android:text="CANCEL"
+                android:textColor="#D9D9D9"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp.42"
+                android:layout_weight="1"
+                android:background="@drawable/round_blue_tv_bg_21dp"
+                android:gravity="center"
+                android:text="CONTINUE"
+                android:textColor="#D9D9D9"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

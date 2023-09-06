@@ -40,7 +40,8 @@ class WelcomeActivity : AppCompatActivity() {
         }, {
             /** 如果登陆过就直接跳转主页面 否则去登录 */
             if (isInit) {
-                startActivity<LoginActivity>()
+//                startActivity<LoginActivity>()
+                startActivity<PrivacyPolicyActivity>()
             } else {
                 startActivity<MainActivity>()
             }
