@@ -10,35 +10,334 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
+        android:background="#f3f4f4"
         android:fitsSystemWindows="true"
         tools:ignore="MissingConstraints">
 
         <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#3E66E5"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
             android:id="@+id/view2"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="150dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="170dp"
             android:background="@drawable/gradient_mine_bg"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp.70"
-            android:layout_height="@dimen/dp.70"
-            android:layout_marginTop="@dimen/dp.50"
-            android:src="@mipmap/icon_default_head"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/transparent_bg"
+            android:scrollbars="none">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/transparent_bg">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMineHead"
+                    android:layout_width="@dimen/dp.70"
+                    android:layout_height="@dimen/dp.70"
+                    android:layout_marginTop="@dimen/dp.50"
+                    android:src="@mipmap/icon_default_head"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMineUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp.5"
+                    android:text="Hello User"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivMineHead" />
+
+                <LinearLayout
+                    android:id="@+id/ll1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp.15"
+                    android:layout_marginTop="@dimen/dp.15"
+                    android:layout_marginEnd="@dimen/dp.15"
+                    android:background="@drawable/round_white_bg_11dp"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/dp.20"
+                    android:paddingBottom="@dimen/dp.15"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMineUserName">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="34dp"
+                            android:layout_height="39dp"
+                            android:src="@mipmap/icon_success" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp.5"
+                            android:text="Success"
+                            android:textColor="#361500"
+                            android:textSize="@dimen/sp_15" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="34dp"
+                            android:layout_height="39dp"
+                            android:src="@mipmap/icon_overdue" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp.5"
+                            android:text="Success"
+                            android:textColor="#361500"
+                            android:textSize="@dimen/sp_15" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="34dp"
+                            android:layout_height="39dp"
+                            android:src="@mipmap/icon_finish" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp.5"
+                            android:text="Success"
+                            android:textColor="#361500"
+                            android:textSize="@dimen/sp_15" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp.15"
+                    android:layout_marginTop="@dimen/dp.15"
+                    android:layout_marginEnd="@dimen/dp.15"
+                    android:background="@drawable/round_white_bg_11dp"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/dp.15"
+                    android:paddingBottom="@dimen/dp.15"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp.15"
+                        android:text="More features"
+                        android:textColor="#414040"
+                        android:textSize="@dimen/sp_18"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp.1"
+                        android:layout_marginTop="12dp"
+                        android:background="#F1F1F1" />
+
+                    <LinearLayout
+                        android:id="@+id/llMineMyOrder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp.15"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:layout_marginEnd="@dimen/dp.15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/icon_my_order" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:text="My order"
+                            android:textColor="#484747"
+                            android:textSize="@dimen/sp_16" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="6dp"
+                            android:layout_height="10dp"
+                            android:src="@mipmap/icon_arrow_right_black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llMinePrivacyPolicy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp.15"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:layout_marginEnd="@dimen/dp.15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/icon_privacy_policy" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:text="Privacy Policy"
+                            android:textColor="#484747"
+                            android:textSize="@dimen/sp_16" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="6dp"
+                            android:layout_height="10dp"
+                            android:src="@mipmap/icon_arrow_right_black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llMineTermsCondition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp.15"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:layout_marginEnd="@dimen/dp.15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/icon_terms_condition" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:text="Terms Condition"
+                            android:textColor="#484747"
+                            android:textSize="@dimen/sp_16" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="6dp"
+                            android:layout_height="10dp"
+                            android:src="@mipmap/icon_arrow_right_black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llMineLoanProduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp.15"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:layout_marginEnd="@dimen/dp.15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/icon_loan_product" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:text="loan product"
+                            android:textColor="#484747"
+                            android:textSize="@dimen/sp_16" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="6dp"
+                            android:layout_height="10dp"
+                            android:src="@mipmap/icon_arrow_right_black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llMineServiceEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp.15"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:layout_marginEnd="@dimen/dp.15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/icon_service_email" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:text="Service E-mail "
+                            android:textColor="#484747"
+                            android:textSize="@dimen/sp_16" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="6dp"
+                            android:layout_height="10dp"
+                            android:src="@mipmap/icon_arrow_right_black" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="212dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="@dimen/dp.30"
+                    android:layout_marginBottom="@dimen/dp.50"
+                    android:background="@mipmap/icon_logout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llInfo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -14,7 +14,7 @@
     <gradient
         android:angle="-90"
         android:centerColor="#3E84FF"
-        android:endColor="@color/colorWhite"
+        android:endColor="#f3f4f4"
         android:startColor="#3E66E5" />
 
     <!-- 圆角 -->
