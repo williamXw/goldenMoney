@@ -100,7 +100,7 @@ abstract class BaseVmFragment<VM : BaseViewModel> : BaseInitFragment(), BaseIVie
         initView(savedInstanceState)
     }
 
-    private fun initImmersionBar() {
+    open fun initImmersionBar() {
         //设置共同沉浸式样式
         mTitleBarView?.let {
             if (showToolBar()) {
@@ -224,6 +224,7 @@ abstract class BaseVmFragment<VM : BaseViewModel> : BaseInitFragment(), BaseIVie
                             showLoadingUi()
                         }
                     }
+
                     LoadingType.LOADING_NULL -> {
                     }
                 }

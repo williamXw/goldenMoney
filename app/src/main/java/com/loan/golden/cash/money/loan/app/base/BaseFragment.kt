@@ -1,8 +1,13 @@
 package com.loan.golden.cash.money.loan.app.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import androidx.databinding.ViewDataBinding
+import com.gyf.immersionbar.ImmersionBar
+import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.ext.hideSoftKeyboard
+import com.loan.golden.cash.money.loan.app.widget.CustomToolBar
 import kotlinx.coroutines.Job
 import me.hgj.mvvmhelper.base.BaseDbFragment
 import me.hgj.mvvmhelper.base.BaseViewModel
@@ -38,7 +43,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : BaseDbFr
 //    override fun initImmersionBar() {
 //        //设置共同沉浸式样式
 //        if (showToolBar()) {
-//            mToolbar.setBackgroundResource(R.color.colorPrimary)
+//            mToolbar.setBackgroundResource(R.color.colorTran)
 //            ImmersionBar.with(this).titleBar(mToolbar).init()
 //        }
 //    }

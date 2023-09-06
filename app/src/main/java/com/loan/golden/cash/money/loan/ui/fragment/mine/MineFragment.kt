@@ -34,6 +34,10 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
                 mBind.llMinePrivacyPolicy -> {
                     nav().navigateAction(R.id.action_login_fragment_privacy_policy)
                 }
+
+                mBind.llMineLoanProduct -> {
+                    nav().navigateAction(R.id.action_to_fragment_product_loan)
+                }
             }
         }
     }

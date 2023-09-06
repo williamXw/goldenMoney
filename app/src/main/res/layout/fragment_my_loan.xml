@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f2f2f2"
+        android:orientation="vertical">
+
+        <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#ffffff"
+            android:paddingTop="@dimen/sp_20" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#ffffff"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="#36b5a2"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabPadding="@dimen/dp.5"
+            app:tabSelectedTextColor="#604b34"
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearanceFour"
+            app:tabTextColor="#b3b3b3" />
+
+        <FrameLayout
+            android:id="@+id/home_activity_frag_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+</layout>
