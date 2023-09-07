@@ -27,7 +27,10 @@ class FragmentPrivacyPolicy : BaseFragment<BaseViewModel, ActivityPrivacyPolicyB
     }
 
     private fun initWebView() {
-        mBind.webView.loadUrl("https://app.goldenmoney.shop/html/agreement/ultfii.html")
+        val url = arguments?.getString("url")
+        if (url != null) {
+            mBind.webView.loadUrl(url)
+        }
         val webSettings = mBind.webView.settings
         webSettings.userAgentString = webSettings.userAgentString + "Android-GoldenMoney"
         webSettings.cacheMode = WebSettings.LOAD_NO_CACHE//不使用缓存，只从网络获取数据.

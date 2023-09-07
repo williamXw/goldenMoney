@@ -73,6 +73,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvMineUserName">
 
                     <LinearLayout
+                        android:id="@+id/llMineSuccess"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -110,7 +111,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp.5"
-                            android:text="Success"
+                            android:text="Overdue"
                             android:textColor="#361500"
                             android:textSize="@dimen/sp_15" />
 
@@ -132,7 +133,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp.5"
-                            android:text="Success"
+                            android:text="finish"
                             android:textColor="#361500"
                             android:textSize="@dimen/sp_15" />
 

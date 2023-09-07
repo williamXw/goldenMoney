@@ -26,6 +26,22 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_to_fragment_product_list"
+            app:destination="@+id/fragmentProductList"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_to_fragment_service_email"
+            app:destination="@+id/FragmentServiceEmail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
 
@@ -45,5 +61,20 @@
         tools:layout="@layout/fragment_my_loan">
 
     </fragment>
+
+    <fragment
+        android:id="@+id/fragmentProductList"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.mine.ProductListFragment"
+        android:label="fragmentProductList"
+        tools:layout="@layout/fragment_product_list">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/FragmentServiceEmail"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.mine.ServiceEmailFragment"
+        android:label="fragmentEmail"
+        tools:layout="@layout/fragment_service_email" />
 
 </navigation>

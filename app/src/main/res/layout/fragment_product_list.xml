@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.20"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/dp.8"
+            android:paddingBottom="@dimen/dp.8">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="My Loan History"
+                android:textColor="#3A3A3A"
+                android:textSize="@dimen/sp_14" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp.20"
+                android:background="@drawable/round_blue_tv_bg_6dp"
+                android:paddingStart="@dimen/dp.15"
+                android:paddingTop="@dimen/dp.6"
+                android:paddingEnd="@dimen/dp.15"
+                android:paddingBottom="@dimen/dp.6"
+                android:text="View"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorCommBg">
+
+            <include layout="@layout/layout_list" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="@dimen/dp_40"
+            android:paddingTop="@dimen/dp.12"
+            android:paddingEnd="@dimen/dp_40"
+            android:paddingBottom="@dimen/dp.12">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvProductListSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp.52"
+                android:background="@drawable/btn_gradient_25dp"
+                android:gravity="center"
+                android:text="submit"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

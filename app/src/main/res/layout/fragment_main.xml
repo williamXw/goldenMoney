@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:background="#f9f9f9"
             android:paddingTop="5dp"
-            android:paddingBottom="@dimen/dp.20"
+            android:paddingBottom="@dimen/dp.8"
             app:itemIconSize="20dp"
             app:itemTextAppearanceActive="@style/bottom_tab_title_active"
             app:itemTextAppearanceInactive="@style/bottom_tab_title_inactive"

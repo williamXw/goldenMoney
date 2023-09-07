@@ -31,12 +31,28 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
             mBind.llMineServiceEmail
         ) {
             when (it) {
+                mBind.llMineMyOrder -> {
+                    nav().navigateAction(R.id.action_to_fragment_product_loan)
+                }
+
+                mBind.llMineTermsCondition -> {
+                    nav().navigateAction(R.id.action_login_fragment_privacy_policy, Bundle().apply {
+                        putString("url", "https://app.goldenmoney.shop/html/agreement/xeptze.html")
+                    })
+                }
+
                 mBind.llMinePrivacyPolicy -> {
-                    nav().navigateAction(R.id.action_login_fragment_privacy_policy)
+                    nav().navigateAction(R.id.action_login_fragment_privacy_policy, Bundle().apply {
+                        putString("url", "https://app.goldenmoney.shop/html/agreement/ultfii.html")
+                    })
                 }
 
                 mBind.llMineLoanProduct -> {
-                    nav().navigateAction(R.id.action_to_fragment_product_loan)
+                    nav().navigateAction(R.id.action_to_fragment_product_list)
+                }
+
+                mBind.llMineServiceEmail -> {
+                    nav().navigateAction(R.id.action_to_fragment_service_email)
                 }
             }
         }
