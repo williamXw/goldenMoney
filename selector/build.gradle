@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        minSdkVersion 20
+        targetSdkVersion 33
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    namespace 'com.luck.picture.lib'
+}
+
+ext {
+    PUBLISH_ARTIFACT_ID = "pictureselector"
+}
+
+//apply from: '../publish.gradle'
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.3.1"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.activity:activity:1.3.1"
+    implementation "androidx.fragment:fragment:1.3.1"
+    implementation "androidx.exifinterface:exifinterface:1.3.3"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+}

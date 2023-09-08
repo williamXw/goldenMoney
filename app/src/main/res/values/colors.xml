@@ -7,6 +7,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorTran">#00000000</color>
     <color name="colorCommBg">#f2f2f2</color>
+    <color name="color_FFF733">#FFF733</color>
 
     <color name="colorBgGray_EBEBEB">#EBEBEB</color>
     <color name="colorText_292F36">#292F36</color>
@@ -42,5 +43,6 @@
     <color name="colorGray">#333</color>
     <color name="comm_text_hint_gray">#CACACA</color>
     <color name="comm_text_gray">#666666</color>
+    <color name="color_393A3E">#393a3e</color>
 
 </resources>

@@ -24,6 +24,7 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
     override fun onBindViewClick() {
         super.onBindViewClick()
         setOnclickNoRepeat(
+            mBind.ivMineHead,
             mBind.llMineMyOrder,
             mBind.llMinePrivacyPolicy,
             mBind.llMineTermsCondition,
@@ -31,6 +32,10 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
             mBind.llMineServiceEmail
         ) {
             when (it) {
+                mBind.ivMineHead -> {
+                    nav().navigateAction(R.id.action_to_fragment_orc_inspection)
+                }
+
                 mBind.llMineMyOrder -> {
                     nav().navigateAction(R.id.action_to_fragment_product_loan)
                 }

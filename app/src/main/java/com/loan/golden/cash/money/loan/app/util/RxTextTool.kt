@@ -3,6 +3,7 @@ package com.loan.golden.cash.money.loan.app.util
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.BlurMaskFilter.Blur
+import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -20,6 +21,9 @@ import me.hgj.mvvmhelper.base.appContext
  * @date 2016/12/23
  */
 object RxTextTool {
+
+    private var mTextColor: Int = 0
+
     /**
      * 获取建造者
      *
@@ -57,6 +61,7 @@ object RxTextTool {
         private var isSubscript = false
         private var isBold = false
         private var isItalic = false
+        private var isColor = false
         private var isBoldItalic = false
         private var fontFamily: String? = null
         private var align: Layout.Alignment? = null
@@ -263,6 +268,17 @@ object RxTextTool {
         }
 
         /**
+         * 设置字体颜色
+         *
+         * @return [Builder]
+         */
+        fun setTextColor(color: Int): Builder {
+            isColor = true
+            mTextColor = color
+            return this
+        }
+
+        /**
          * 设置对齐
          *
          * @param align 对其方式
@@ -458,6 +474,10 @@ object RxTextTool {
             if (isBold) {
                 mBuilder.setSpan(StyleSpan(Typeface.BOLD), start, end, flag)
                 isBold = false
+            }
+            if (isColor){
+                mBuilder.setSpan(ForegroundColorSpan(mTextColor), start, end, flag)
+                isColor = false
             }
             if (isItalic) {
                 mBuilder.setSpan(StyleSpan(Typeface.ITALIC), start, end, flag)

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorCommBg"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:background="@drawable/round_blue_half_bg_10dp" />
+
+        <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@mipmap/transparent_bg"
+            android:paddingTop="@dimen/dp.20" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp.30"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@+id/tvORCContinue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customToolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!--        #FFF733-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvORCContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp.15"
+                    android:layout_marginEnd="@dimen/dp.15"
+                    android:lineSpacingExtra="@dimen/dp.3"
+                    android:text=""
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_14" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp.25"
+                    android:layout_marginTop="@dimen/dp.26"
+                    android:layout_marginEnd="@dimen/dp.25"
+                    android:layout_marginBottom="@dimen/dp.30"
+                    android:background="@drawable/round_white_bg_11dp"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/dp.25"
+                    android:paddingTop="@dimen/dp.30"
+                    android:paddingEnd="@dimen/dp.25">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/llFront"
+                            android:layout_width="@dimen/dp.0"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dp.5"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Click Here To Upload The Aadhaar Front"
+                                android:textColor="#717EEE"
+                                android:textSize="@dimen/sp_13" />
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/ivORCAadhaarFront"
+                                android:layout_width="match_parent"
+                                android:layout_height="112dp"
+                                android:layout_marginTop="@dimen/dp.12"
+                                android:src="@mipmap/icon_aadhaar_front"
+                                app:riv_corner_radius="@dimen/dp_10" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llBack"
+                            android:layout_width="@dimen/dp.0"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp.5"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Click Here To Upload The Aadhaar Back"
+                                android:textColor="#717EEE"
+                                android:textSize="@dimen/sp_13" />
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="112dp"
+                                android:layout_marginTop="@dimen/dp.12"
+                                android:src="@mipmap/icon_aadhaar_back"
+                                app:riv_corner_radius="@dimen/dp_10" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPanCardFront"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/dp.5"
+                        android:layout_marginTop="@dimen/dp.27"
+                        android:layout_marginBottom="@dimen/dp.35"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Click Here To Upload The Pan Card Front"
+                            android:textColor="#717EEE"
+                            android:textSize="@dimen/sp_13" />
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="112dp"
+                            android:layout_marginTop="@dimen/dp.12"
+                            android:src="@mipmap/icon_pan_card_front"
+                            app:riv_corner_radius="@dimen/dp_10" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvORCContinue"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp.46"
+            android:layout_marginStart="@dimen/dp.25"
+            android:layout_marginEnd="@dimen/dp.25"
+            android:layout_marginBottom="@dimen/dp.20"
+            android:background="@drawable/round_blue_tv_bg_21dp"
+            android:gravity="center"
+            android:text="Continue"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nestedScrollView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
