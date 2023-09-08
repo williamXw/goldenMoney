@@ -3,12 +3,10 @@ package com.loan.golden.cash.money.loan.app
 import android.app.Application
 import com.effective.android.anchors.AnchorsManager
 import com.effective.android.anchors.Project
-import com.loan.golden.cash.money.loan.BuildConfig
 import com.loan.golden.cash.money.loan.app.util.AdvertisingIdClient
 import com.loan.golden.cash.money.loan.app.util.DeviceUtil
 import me.hgj.mvvmhelper.base.MvvmHelper
 import me.hgj.mvvmhelper.ext.currentProcessName
-import me.hgj.mvvmhelper.net.interception.logging.util.LogUtils
 import java.util.concurrent.Executors
 
 
@@ -28,7 +26,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        MvvmHelper.init(this, BuildConfig.DEBUG)
+        MvvmHelper.init(this, true)
         val processName = currentProcessName
         if (currentProcessName == packageName) {
             // 主进程初始化
@@ -56,7 +54,7 @@ class App : Application() {
      */
     private fun onMainProcessInit() {
         AnchorsManager.getInstance()
-            .debuggable(BuildConfig.DEBUG)
+            .debuggable(true)
             //设置锚点
             .addAnchor(
                 InitNetWork.TASK_ID, InitUtils.TASK_ID, InitComm.TASK_ID

@@ -22,7 +22,7 @@ import me.hgj.mvvmhelper.base.appContext
  */
 fun Toolbar.initClose(
     titleStr: String = "",
-    backImg: Int = R.drawable.ic_back,
+    backImg: Int = R.drawable.icon_back_black,
     onBack: (toolbar: Toolbar) -> Unit
 ): Toolbar {
     setBackgroundColor(resources.getColor(R.color.colorPrimary))
