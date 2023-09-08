@@ -29,7 +29,10 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
             mBind.llMinePrivacyPolicy,
             mBind.llMineTermsCondition,
             mBind.llMineLoanProduct,
-            mBind.llMineServiceEmail
+            mBind.llMineServiceEmail,
+            mBind.llMineSuccess,
+            mBind.llMineOverdue,
+            mBind.llMineFinish,
         ) {
             when (it) {
                 mBind.ivMineHead -> {
@@ -37,7 +40,9 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
                 }
 
                 mBind.llMineMyOrder -> {
-                    nav().navigateAction(R.id.action_to_fragment_product_loan)
+                    nav().navigateAction(R.id.action_to_fragment_product_loan, Bundle().apply {
+                        putInt("orderIndex", 0)
+                    })
                 }
 
                 mBind.llMineTermsCondition -> {
@@ -58,6 +63,24 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
 
                 mBind.llMineServiceEmail -> {
                     nav().navigateAction(R.id.action_to_fragment_service_email)
+                }
+
+                mBind.llMineSuccess -> {
+                    nav().navigateAction(R.id.action_to_fragment_product_loan, Bundle().apply {
+                        putInt("orderIndex", 1)
+                    })
+                }
+
+                mBind.llMineOverdue -> {
+                    nav().navigateAction(R.id.action_to_fragment_product_loan, Bundle().apply {
+                        putInt("orderIndex", 2)
+                    })
+                }
+
+                mBind.llMineFinish -> {
+                    nav().navigateAction(R.id.action_to_fragment_product_loan, Bundle().apply {
+                        putInt("orderIndex", 3)
+                    })
                 }
             }
         }

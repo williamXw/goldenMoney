@@ -95,6 +95,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="112dp"
                                 android:layout_marginTop="@dimen/dp.12"
+                                android:scaleType="fitXY"
                                 android:src="@mipmap/icon_aadhaar_front"
                                 app:riv_corner_radius="@dimen/dp_10" />
 

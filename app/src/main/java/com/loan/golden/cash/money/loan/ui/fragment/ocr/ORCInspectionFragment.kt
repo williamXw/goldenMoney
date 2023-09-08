@@ -100,8 +100,11 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
 //                val imageFile = File(mRealPath)
                 /** 方案2：压缩图片后上传 */
                 val bitmap = BitmapFactory.decodeFile(mRealPath)
-                val bitmapCompress = ImgUtils.compressByQuality(bitmap, 500)
-                val fileCompress = ImgUtils.saveBitmapFile(bitmapCompress)
+                //循环压缩图片 耗时任务  在子线程中运行
+                Thread {
+                    val bitmapCompress = ImgUtils.compressByQuality(bitmap, 500)
+                    val fileCompress = ImgUtils.saveBitmapFile(bitmapCompress)
+                }.start()
                 mBind.ivORCAadhaarFront.setImageBitmap(bitmap)
                 //请求接口
             }

@@ -18,7 +18,6 @@ import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
 class MyLoanFragment : BaseFragment<MineViewModel, FragmentMyLoanBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
-//        initImmersionBar()
         mBind.customToolbar.initBack("My Loan") { nav().navigateUp() }
         initViewPager()
     }
