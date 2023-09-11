@@ -118,9 +118,11 @@
                                 android:textSize="@dimen/sp_13" />
 
                             <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/ivORCAadhaarBack"
                                 android:layout_width="match_parent"
                                 android:layout_height="112dp"
                                 android:layout_marginTop="@dimen/dp.12"
+                                android:scaleType="fitXY"
                                 android:src="@mipmap/icon_aadhaar_back"
                                 app:riv_corner_radius="@dimen/dp_10" />
 
@@ -146,8 +148,10 @@
                             android:textSize="@dimen/sp_13" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/ivORCAadhaarPanFront"
                             android:layout_width="match_parent"
                             android:layout_height="112dp"
+                            android:scaleType="fitXY"
                             android:layout_marginTop="@dimen/dp.12"
                             android:src="@mipmap/icon_pan_card_front"
                             app:riv_corner_radius="@dimen/dp_10" />

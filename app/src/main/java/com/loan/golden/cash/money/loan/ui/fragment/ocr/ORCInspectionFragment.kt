@@ -49,16 +49,24 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.llFront) {
+        setOnclickNoRepeat(mBind.llFront, mBind.llBack, mBind.llPanCardFront) {
             when (it) {
                 mBind.llFront -> {
-                    requestPermission()
+                    requestPermission(1)
+                }
+
+                mBind.llBack -> {
+                    requestPermission(2)
+                }
+
+                mBind.llPanCardFront -> {
+                    requestPermission(3)
                 }
             }
         }
     }
 
-    private fun requestPermission() {
+    private fun requestPermission(type: Int) {
         XXPermissions.with(this)
             .permission(Permission.READ_MEDIA_IMAGES)
             .permission(Permission.READ_MEDIA_VIDEO)
@@ -67,14 +75,14 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
             .interceptor(PermissionInterceptor())
             .request { _, allGranted ->
                 if (allGranted) {
-                    selectImage()
+                    selectImage(type)
                 } else {
                     RxToast.showToast("权限不足，请手动开启权限后重试")
                 }
             }
     }
 
-    private fun selectImage() {
+    private fun selectImage(type: Int) {
         val selectionModel: PictureSelectionModel = PictureSelector.create(context)
             .openGallery(SelectMimeType.ofImage())
             .setSelectorUIStyle(PictureSelectorStyle())
@@ -105,7 +113,19 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     val bitmapCompress = ImgUtils.compressByQuality(bitmap, 500)
                     val fileCompress = ImgUtils.saveBitmapFile(bitmapCompress)
                 }.start()
-                mBind.ivORCAadhaarFront.setImageBitmap(bitmap)
+                when (type) {
+                    1 -> {
+                        mBind.ivORCAadhaarFront.setImageBitmap(bitmap)
+                    }
+
+                    2 -> {
+                        mBind.ivORCAadhaarBack.setImageBitmap(bitmap)
+                    }
+
+                    3 -> {
+                        mBind.ivORCAadhaarPanFront.setImageBitmap(bitmap)
+                    }
+                }
                 //请求接口
             }
 
