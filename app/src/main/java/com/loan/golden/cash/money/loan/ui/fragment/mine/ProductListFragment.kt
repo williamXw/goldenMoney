@@ -4,7 +4,9 @@ import android.os.Bundle
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.nav
+import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.databinding.FragmentProductListBinding
+import com.loan.golden.cash.money.loan.ui.dialog.RxDialogProductList
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
 
 /**
@@ -17,6 +19,20 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Product List") {
             nav().navigateUp()
+        }
+    }
+
+    override fun onBindViewClick() {
+        super.onBindViewClick()
+        setOnclickNoRepeat(mBind.tvProductListSubmit) {
+            when (it) {
+                mBind.tvProductListSubmit -> {
+                    val dialog = RxDialogProductList(context)
+
+                    dialog.setFullScreenWidth()
+                    dialog.show()
+                }
+            }
         }
     }
 }

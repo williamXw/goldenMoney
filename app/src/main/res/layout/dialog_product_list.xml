@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/dp.15"
+    android:paddingEnd="@dimen/dp.15"
+    tools:ignore="MissingConstraints">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_blue_top_half_bg_10dp"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dp.20"
+            android:paddingTop="@dimen/dp.20"
+            android:paddingEnd="@dimen/dp.20"
+            android:paddingBottom="@dimen/dp.15">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="You have applied for 1 loan products"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_15" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp.5"
+                android:gravity="center"
+                android:text="The details of your loan products are as follows :"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_10" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_bottom_half_bg_10dp"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dp.25"
+            android:paddingTop="@dimen/dp.30"
+            android:paddingEnd="@dimen/dp.25">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Product NO:"
+                android:textColor="#101010"
+                android:textSize="11sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Loan products:"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_11" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary Cash"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Term (Days):"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_11" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary Cash"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Loan amount:"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_11" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary Cash"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Daily interest rate:"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_11" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary Cash"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="GST:"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_11" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary Cash"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total interest and service fee:"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_11" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary Cash"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Amount Received: "
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_11" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary Cash"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp.35"
+                android:layout_marginBottom="@dimen/dp.20"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_gray_tv_bg_21dp"
+                    android:gravity="center"
+                    android:text="CANCEL"
+                    android:textColor="#CECECE"
+                    android:textSize="@dimen/sp_12" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_blue_tv_bg_21dp"
+                    android:gravity="center"
+                    android:text="CONTINUE"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
