@@ -50,6 +50,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_to_fragment_repayment_mode"
+            app:destination="@+id/fragmentRepaymentMode"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
 
@@ -90,6 +98,15 @@
         android:name="com.loan.golden.cash.money.loan.ui.fragment.ocr.ORCInspectionFragment"
         android:label="fragmentOrc"
         tools:layout="@layout/fragment_orc_inspection">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentRepaymentMode"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.repayment.RepaymentModeFragment"
+        android:label="fragmentRepaymentMode"
+        tools:layout="@layout/fragment_repayment_mode">
+
 
     </fragment>
 
