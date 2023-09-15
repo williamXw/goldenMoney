@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.jaeger.library.StatusBarUtil
 import com.loan.golden.cash.money.loan.app.ext.countDownCoroutines
 import com.loan.golden.cash.money.loan.app.ext.mmkv
+import com.loan.golden.cash.money.loan.app.util.KvUtils
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.databinding.ActivityWelcomeBinding
 import kotlinx.coroutines.Job
@@ -33,17 +34,21 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun startCountDownCoroutines() {
-        val isInit = mmkv.decodeBool(Constant.IS_INIT_LOGIN, true)
+        val isInit = KvUtils.decodeBooleanTure(Constant.IS_INIT_LOGIN, false)
+        val isAgree = KvUtils.decodeBooleanTure(Constant.IS_AGREE_PRIVACY, false)
         //开启倒计时3s
         job = countDownCoroutines(1, {
 //            binding.tvCount.text = "${it}s"//页面中的倒计时，不显示可以注掉
         }, {
             /** 如果登陆过就直接跳转主页面 否则去登录 */
-            if (isInit) {
-//                startActivity<LoginActivity>()
-                startActivity<PrivacyPolicyActivity>()
+            if (isAgree) {
+                if (isInit) {
+                    startActivity<MainActivity>()
+                } else {
+                    startActivity<LoginActivity>()
+                }
             } else {
-                startActivity<MainActivity>()
+                startActivity<PrivacyPolicyActivity>()
             }
             finish()
         }, lifecycleScope)

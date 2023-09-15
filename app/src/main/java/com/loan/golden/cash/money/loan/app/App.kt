@@ -1,8 +1,12 @@
 package com.loan.golden.cash.money.loan.app
 
+import android.app.Activity
 import android.app.Application
+import android.os.Build
+import android.os.Bundle
 import com.effective.android.anchors.AnchorsManager
 import com.effective.android.anchors.Project
+import com.loan.golden.cash.money.loan.app.util.ActivityUtils
 import com.loan.golden.cash.money.loan.app.util.AdvertisingIdClient
 import com.loan.golden.cash.money.loan.app.util.DeviceUtil
 import me.hgj.mvvmhelper.base.MvvmHelper
@@ -37,6 +41,37 @@ class App : Application() {
         }
         initADid()
         versionName = DeviceUtil.getVerName()
+        registerActivityListener()
+    }
+
+    private fun registerActivityListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+                override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                    ActivityUtils.pushActivity(activity)
+                }
+
+                override fun onActivityStarted(activity: Activity) {}
+
+                override fun onActivityResumed(activity: Activity) {}
+
+                override fun onActivityPaused(activity: Activity) {}
+
+                override fun onActivityStopped(activity: Activity) {}
+
+                override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+
+                override fun onActivityDestroyed(activity: Activity) {
+                    val mActivitys = ActivityUtils.getmActivitys()
+                    if (mActivitys.isNullOrEmpty()) {
+                        return
+                    }
+                    if (mActivitys.contains(activity)) {
+                        ActivityUtils.popActivity(activity)
+                    }
+                }
+            })
+        }
     }
 
     private fun initADid() {

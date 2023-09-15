@@ -6,9 +6,13 @@ import android.webkit.JsResult
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
+import com.loan.golden.cash.money.loan.app.App
 import com.loan.golden.cash.money.loan.app.base.BaseActivity
+import com.loan.golden.cash.money.loan.app.util.ActivityUtils
+import com.loan.golden.cash.money.loan.app.util.KvUtils
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
+import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.databinding.ActivityPrivacyPolicyBinding
 import me.hgj.mvvmhelper.base.BaseViewModel
 
@@ -61,10 +65,14 @@ class PrivacyPolicyActivity : BaseActivity<BaseViewModel, ActivityPrivacyPolicyB
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.tvContinue) {
+        setOnclickNoRepeat(mBind.tvContinue, mBind.tvCancel) {
             when (it) {
                 mBind.tvContinue -> {
                     startActivity<PermissionAgreementActivity>()
+                }
+
+                mBind.tvCancel -> {
+                    ActivityUtils.appExit()
                 }
             }
         }

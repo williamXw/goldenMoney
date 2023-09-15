@@ -7,8 +7,11 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import com.loan.golden.cash.money.loan.app.base.BaseActivity
+import com.loan.golden.cash.money.loan.app.util.ActivityUtils
+import com.loan.golden.cash.money.loan.app.util.KvUtils
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
+import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.databinding.ActivityPrivacyPolicyBinding
 import me.hgj.mvvmhelper.base.BaseViewModel
 
@@ -61,10 +64,14 @@ class TermAgreementActivity : BaseActivity<BaseViewModel, ActivityPrivacyPolicyB
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.tvContinue) {
+        setOnclickNoRepeat(mBind.tvContinue,mBind.tvCancel) {
             when (it) {
                 mBind.tvContinue -> {
+                    KvUtils.encode(Constant.IS_AGREE_PRIVACY, true)//表示已经全部同意了隐私政策、权限
                     startActivity<LoginActivity>()
+                }
+                mBind.tvCancel->{
+                    ActivityUtils.finishAllActivity()
                 }
             }
         }

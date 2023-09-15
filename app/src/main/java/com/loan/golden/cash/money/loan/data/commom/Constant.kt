@@ -11,4 +11,5 @@ object Constant {
     const val TOKEN = "token"
     const val DEVICE_ID = "device_id"
     const val IS_INIT_LOGIN = "is_init_login"
+    const val IS_AGREE_PRIVACY = "is_agree_privacy"
 }
