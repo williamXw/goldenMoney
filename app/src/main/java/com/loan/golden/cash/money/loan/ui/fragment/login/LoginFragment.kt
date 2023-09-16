@@ -99,6 +99,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                 val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                 val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
                 RxToast.showToast(msg)
+                LogUtils.debugInfo("---------response----->>>>>>>$mResponse")
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.loan.golden.cash.money.loan.app.api
 
 import com.loan.golden.cash.money.loan.app.App
+import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.AesUtils
 import com.loan.golden.cash.money.loan.app.util.DeviceUtil
 import com.loan.golden.cash.money.loan.app.util.KvUtils
@@ -26,14 +27,14 @@ class HeadInterceptor : Interceptor {
             "({GAID:" + aDid + "," + "VERSION:" + App.versionName + "," + "RV:1.0.0" + "," + "AID:" + DeviceUtil.getAndroidId(appContext) + "})"
 
         val builder = chain.request().newBuilder()
-        builder.addHeader("Auth", token).build()
+        if (KvUtils.decodeBoolean(Constant.IS_INIT_LOGIN)) {
+            builder.addHeader("Auth", token).build()
+        }
         builder.addHeader(
             "Token",
-            Constant.appId + "+" + AesUtils.encrypt(header)
+            Constant.appId + AESTool.encrypt(header, Constant.AES_KEY).toString()
         ).build()
-//        LogUtils.debugInfo(header + "111")
-//        val deCode = AesUtils.decrypt("({GAID:29d52001-2226-40b7-8534-2e3ad5a2c858})")
-//        LogUtils.debugInfo(deCode + "222")
+        LogUtils.debugInfo("---------->>>token:" + AESTool.encrypt1(header, Constant.AES_KEY))
         return chain.proceed(builder.build())
     }
 }
