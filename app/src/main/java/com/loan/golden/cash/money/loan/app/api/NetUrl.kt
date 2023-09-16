@@ -16,7 +16,9 @@ object NetUrl {
 //    const val DEV_URL = "http://10.10.12.89:10081"
     const val DEV_URL = "https://app.goldenmoney.shop"
 
-    /**登录*/
+    /** 登录 */
     const val LOGIN = "/u/v1/user/login"
+    /** 发送验证码 */
+    const val CHAINBRIDGE = "/dystrophia/notchery_notchwing/chainbridge"
 
 }

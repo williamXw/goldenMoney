@@ -44,6 +44,7 @@
             android:layout_marginStart="@dimen/dp_40"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/dp_40"
+            android:inputType="number"
             android:background="@drawable/border_black_50"
             android:hint="Enter phone number"
             android:paddingStart="25dp"
@@ -96,7 +97,7 @@
                 android:textSize="15sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/etLoginOTP"
+                android:id="@+id/tvLoginOTP"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="25dp"

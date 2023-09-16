@@ -7,7 +7,6 @@ import java.security.SecureRandom;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -71,7 +70,6 @@ public class AesUtils {
     /**
      * 解密
      *
-     * @param needDecryptStr 秘钥
      * @param needDecryptStr
      * @return
      * @throws Exception
@@ -89,7 +87,8 @@ public class AesUtils {
         cipher.init(Cipher.ENCRYPT_MODE, keySpec);
         //解密
         byte[] original = cipher.doFinal(needDecryptStr.getBytes(UTF_8));
-        byte[] decode = Hex.decode(original);
-        return new String(decode);
+        String result = original.toString();
+//        byte[] decode = Hex.decode(original);
+        return result;
     }
 }

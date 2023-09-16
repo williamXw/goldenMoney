@@ -1,5 +1,6 @@
 package com.loan.golden.cash.money.loan.app.util
 
+import android.content.ClipData
 import android.content.Context
 import android.provider.Settings
 import android.text.Html

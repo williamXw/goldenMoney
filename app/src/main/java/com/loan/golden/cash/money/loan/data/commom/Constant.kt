@@ -12,4 +12,11 @@ object Constant {
     const val DEVICE_ID = "device_id"
     const val IS_INIT_LOGIN = "is_init_login"
     const val IS_AGREE_PRIVACY = "is_agree_privacy"
+    const val AES_KEY = "6mmnZNKbxbkAkERn" //接口请求AES密钥
+
+    const val MESSAGE = "message"
+    const val STATUS = "status"
+    const val TIME = "time"
+    const val maxage = "maxAge"
+
 }
