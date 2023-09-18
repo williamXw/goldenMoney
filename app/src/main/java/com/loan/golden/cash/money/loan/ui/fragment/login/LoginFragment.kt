@@ -7,6 +7,7 @@ import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.CacheUtil
+import com.loan.golden.cash.money.loan.app.util.KvUtils
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
@@ -21,10 +22,10 @@ import me.hgj.mvvmhelper.ext.finishActivity
 import me.hgj.mvvmhelper.ext.setOnclickNoRepeat
 import me.hgj.mvvmhelper.ext.showDialogMessage
 import me.hgj.mvvmhelper.net.LoadStatusEntity
-import me.hgj.mvvmhelper.util.LogUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import rxhttp.internal.userAgent
 
 
 /**
@@ -72,7 +73,6 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         )
         val strData = Gson().toJson(body)
         val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-        LogUtils.debugInfo("-------------->>>>>>>$strData")
         mViewModel.chainBridgeCallBack(paramsBody)
     }
 
@@ -105,6 +105,9 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                 val gson = Gson()
                 val loginData: LoginResponse = gson.fromJson(mResponse, LoginResponse::class.java)
                 if (loginData.status == 0) {
+                    if (loginData.user != null) {
+                        KvUtils.encode(Constant.TOKEN, loginData.user!!.token)
+                    }
                     startActivity<MainActivity>()
                     /** 保存用户信息 */
                     CacheUtil.setUser(loginData)
@@ -137,6 +140,5 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
             }
         }
     }
-
 }
 

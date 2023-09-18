@@ -5,6 +5,7 @@ import com.loan.golden.cash.money.loan.app.App
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.CacheUtil
 import com.loan.golden.cash.money.loan.app.util.DeviceUtil
+import com.loan.golden.cash.money.loan.app.util.KvUtils
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.HeaderParam
 import com.loan.golden.cash.money.loan.data.response.LoginResponse
@@ -33,8 +34,8 @@ class HeadInterceptor : Interceptor {
         val header = Gson().toJson(headerBody)
         val builder = chain.request().newBuilder()
         if (CacheUtil.isLogin()) {
-            val user = CacheUtil.getUser() as LoginResponse
-            user.user?.let { builder.addHeader("Auth", it.token).build() }
+            val token = KvUtils.decodeString(Constant.TOKEN)
+            builder.addHeader("Auth", token).build()
         }
         builder.addHeader(
             "Token",

@@ -331,6 +331,7 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMineLogout"
                     android:layout_width="212dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="@dimen/dp.30"

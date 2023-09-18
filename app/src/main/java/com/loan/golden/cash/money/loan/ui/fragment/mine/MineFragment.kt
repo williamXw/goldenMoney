@@ -3,11 +3,16 @@ package com.loan.golden.cash.money.loan.ui.fragment.mine
 import android.os.Bundle
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
+import com.loan.golden.cash.money.loan.app.util.CacheUtil
+import com.loan.golden.cash.money.loan.app.util.KvUtils
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
+import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.response.LoginResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentMineBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
+import me.hgj.mvvmhelper.ext.finishAllActivity
 
 /**
  * @Author      : hxw
@@ -33,8 +38,15 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
             mBind.llMineSuccess,
             mBind.llMineOverdue,
             mBind.llMineFinish,
+            mBind.tvMineLogout,
         ) {
             when (it) {
+                mBind.tvMineLogout -> {
+                    KvUtils.encode(Constant.TOKEN, "")
+                    CacheUtil.setIsLogin(false)
+                    finishAllActivity()
+                }
+
                 mBind.ivMineHead -> {
                     nav().navigateAction(R.id.action_to_fragment_orc_inspection)
                 }
