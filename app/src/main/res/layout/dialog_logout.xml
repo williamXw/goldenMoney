@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp.20"
+        android:layout_marginRight="@dimen/dp.20"
+        android:background="@drawable/round_white_bg_11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp.15"
+            android:lineSpacingExtra="@dimen/dp.3"
+            android:text="title"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/dp.15"
+            android:background="@color/grayf9"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dialog_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp.15"
+            android:gravity="center"
+            android:paddingTop="@dimen/dp.15"
+            android:paddingBottom="@dimen/dp.20"
+            android:text="NO"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_17"
+            app:layout_constraintEnd_toStartOf="@+id/tv_dialog_sure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dialog_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_dialog_sure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp.15"
+            android:gravity="center"
+            android:paddingTop="@dimen/dp.15"
+            android:paddingBottom="@dimen/dp.20"
+            android:text="YES"
+            android:textColor="@color/colorRed"
+            android:textSize="@dimen/sp_17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_dialog_cancel"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dialog_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

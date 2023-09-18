@@ -11,6 +11,8 @@ import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.response.LoginResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentMineBinding
+import com.loan.golden.cash.money.loan.ui.dialog.RxDialogProductList
+import com.loan.golden.cash.money.loan.ui.dialog.RxLogoutDialog
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
 import me.hgj.mvvmhelper.ext.finishAllActivity
 
@@ -42,9 +44,7 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
         ) {
             when (it) {
                 mBind.tvMineLogout -> {
-                    KvUtils.encode(Constant.TOKEN, "")
-                    CacheUtil.setIsLogin(false)
-                    finishAllActivity()
+                    showLogoutDialog()
                 }
 
                 mBind.ivMineHead -> {
@@ -96,5 +96,17 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
                 }
             }
         }
+    }
+
+    private fun showLogoutDialog() {
+        val dialog = context?.let { RxLogoutDialog(it) }
+        dialog?.setTitle("Are you sure to exit?")
+        dialog?.setSureListener {
+            KvUtils.encode(Constant.TOKEN, "")
+            CacheUtil.setIsLogin(false)
+            finishAllActivity()
+        }
+        dialog?.setFullScreenWidth()
+        dialog?.show()
     }
 }
