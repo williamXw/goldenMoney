@@ -6,8 +6,7 @@ package com.loan.golden.cash.money.loan.data.response
  * Describe :
  */
 data class LoginRegisterReq(
-    val name: String,
-    val password: String,
-    val deviceId: String,
-    val role: Int = 0
+    val phone: String,
+    val phoneCode: String,
+    val code: String
 )

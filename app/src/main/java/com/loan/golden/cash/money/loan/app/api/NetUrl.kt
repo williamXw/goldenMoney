@@ -10,14 +10,13 @@ import rxhttp.wrapper.annotation.DefaultDomain
 object NetUrl {
 
     // 服务器请求成功的 Code值
-    const val SUCCESS_CODE = 100001
+    const val SUCCESS_CODE = 0
 
     @DefaultDomain //设置为默认域名
-//    const val DEV_URL = "http://10.10.12.89:10081"
     const val DEV_URL = "https://app.goldenmoney.shop"
 
     /** 登录 */
-    const val LOGIN = "/u/v1/user/login"
+    const val LOGIN = "/slic/pep_peperino/azaiea"
     /** 发送验证码 */
     const val CHAINBRIDGE = "/dystrophia/notchery_notchwing/chainbridge"
 

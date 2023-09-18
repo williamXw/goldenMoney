@@ -6,19 +6,24 @@ import com.gyf.immersionbar.ImmersionBar
 import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.util.AESTool
-import com.loan.golden.cash.money.loan.app.util.AesUtils
+import com.loan.golden.cash.money.loan.app.util.CacheUtil
 import com.loan.golden.cash.money.loan.app.util.RxToast
+import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.ChainBridgeParam
 import com.loan.golden.cash.money.loan.data.response.LoginRegisterReq
+import com.loan.golden.cash.money.loan.data.response.LoginResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentLoginBinding
+import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
+import com.loan.golden.cash.money.loan.ui.activity.MainActivity
 import com.loan.golden.cash.money.loan.ui.viewmodel.LoginViewModel
+import me.hgj.mvvmhelper.ext.finishActivity
 import me.hgj.mvvmhelper.ext.setOnclickNoRepeat
 import me.hgj.mvvmhelper.ext.showDialogMessage
 import me.hgj.mvvmhelper.net.LoadStatusEntity
 import me.hgj.mvvmhelper.util.LogUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 
@@ -39,7 +44,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.btnLogin, mBind.tvLoginOTP) { it ->
+        setOnclickNoRepeat(mBind.btnLogin, mBind.tvLoginOTP) {
             when (it) {
                 mBind.btnLogin -> {
                     login()
@@ -66,7 +71,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
             )
         )
         val strData = Gson().toJson(body)
-        val paramsBody = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), AesUtils.encrypt(strData))
+        val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         LogUtils.debugInfo("-------------->>>>>>>$strData")
         mViewModel.chainBridgeCallBack(paramsBody)
     }
@@ -79,11 +84,14 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
             mBind.etLoginPhoneOtp.text.toString().trim().isEmpty() -> showDialogMessage("Enter OTP")
             else -> {
                 val bodyLogin = LoginRegisterReq(
-                    name = mBind.etLoginPhoneNumber.text.toString().trim(),
-                    password = mBind.etLoginPhoneOtp.text.toString().trim(),
-                    deviceId = "22d0a4f1d71b4b06bbeea8b418b1cdc",
+                    phone = mBind.etLoginPhoneNumber.text.toString().trim(),
+                    phoneCode = "+86",
+                    code = mBind.etLoginPhoneOtp.text.toString().trim(),
                 )
-                mViewModel.loginCallBack(bodyLogin)
+                val strData = Gson().toJson(bodyLogin)
+                val paramsBody =
+                    AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                mViewModel.loginCallBack(paramsBody)
             }
         }
     }
@@ -91,15 +99,33 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     override fun onRequestSuccess() {
         super.onRequestSuccess()
         mViewModel.loginResult.observe(viewLifecycleOwner) {
-
+            if (it.code == 200) {
+                val dataBody = it.body!!.string()
+                val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                val gson = Gson()
+                val loginData: LoginResponse = gson.fromJson(mResponse, LoginResponse::class.java)
+                if (loginData.status == 0) {
+                    startActivity<MainActivity>()
+                    /** 保存用户信息 */
+                    CacheUtil.setUser(loginData)
+                    finishActivity(LoginActivity::class.java)
+                } else {
+                    val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                    RxToast.showToast(msg)
+                }
+            }
         }
         mViewModel.otpResult.observe(viewLifecycleOwner) {
             if (it.code == 200) {
                 val dataBody = it.body!!.string()
                 val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
-                val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                RxToast.showToast(msg)
-                LogUtils.debugInfo("---------response----->>>>>>>$mResponse")
+                val status = JSONObject(mResponse).getInt(Constant.STATUS)
+                if (status == 0) {
+                    RxToast.showToast("Successfully sent")
+                } else {
+                    val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                    RxToast.showToast(msg)
+                }
             }
         }
     }

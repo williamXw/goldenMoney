@@ -44,9 +44,9 @@
             android:layout_marginStart="@dimen/dp_40"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/dp_40"
-            android:inputType="number"
             android:background="@drawable/border_black_50"
             android:hint="Enter phone number"
+            android:inputType="number"
             android:paddingStart="25dp"
             android:paddingEnd="25dp"
             android:textColorHint="@color/comm_text_hint_gray"
@@ -92,7 +92,10 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="Enter verification code"
+                android:inputType="number"
+                android:maxLength="6"
                 android:paddingStart="25dp"
+                android:paddingEnd="@dimen/dp.15"
                 android:textColorHint="@color/comm_text_hint_gray"
                 android:textSize="15sp" />
 

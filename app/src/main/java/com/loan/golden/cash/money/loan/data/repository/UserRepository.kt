@@ -16,7 +16,7 @@ import rxhttp.wrapper.param.RxHttp
 object UserRepository {
 
     /** 登录 */
-    fun login(body: LoginRegisterReq): Await<Response> {
+    fun login(body: RequestBody): Await<Response> {
         return RxHttp.postBody(NetUrl.LOGIN).setBody(body)
             .toOkResponse()
     }

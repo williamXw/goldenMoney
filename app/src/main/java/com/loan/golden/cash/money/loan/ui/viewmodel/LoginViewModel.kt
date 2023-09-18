@@ -21,7 +21,7 @@ class LoginViewModel : BaseViewModel() {
     var loginResult = MutableLiveData<Response>()
 
     /**验证码登录*/
-    fun loginCallBack(body: LoginRegisterReq): MutableLiveData<Response>? {
+    fun loginCallBack(body: RequestBody): MutableLiveData<Response>? {
         return rxHttpRequestCallBack {
             onRequest = {
                 loginResult.value = UserRepository.login(body).await()
