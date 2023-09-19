@@ -42,6 +42,7 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
         ) {
             when (it) {
                 mBind.tvMineLogout -> {
+
                     KvUtils.encode(Constant.TOKEN, "")
                     CacheUtil.setIsLogin(false)
                     finishAllActivity()
