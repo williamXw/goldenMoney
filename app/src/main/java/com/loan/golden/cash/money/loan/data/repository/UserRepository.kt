@@ -2,6 +2,7 @@ package com.loan.golden.cash.money.loan.data.repository
 
 import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.data.response.LoginRegisterReq
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.Response
 import rxhttp.toOkResponse
@@ -24,6 +25,12 @@ object UserRepository {
     /** 发送OTP */
     fun chainBridge(body: RequestBody): Await<Response> {
         return RxHttp.postBody(NetUrl.CHAINBRIDGE).setBody(body)
+            .toOkResponse()
+    }
+
+    /** 上传文件 */
+    fun streamStreambed(body: MultipartBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.STREAM_STREAMBED).setBody(body)
             .toOkResponse()
     }
 

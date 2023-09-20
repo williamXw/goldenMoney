@@ -3,19 +3,26 @@ package com.loan.golden.cash.money.loan.ui.fragment.ocr
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.permissions.PermissionInterceptor
+import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.GlideEngine
+import com.loan.golden.cash.money.loan.app.util.ImageLoaderManager
+import com.loan.golden.cash.money.loan.app.util.ImageLoaderUtils
 import com.loan.golden.cash.money.loan.app.util.ImgUtils
 import com.loan.golden.cash.money.loan.app.util.PictureUtil
 import com.loan.golden.cash.money.loan.app.util.RxTextTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
+import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.response.LoginResponse
+import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentOrcInspectionBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.ORCViewModel
 import com.luck.picture.lib.basic.PictureSelectionModel
@@ -26,6 +33,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.language.LanguageConfig
 import com.luck.picture.lib.style.PictureSelectorStyle
+import org.json.JSONObject
 
 /**
  * @Author      : hxw
@@ -33,6 +41,8 @@ import com.luck.picture.lib.style.PictureSelectorStyle
  * @Describe    : OCRInspection
  */
 class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBinding>() {
+
+    private var upLoadType = -1
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("ORC Inspection") {
@@ -52,21 +62,24 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
         setOnclickNoRepeat(mBind.llFront, mBind.llBack, mBind.llPanCardFront) {
             when (it) {
                 mBind.llFront -> {
-                    requestPermission(1)
+                    upLoadType = 1
+                    requestPermission()
                 }
 
                 mBind.llBack -> {
-                    requestPermission(2)
+                    upLoadType = 2
+                    requestPermission()
                 }
 
                 mBind.llPanCardFront -> {
-                    requestPermission(3)
+                    upLoadType = 3
+                    requestPermission()
                 }
             }
         }
     }
 
-    private fun requestPermission(type: Int) {
+    private fun requestPermission() {
         XXPermissions.with(this)
             .permission(Permission.READ_MEDIA_IMAGES)
             .permission(Permission.READ_MEDIA_VIDEO)
@@ -75,14 +88,14 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
             .interceptor(PermissionInterceptor())
             .request { _, allGranted ->
                 if (allGranted) {
-                    selectImage(type)
+                    selectImage()
                 } else {
                     RxToast.showToast("权限不足，请手动开启权限后重试")
                 }
             }
     }
 
-    private fun selectImage(type: Int) {
+    private fun selectImage() {
         val selectionModel: PictureSelectionModel = PictureSelector.create(context)
             .openGallery(SelectMimeType.ofImage())
             .setSelectorUIStyle(PictureSelectorStyle())
@@ -108,28 +121,60 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
 //                val imageFile = File(mRealPath)
                 /** 方案2：压缩图片后上传 */
                 val bitmap = BitmapFactory.decodeFile(mRealPath)
-                //循环压缩图片 耗时任务  在子线程中运行
+                /** 循环压缩图片 耗时任务  在子线程中运行 */
                 Thread {
-                    val bitmapCompress = ImgUtils.compressByQuality(bitmap, 500)
+                    val bitmapCompress = ImgUtils.compressByQuality(bitmap, 100)
                     val fileCompress = ImgUtils.saveBitmapFile(bitmapCompress)
+                    mViewModel.streamStreambedCallBack(fileCompress)
                 }.start()
-                when (type) {
-                    1 -> {
-                        mBind.ivORCAadhaarFront.setImageBitmap(bitmap)
-                    }
-
-                    2 -> {
-                        mBind.ivORCAadhaarBack.setImageBitmap(bitmap)
-                    }
-
-                    3 -> {
-                        mBind.ivORCAadhaarPanFront.setImageBitmap(bitmap)
-                    }
-                }
-                //请求接口
+//                when (type) {
+//                    1 -> {
+//                        mBind.ivORCAadhaarFront.setImageBitmap(bitmap)
+//                    }
+//
+//                    2 -> {
+//                        mBind.ivORCAadhaarBack.setImageBitmap(bitmap)
+//                    }
+//
+//                    3 -> {
+//                        mBind.ivORCAadhaarPanFront.setImageBitmap(bitmap)
+//                    }
+//                }
             }
 
             override fun onCancel() {}
         })
+    }
+
+    override fun onRequestSuccess() {
+        super.onRequestSuccess()
+        mViewModel.ocrUpLoadResult.observe(viewLifecycleOwner) {
+            if (it.code == 200) {
+                val dataBody = it.body!!.string()
+                val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                val gson = Gson()
+                val ocrData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
+                if (ocrData.status == 0) {
+                    if (ocrData.model != null) {
+                        when (upLoadType) {
+                            1 -> {
+                                ImageLoaderManager.loadRoundImage(context, ocrData.model.ossUrl, mBind.ivORCAadhaarFront, 12)
+                            }
+
+                            2 -> {
+                                ImageLoaderManager.loadRoundImage(context, ocrData.model.ossUrl, mBind.ivORCAadhaarBack, 12)
+                            }
+
+                            3 -> {
+                                ImageLoaderManager.loadRoundImage(context, ocrData.model.ossUrl, mBind.ivORCAadhaarPanFront, 12)
+                            }
+                        }
+                    }
+                } else {
+                    val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                    RxToast.showToast(msg)
+                }
+            }
+        }
     }
 }

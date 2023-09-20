@@ -44,7 +44,6 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
         ) {
             when (it) {
                 mBind.tvMineLogout -> {
-
                     showLogoutDialog()
                 }
 

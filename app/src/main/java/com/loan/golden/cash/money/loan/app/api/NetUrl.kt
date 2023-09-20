@@ -19,5 +19,7 @@ object NetUrl {
     const val LOGIN = "/slic/pep_peperino/azaiea"
     /** 发送验证码 */
     const val CHAINBRIDGE = "/dystrophia/notchery_notchwing/chainbridge"
+    /** 上传文件 */
+    const val STREAM_STREAMBED = "/specifiable/stream_streambed"
 
 }

@@ -35,7 +35,7 @@ class HeadInterceptor : Interceptor {
         val builder = chain.request().newBuilder()
         if (CacheUtil.isLogin()) {
             val token = KvUtils.decodeString(Constant.TOKEN)
-            builder.addHeader("Auth", token).build()
+            builder.addHeader("Auth", AESTool.encrypt1(token, Constant.AES_KEY)).build()
         }
         builder.addHeader(
             "Token",
