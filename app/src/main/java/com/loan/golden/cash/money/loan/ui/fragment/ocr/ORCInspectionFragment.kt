@@ -13,7 +13,6 @@ import com.loan.golden.cash.money.loan.app.permissions.PermissionInterceptor
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.GlideEngine
 import com.loan.golden.cash.money.loan.app.util.ImageLoaderManager
-import com.loan.golden.cash.money.loan.app.util.ImageLoaderUtils
 import com.loan.golden.cash.money.loan.app.util.ImgUtils
 import com.loan.golden.cash.money.loan.app.util.PictureUtil
 import com.loan.golden.cash.money.loan.app.util.RxTextTool
@@ -21,7 +20,6 @@ import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.data.commom.Constant
-import com.loan.golden.cash.money.loan.data.response.LoginResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentOrcInspectionBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.ORCViewModel
@@ -43,12 +41,16 @@ import org.json.JSONObject
 class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBinding>() {
 
     private var upLoadType = -1
+    private var isUpLoadSuccess1 = false
+    private var isUpLoadSuccess2 = false
+    private var isUpLoadSuccess3 = false
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("ORC Inspection") {
             nav().navigateUp()
         }
-        context?.let { ContextCompat.getColor(it, R.color.colorWhite) }?.let { mBind.customToolbar.setCenterTitleColor(it) }
+        context?.let { ContextCompat.getColor(it, R.color.colorWhite) }
+            ?.let { mBind.customToolbar.setCenterTitleColor(it) }
 
         context?.let { ContextCompat.getColor(it, R.color.color_FFF733) }?.let {
             RxTextTool.getBuilder("*Please Upload A Clear Photo Of Your ID Card HereWhich Willlncrease The Success Rate of")
@@ -59,7 +61,7 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.llFront, mBind.llBack, mBind.llPanCardFront) {
+        setOnclickNoRepeat(mBind.llFront, mBind.llBack, mBind.llPanCardFront, mBind.tvORCContinue) {
             when (it) {
                 mBind.llFront -> {
                     upLoadType = 1
@@ -74,6 +76,13 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 mBind.llPanCardFront -> {
                     upLoadType = 3
                     requestPermission()
+                }
+
+                mBind.tvORCContinue -> {
+                    if (!isUpLoadSuccess1 || !isUpLoadSuccess2 || !isUpLoadSuccess3) {
+                        RxToast.showToast("Please complete the certification")
+                        return@setOnclickNoRepeat
+                    }
                 }
             }
         }
@@ -127,19 +136,6 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     val fileCompress = ImgUtils.saveBitmapFile(bitmapCompress)
                     mViewModel.streamStreambedCallBack(fileCompress)
                 }.start()
-//                when (type) {
-//                    1 -> {
-//                        mBind.ivORCAadhaarFront.setImageBitmap(bitmap)
-//                    }
-//
-//                    2 -> {
-//                        mBind.ivORCAadhaarBack.setImageBitmap(bitmap)
-//                    }
-//
-//                    3 -> {
-//                        mBind.ivORCAadhaarPanFront.setImageBitmap(bitmap)
-//                    }
-//                }
             }
 
             override fun onCancel() {}
@@ -158,15 +154,33 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     if (ocrData.model != null) {
                         when (upLoadType) {
                             1 -> {
-                                ImageLoaderManager.loadRoundImage(context, ocrData.model.ossUrl, mBind.ivORCAadhaarFront, 12)
+                                isUpLoadSuccess1 = true
+                                ImageLoaderManager.loadRoundImage(
+                                    context,
+                                    ocrData.model.ossUrl,
+                                    mBind.ivORCAadhaarFront,
+                                    12
+                                )
                             }
 
                             2 -> {
-                                ImageLoaderManager.loadRoundImage(context, ocrData.model.ossUrl, mBind.ivORCAadhaarBack, 12)
+                                isUpLoadSuccess2 = true
+                                ImageLoaderManager.loadRoundImage(
+                                    context,
+                                    ocrData.model.ossUrl,
+                                    mBind.ivORCAadhaarBack,
+                                    12
+                                )
                             }
 
                             3 -> {
-                                ImageLoaderManager.loadRoundImage(context, ocrData.model.ossUrl, mBind.ivORCAadhaarPanFront, 12)
+                                isUpLoadSuccess3 = true
+                                ImageLoaderManager.loadRoundImage(
+                                    context,
+                                    ocrData.model.ossUrl,
+                                    mBind.ivORCAadhaarPanFront,
+                                    12
+                                )
                             }
                         }
                     }
