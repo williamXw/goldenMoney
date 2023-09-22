@@ -20,6 +20,7 @@ import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.DiamantiferousParam
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentOrcInspectionBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.ORCViewModel
@@ -31,6 +32,8 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.language.LanguageConfig
 import com.luck.picture.lib.style.PictureSelectorStyle
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 /**
@@ -154,6 +157,7 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     if (ocrData.model != null) {
                         when (upLoadType) {
                             1 -> {
+                                diamantiferous(ocrData.model.ossUrl, "FRONT")
                                 isUpLoadSuccess1 = true
                                 ImageLoaderManager.loadRoundImage(
                                     context,
@@ -164,6 +168,7 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                             }
 
                             2 -> {
+                                diamantiferous(ocrData.model.ossUrl, "BACK")
                                 isUpLoadSuccess2 = true
                                 ImageLoaderManager.loadRoundImage(
                                     context,
@@ -174,6 +179,7 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                             }
 
                             3 -> {
+                                diamantiferous(ocrData.model.ossUrl, "PAN")
                                 isUpLoadSuccess3 = true
                                 ImageLoaderManager.loadRoundImage(
                                     context,
@@ -190,5 +196,29 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 }
             }
         }
+        mViewModel.diamantiferousResult.observe(viewLifecycleOwner) {
+            if (it.code == 200) {
+                val dataBody = it.body!!.string()
+                if (dataBody.isNotEmpty()) {
+                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                    val gson = Gson()
+//                    val ocrData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
+                }
+            }
+        }
+    }
+
+    /** 证件识别 */
+    private fun diamantiferous(url: String, cardType: String) {
+        val body = DiamantiferousParam(
+            DiamantiferousParam.Model(
+                url = url,
+                cardType = cardType
+            )
+        )
+        val strData = Gson().toJson(body)
+        val paramsBody =
+            AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        mViewModel.diamantiferousCallBack(paramsBody)
     }
 }

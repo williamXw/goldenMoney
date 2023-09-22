@@ -34,6 +34,12 @@ object UserRepository {
             .toOkResponse()
     }
 
+    /** 证件识别 */
+    fun diamantiferous(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.DIAMANTIFEROUS).setBody(body)
+            .toOkResponse()
+    }
+
     /** 获取一个未完成的表单 */
     fun aesculinAesir(body: RequestBody): Await<Response> {
         return RxHttp.postBody(NetUrl.AESCULAPIUS_AESCULIN_AESIR).setBody(body)

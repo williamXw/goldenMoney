@@ -24,6 +24,9 @@ object NetUrl {
     /** 上传文件 */
     const val STREAM_STREAMBED = "/specifiable/stream_streambed"
 
+    /** 证件识别 */
+    const val DIAMANTIFEROUS = "/conhydrine_conic/monolayer_monolingual_monolith/diamantiferous"
+
     /** 获取一个未完成的表单 */
     const val AESCULAPIUS_AESCULIN_AESIR = "/viewfinder_viewless_viewphone/outdone_outdoor/aesculapius_aesculin_aesir"
 

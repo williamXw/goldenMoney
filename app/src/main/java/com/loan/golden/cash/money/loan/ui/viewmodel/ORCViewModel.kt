@@ -36,4 +36,19 @@ class ORCViewModel : BaseViewModel() {
             requestCode = NetUrl.STREAM_STREAMBED
         }
     }
+
+    /** 证件识别 */
+    var diamantiferousResult = MutableLiveData<Response>()
+    fun diamantiferousCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                diamantiferousResult.value = UserRepository.diamantiferous(body).await()
+            }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.DIAMANTIFEROUS
+        }
+    }
+
+
 }
