@@ -8,4 +8,6 @@ import me.hgj.mvvmhelper.base.BaseViewModel
  * @Describe    :
  */
 class MineViewModel : BaseViewModel() {
+
+
 }

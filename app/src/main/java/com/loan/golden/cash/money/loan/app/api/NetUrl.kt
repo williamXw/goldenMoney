@@ -17,9 +17,14 @@ object NetUrl {
 
     /** 登录 */
     const val LOGIN = "/slic/pep_peperino/azaiea"
+
     /** 发送验证码 */
     const val CHAINBRIDGE = "/dystrophia/notchery_notchwing/chainbridge"
+
     /** 上传文件 */
     const val STREAM_STREAMBED = "/specifiable/stream_streambed"
+
+    /** 获取一个未完成的表单 */
+    const val AESCULAPIUS_AESCULIN_AESIR = "/viewfinder_viewless_viewphone/outdone_outdoor/aesculapius_aesculin_aesir"
 
 }

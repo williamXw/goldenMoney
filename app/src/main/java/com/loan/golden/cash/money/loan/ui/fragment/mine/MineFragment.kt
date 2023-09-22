@@ -9,9 +9,7 @@ import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.data.commom.Constant
-import com.loan.golden.cash.money.loan.data.response.LoginResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentMineBinding
-import com.loan.golden.cash.money.loan.ui.dialog.RxDialogProductList
 import com.loan.golden.cash.money.loan.ui.dialog.RxLogoutDialog
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
 import me.hgj.mvvmhelper.ext.finishAllActivity

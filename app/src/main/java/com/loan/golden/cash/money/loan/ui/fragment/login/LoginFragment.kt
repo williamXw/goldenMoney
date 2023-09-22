@@ -105,12 +105,12 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                 val gson = Gson()
                 val loginData: LoginResponse = gson.fromJson(mResponse, LoginResponse::class.java)
                 if (loginData.status == 0) {
+                    /** 保存用户信息 */
+                    CacheUtil.setUser(loginData)
                     if (loginData.user != null) {
                         KvUtils.encode(Constant.TOKEN, loginData.user!!.token)
                     }
                     startActivity<MainActivity>()
-                    /** 保存用户信息 */
-                    CacheUtil.setUser(loginData)
                     finishActivity(LoginActivity::class.java)
                 } else {
                     val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
