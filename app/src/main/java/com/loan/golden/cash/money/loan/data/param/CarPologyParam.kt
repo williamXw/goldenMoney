@@ -22,7 +22,7 @@ data class CarPologyParam(
         val idCard: String = "",//身份证Id
         val realName: String = "",////姓名，根据表单配置是完整名称还是分开提交
         val taxRegNumber: String = "",//印度Pan卡号
-        val birthDay: Date,////出生日期，如：936115200000
+        val birthDay: String = "",////出生日期，如：936115200000
         val idCardImageFront: String = "",//身份证正面照Url
         val idCardImageBack: String = "",//身份证反面照Url
         val idCardImagePan: String = "",//印度Pan卡正面照Url

@@ -22,6 +22,7 @@ import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.param.CarPologyParam
 import com.loan.golden.cash.money.loan.data.param.DiamantiferousParam
 import com.loan.golden.cash.money.loan.data.response.AesirResponse
@@ -41,7 +42,6 @@ import com.luck.picture.lib.style.PictureSelectorStyle
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
-import java.util.Date
 
 /**
  * @Author      : hxw
@@ -60,7 +60,8 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
     private var mIdCard: String = ""
     private var mRealName: String = ""
     private var mTaxRegNumber: String = ""
-    private lateinit var mBirthDay: Date
+    private var mCardType: String = ""
+    private var mBirthDay: String = ""
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("ORC Inspection") {
@@ -114,14 +115,9 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     )
                     val strData = Gson().toJson(carParam)
                     val paramsBody =
-                        AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                        AESTool.encrypt1(strData, Constant.AES_KEY)
+                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                     mViewModel.carpologyCallBack(paramsBody)
-
-//                    val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
-//                    val strData = Gson().toJson(aeSirParam)
-//                    val paramsBody =
-//                        AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-//                    mViewModel.aesculinAesirCallBack(paramsBody)
                 }
             }
         }
@@ -206,24 +202,42 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     if (ocrData.model != null) {
                         when (upLoadType) {
                             1 -> {
+                                mCardType = "FRONT"
                                 mIdCardImageFront = ocrData.model.ossUrl
                                 diamantiferous(mIdCardImageFront, "FRONT")
                                 isUpLoadSuccess1 = true
-                                ImageLoaderManager.loadRoundImage(context, mIdCardImageFront, mBind.ivORCAadhaarFront, 12)
+                                ImageLoaderManager.loadRoundImage(
+                                    context,
+                                    mIdCardImageFront,
+                                    mBind.ivORCAadhaarFront,
+                                    12
+                                )
                             }
 
                             2 -> {
+                                mCardType = "BACK"
                                 mIdCardImageBack = ocrData.model.ossUrl
                                 diamantiferous(mIdCardImageBack, "BACK")
                                 isUpLoadSuccess2 = true
-                                ImageLoaderManager.loadRoundImage(context, mIdCardImageBack, mBind.ivORCAadhaarBack, 12)
+                                ImageLoaderManager.loadRoundImage(
+                                    context,
+                                    mIdCardImageBack,
+                                    mBind.ivORCAadhaarBack,
+                                    12
+                                )
                             }
 
                             3 -> {
+                                mCardType = "PAN"
                                 mIdCardImagePan = ocrData.model.ossUrl
                                 diamantiferous(mIdCardImagePan, "PAN")
                                 isUpLoadSuccess3 = true
-                                ImageLoaderManager.loadRoundImage(context, mIdCardImagePan, mBind.ivORCAadhaarPanFront, 12)
+                                ImageLoaderManager.loadRoundImage(
+                                    context,
+                                    mIdCardImagePan,
+                                    mBind.ivORCAadhaarPanFront,
+                                    12
+                                )
                             }
                         }
                     }
@@ -239,28 +253,56 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 if (dataBody.isNotEmpty()) {
                     val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                     val gson = Gson()
-                    val mData: DiamantiferousResponse = gson.fromJson(mResponse, DiamantiferousResponse::class.java)
+                    val mData: DiamantiferousResponse =
+                        gson.fromJson(mResponse, DiamantiferousResponse::class.java)
                     if (mData.status == 1012) {
                         startActivity<LoginActivity>()
                         return@observe
                     }
                     if (mData.status == 0) {
-                        if (isUpLoadSuccess1) {
+                        if (mCardType == "FRONT") {
                             mIdCard = mData.model!!.idCard
                             mRealName = mData.model.realName
                             val result = mData.model.birthDay.toString()
                             if (result.isNotEmpty() && result.startsWith("-")) {
-                                val birth = result.substring(1, result.length)
-                                mBirthDay = Date(birth)
+                                mBirthDay = result.substring(1, result.length)
                             }
                         }
-                        if (isUpLoadSuccess3) {
+                        if (mCardType == "PAN") {
                             mTaxRegNumber = mData.model!!.taxRegNumber
                         }
                         RxToast.showToast("upLoad Success")
                     } else {
                         val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
                         RxToast.showToast(msg)
+                    }
+                }
+            }
+        }
+
+        mViewModel.carpologyResult.observe(viewLifecycleOwner) {
+            if (it.code == 200) {
+                val dataBody = it.body!!.string()
+                if (dataBody.isNotEmpty()) {
+                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                    val gson = Gson()
+                    val mData: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
+                    if (mData != null) {
+                        if (mData.status == 1012) {
+                            startActivity<LoginActivity>()
+                            return@observe
+                        }
+                        if (mData.status == 0) {
+                            val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
+                            val strData = Gson().toJson(aeSirParam)
+                            val paramsBody =
+                                AESTool.encrypt1(strData, Constant.AES_KEY)
+                                    .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                            mViewModel.aesculinAesirCallBack(paramsBody)
+                        } else {
+                            val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                            RxToast.showToast(msg)
+                        }
                     }
                 }
             }
@@ -273,7 +315,8 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 if (dataBody.isNotEmpty()) {
                     val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                     val gson = Gson()
-                    val aesirResponse: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
+                    val aesirResponse: AesirResponse? =
+                        gson.fromJson(mResponse, AesirResponse::class.java)
                     if (aesirResponse != null) {
                         if (aesirResponse.status == 1012) {
                             startActivity<LoginActivity>()
@@ -285,6 +328,9 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                                     formType = aesirResponse.model!!.forms[0].formType
                                 }
                             }
+                        } else {
+                            val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                            RxToast.showToast(msg)
                         }
                     }
                 }
@@ -294,7 +340,7 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     }
 
                     "BASIC" -> {//基础信息
-                        RxToast.showToast("BASIC")
+                        nav().navigateAction(R.id.action_to_fragment_basic_info)
                     }
 
                     "ALIVE" -> {//活体检测
@@ -319,7 +365,8 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
         )
         val strData = Gson().toJson(body)
         val paramsBody =
-            AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            AESTool.encrypt1(strData, Constant.AES_KEY)
+                .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         mViewModel.diamantiferousCallBack(paramsBody)
     }
 }
