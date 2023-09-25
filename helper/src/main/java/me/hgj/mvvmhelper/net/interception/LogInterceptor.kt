@@ -7,6 +7,7 @@ import me.hgj.mvvmhelper.net.interception.logging.util.CharacterHandler.Companio
 import me.hgj.mvvmhelper.net.interception.logging.util.UrlEncoderUtils.Companion.hasUrlEncoded
 import me.hgj.mvvmhelper.net.interception.logging.util.ZipHelper.Companion.decompressForGzip
 import me.hgj.mvvmhelper.net.interception.logging.util.ZipHelper.Companion.decompressToStringForZlib
+import me.hgj.mvvmhelper.util.LogUtils
 import okhttp3.*
 import okio.Buffer
 import java.io.IOException
@@ -40,6 +41,7 @@ class LogInterceptor : Interceptor {
             } else {
                 mPrinter.printFileRequest(request)
             }
+            LogUtils.debugInfo("打印请求信息===>>$request")
         }
         val logResponse =
             printLevel == Level.ALL || printLevel != Level.NONE && printLevel == Level.RESPONSE
@@ -48,7 +50,7 @@ class LogInterceptor : Interceptor {
         originalResponse = try {
             chain.proceed(request)
         } catch (e: Exception) {
-            Log.d("Http Error: %s", e.message?:"")
+            Log.d("Http Error: %s", e.message ?: "")
             throw e
         }
         val t2 = if (logResponse) System.nanoTime() else 0
@@ -59,6 +61,7 @@ class LogInterceptor : Interceptor {
         if (responseBody != null && isParseable(responseBody.contentType())) {
             bodyString = printResult(request, originalResponse, logResponse)
         }
+        LogUtils.debugInfo("打印响应结果===>>$bodyString")
         if (logResponse) {
             val segmentList = request.url.encodedPathSegments
             val header: String = if (originalResponse.networkResponse == null) {

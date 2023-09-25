@@ -18,11 +18,17 @@ import com.loan.golden.cash.money.loan.app.util.PictureUtil
 import com.loan.golden.cash.money.loan.app.util.RxTextTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
+import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
+import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.param.DiamantiferousParam
+import com.loan.golden.cash.money.loan.data.response.AesirResponse
+import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentOrcInspectionBinding
+import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.viewmodel.ORCViewModel
 import com.luck.picture.lib.basic.PictureSelectionModel
 import com.luck.picture.lib.basic.PictureSelector
@@ -86,6 +92,11 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                         RxToast.showToast("Please complete the certification")
                         return@setOnclickNoRepeat
                     }
+                    val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
+                    val strData = Gson().toJson(aeSirParam)
+                    val paramsBody =
+                        AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                    mViewModel.aesculinAesirCallBack(paramsBody)
                 }
             }
         }
@@ -149,7 +160,20 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
         super.onRequestSuccess()
         mViewModel.ocrUpLoadResult.observe(viewLifecycleOwner) {
             if (it.code == 200) {
-                val dataBody = it.body!!.string()
+                var dataBody = it.body!!.string()
+                if (dataBody.startsWith('"')) {
+                    dataBody = dataBody.substring(1, dataBody.length)
+                }
+                if (dataBody.endsWith('"')) {
+                    dataBody = dataBody.substring(0, dataBody.length - 1)
+                }
+                if (dataBody.startsWith('"') && dataBody.endsWith('"')) {
+                    dataBody = dataBody.substring(1, dataBody.length - 1)
+                }
+                if (dataBody.isEmpty()) {
+                    RxToast.showToast("data is empty")
+                    return@observe
+                }
                 val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                 val gson = Gson()
                 val ocrData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
@@ -202,7 +226,59 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 if (dataBody.isNotEmpty()) {
                     val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                     val gson = Gson()
-//                    val ocrData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
+                    val mData: DiamantiferousResponse = gson.fromJson(mResponse, DiamantiferousResponse::class.java)
+                    if (mData.status == 1012) {
+                        startActivity<LoginActivity>()
+                        return@observe
+                    }
+                    if (mData.status == 0) {
+                        RxToast.showToast("upLoad Success")
+                    } else {
+                        val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                        RxToast.showToast(msg)
+                    }
+                }
+            }
+        }
+
+        mViewModel.aesculinAesirResult.observe(viewLifecycleOwner) {
+            if (it.code == 200) {
+                var formType = ""
+                val dataBody = it.body!!.string()
+                if (dataBody.isNotEmpty()) {
+                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                    val gson = Gson()
+                    val aesirResponse: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
+                    if (aesirResponse != null) {
+                        if (aesirResponse.status == 1012) {
+                            startActivity<LoginActivity>()
+                            return@observe
+                        }
+                        if (aesirResponse.status == 0 && aesirResponse.model != null) {
+                            if (aesirResponse.model!!.forms.isNotEmpty() || aesirResponse.model!!.forms.size != 0) {
+                                aesirResponse.model!!.forms.forEachIndexed { _, _ ->
+                                    formType = aesirResponse.model!!.forms[0].formType
+                                }
+                            }
+                        }
+                    }
+                }
+                when (formType) {
+                    "OCR" -> {//证件识别
+                        nav().navigateAction(R.id.action_to_fragment_orc_inspection)
+                    }
+
+                    "BASIC" -> {//基础信息
+                        RxToast.showToast("BASIC")
+                    }
+
+                    "ALIVE" -> {//活体检测
+
+                    }
+
+                    "ALIVE_H5" -> {//活体检测H5
+
+                    }
                 }
             }
         }

@@ -50,5 +50,17 @@ class ORCViewModel : BaseViewModel() {
         }
     }
 
+    /** 获取一个未完成的表单 */
+    var aesculinAesirResult = MutableLiveData<Response>()
+    fun aesculinAesirCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                aesculinAesirResult.value = UserRepository.aesculinAesir(body).await()
+            }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.AESCULAPIUS_AESCULIN_AESIR
+        }
+    }
 
 }
