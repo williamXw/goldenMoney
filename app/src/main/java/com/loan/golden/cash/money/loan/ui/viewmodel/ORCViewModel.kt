@@ -50,6 +50,19 @@ class ORCViewModel : BaseViewModel() {
         }
     }
 
+    /** 提交用户信息 */
+    var carpologyResult = MutableLiveData<Response>()
+    fun carpologyCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                carpologyResult.value = UserRepository.carpologistCarpology(body).await()
+            }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.CARPOLOGIST_CARPOLOGY
+        }
+    }
+
     /** 获取一个未完成的表单 */
     var aesculinAesirResult = MutableLiveData<Response>()
     fun aesculinAesirCallBack(body: RequestBody): MutableLiveData<Response>? {

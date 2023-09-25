@@ -30,4 +30,7 @@ object NetUrl {
     /** 获取一个未完成的表单 */
     const val AESCULAPIUS_AESCULIN_AESIR = "/viewfinder_viewless_viewphone/outdone_outdoor/aesculapius_aesculin_aesir"
 
+    /** 提交用户信息 */
+    const val CARPOLOGIST_CARPOLOGY = "/hypermeter_hypermetric_hypermetrical/carpologist_carpology"
+
 }

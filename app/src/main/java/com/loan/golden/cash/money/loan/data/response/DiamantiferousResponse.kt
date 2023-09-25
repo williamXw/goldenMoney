@@ -15,7 +15,7 @@ data class DiamantiferousResponse(
     val time: String = "",
     val maxAge: Int = 0,
     val message: String = "",
-    val model: OCRResponse.Model? = null,
+    val model: Model? = null,
 
     ) : Parcelable {
 
@@ -24,7 +24,9 @@ data class DiamantiferousResponse(
 
         var idCard: String = "",
         var realName: String = "",
-        var birthDay: Long = 0
+        var birthDay: Long = 0,
+        var taxRegNumber: String = "",//pan卡号
+        var pinCode: String = ""//pan卡号
 
     ) : Parcelable
 

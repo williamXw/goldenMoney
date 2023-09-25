@@ -46,5 +46,11 @@ object UserRepository {
             .toOkResponse()
     }
 
+    /** 提交用户信息 */
+    fun carpologistCarpology(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.CARPOLOGIST_CARPOLOGY).setBody(body)
+            .toOkResponse()
+    }
+
 }
 

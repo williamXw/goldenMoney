@@ -22,7 +22,7 @@ import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
-import com.loan.golden.cash.money.loan.data.param.AesirParam
+import com.loan.golden.cash.money.loan.data.param.CarPologyParam
 import com.loan.golden.cash.money.loan.data.param.DiamantiferousParam
 import com.loan.golden.cash.money.loan.data.response.AesirResponse
 import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
@@ -41,6 +41,7 @@ import com.luck.picture.lib.style.PictureSelectorStyle
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.util.Date
 
 /**
  * @Author      : hxw
@@ -53,6 +54,13 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
     private var isUpLoadSuccess1 = false
     private var isUpLoadSuccess2 = false
     private var isUpLoadSuccess3 = false
+    private var mIdCardImageFront: String = ""
+    private var mIdCardImageBack: String = ""
+    private var mIdCardImagePan: String = ""
+    private var mIdCard: String = ""
+    private var mRealName: String = ""
+    private var mTaxRegNumber: String = ""
+    private lateinit var mBirthDay: Date
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("ORC Inspection") {
@@ -92,11 +100,28 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                         RxToast.showToast("Please complete the certification")
                         return@setOnclickNoRepeat
                     }
-                    val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
-                    val strData = Gson().toJson(aeSirParam)
+
+                    val carParam = CarPologyParam(
+                        CarPologyParam.Model(
+                            idCard = mIdCard,
+                            realName = mRealName,
+                            taxRegNumber = mTaxRegNumber,
+                            birthDay = mBirthDay,
+                            idCardImageFront = mIdCardImageFront,
+                            idCardImageBack = mIdCardImageBack,
+                            idCardImagePan = mIdCardImagePan
+                        )
+                    )
+                    val strData = Gson().toJson(carParam)
                     val paramsBody =
                         AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                    mViewModel.aesculinAesirCallBack(paramsBody)
+                    mViewModel.carpologyCallBack(paramsBody)
+
+//                    val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
+//                    val strData = Gson().toJson(aeSirParam)
+//                    val paramsBody =
+//                        AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+//                    mViewModel.aesculinAesirCallBack(paramsBody)
                 }
             }
         }
@@ -181,36 +206,24 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                     if (ocrData.model != null) {
                         when (upLoadType) {
                             1 -> {
-                                diamantiferous(ocrData.model.ossUrl, "FRONT")
+                                mIdCardImageFront = ocrData.model.ossUrl
+                                diamantiferous(mIdCardImageFront, "FRONT")
                                 isUpLoadSuccess1 = true
-                                ImageLoaderManager.loadRoundImage(
-                                    context,
-                                    ocrData.model.ossUrl,
-                                    mBind.ivORCAadhaarFront,
-                                    12
-                                )
+                                ImageLoaderManager.loadRoundImage(context, mIdCardImageFront, mBind.ivORCAadhaarFront, 12)
                             }
 
                             2 -> {
-                                diamantiferous(ocrData.model.ossUrl, "BACK")
+                                mIdCardImageBack = ocrData.model.ossUrl
+                                diamantiferous(mIdCardImageBack, "BACK")
                                 isUpLoadSuccess2 = true
-                                ImageLoaderManager.loadRoundImage(
-                                    context,
-                                    ocrData.model.ossUrl,
-                                    mBind.ivORCAadhaarBack,
-                                    12
-                                )
+                                ImageLoaderManager.loadRoundImage(context, mIdCardImageBack, mBind.ivORCAadhaarBack, 12)
                             }
 
                             3 -> {
-                                diamantiferous(ocrData.model.ossUrl, "PAN")
+                                mIdCardImagePan = ocrData.model.ossUrl
+                                diamantiferous(mIdCardImagePan, "PAN")
                                 isUpLoadSuccess3 = true
-                                ImageLoaderManager.loadRoundImage(
-                                    context,
-                                    ocrData.model.ossUrl,
-                                    mBind.ivORCAadhaarPanFront,
-                                    12
-                                )
+                                ImageLoaderManager.loadRoundImage(context, mIdCardImagePan, mBind.ivORCAadhaarPanFront, 12)
                             }
                         }
                     }
@@ -232,6 +245,18 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                         return@observe
                     }
                     if (mData.status == 0) {
+                        if (isUpLoadSuccess1) {
+                            mIdCard = mData.model!!.idCard
+                            mRealName = mData.model.realName
+                            val result = mData.model.birthDay.toString()
+                            if (result.isNotEmpty() && result.startsWith("-")) {
+                                val birth = result.substring(1, result.length)
+                                mBirthDay = Date(birth)
+                            }
+                        }
+                        if (isUpLoadSuccess3) {
+                            mTaxRegNumber = mData.model!!.taxRegNumber
+                        }
                         RxToast.showToast("upLoad Success")
                     } else {
                         val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
