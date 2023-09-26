@@ -50,6 +50,11 @@
             android:name=".ui.activity.TermAgreementActivity"
             android:exported="true" />
 
+        <service
+            android:name=".data.DeviceUpLoadService"
+            android:enabled="true"
+            android:exported="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -100,4 +105,5 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 提示音需要 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 </manifest>

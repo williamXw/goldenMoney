@@ -52,5 +52,10 @@ object UserRepository {
             .toOkResponse()
     }
 
+    /** 提交用户信息 */
+    fun nappyNaprapath(): Await<Response> {
+        return RxHttp.get(NetUrl.NAPPER_NAPPY_NAPRAPATH).toOkResponse()
+    }
+
 }
 

@@ -33,4 +33,7 @@ object NetUrl {
     /** 提交用户信息 */
     const val CARPOLOGIST_CARPOLOGY = "/hypermeter_hypermetric_hypermetrical/carpologist_carpology"
 
+    /** 检测设备信息上报情况 */
+    const val NAPPER_NAPPY_NAPRAPATH = "/preclinical/mennonite_menology/napper_nappy_naprapath"
+
 }

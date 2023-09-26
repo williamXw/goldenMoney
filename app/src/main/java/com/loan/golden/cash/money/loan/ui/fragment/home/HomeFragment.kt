@@ -76,7 +76,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                     }
 
                     "BASIC" -> {//基础信息
-
+                        nav().navigateAction(R.id.action_to_fragment_basic_info)
                     }
 
                     "ALIVE" -> {//活体检测

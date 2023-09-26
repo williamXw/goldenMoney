@@ -1,11 +1,17 @@
 package com.loan.golden.cash.money.loan.ui.activity
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
 import com.hjq.toast.ToastUtils
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseActivity
+import com.loan.golden.cash.money.loan.data.DeviceUpLoadService
 import com.loan.golden.cash.money.loan.databinding.ActivityMainBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.MainViewModel
 
@@ -17,8 +23,24 @@ import com.loan.golden.cash.money.loan.ui.viewmodel.MainViewModel
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     var exitTime = 0L
+    lateinit var myBinder: DeviceUpLoadService.mBinder
+
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+            myBinder = p1 as DeviceUpLoadService.mBinder
+            myBinder.a()
+            mViewModel.nappyNapraPath()
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
+
+        val intent = Intent(this, DeviceUpLoadService::class.java)
+        bindService(intent, connection, Context.BIND_AUTO_CREATE)//绑定Service
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -39,4 +61,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(connection)//解绑Service
+    }
 }

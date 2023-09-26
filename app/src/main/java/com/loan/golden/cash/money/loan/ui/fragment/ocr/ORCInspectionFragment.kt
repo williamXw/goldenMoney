@@ -253,28 +253,31 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 if (dataBody.isNotEmpty()) {
                     val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                     val gson = Gson()
-                    val mData: DiamantiferousResponse =
-                        gson.fromJson(mResponse, DiamantiferousResponse::class.java)
-                    if (mData.status == 1012) {
-                        startActivity<LoginActivity>()
-                        return@observe
-                    }
-                    if (mData.status == 0) {
-                        if (mCardType == "FRONT") {
-                            mIdCard = mData.model!!.idCard
-                            mRealName = mData.model.realName
-                            val result = mData.model.birthDay.toString()
-                            if (result.isNotEmpty() && result.startsWith("-")) {
-                                mBirthDay = result.substring(1, result.length)
+                    val mData: DiamantiferousResponse = gson.fromJson(mResponse, DiamantiferousResponse::class.java)
+                    try {
+                        if (mData.status == 1012) {
+                            startActivity<LoginActivity>()
+                            return@observe
+                        }
+                        if (mData.status == 0) {
+                            if (mCardType == "FRONT") {
+                                mIdCard = mData.model!!.idCard
+                                mRealName = mData.model.realName
+                                val result = mData.model.birthDay.toString()
+                                if (result.isNotEmpty() && result.startsWith("-")) {
+                                    mBirthDay = result.substring(1, result.length)
+                                }
                             }
+                            if (mCardType == "PAN") {
+                                mTaxRegNumber = mData.model!!.taxRegNumber
+                            }
+                            RxToast.showToast("upLoad Success")
+                        } else {
+                            val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                            RxToast.showToast(msg)
                         }
-                        if (mCardType == "PAN") {
-                            mTaxRegNumber = mData.model!!.taxRegNumber
-                        }
-                        RxToast.showToast("upLoad Success")
-                    } else {
-                        val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                        RxToast.showToast(msg)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             }
