@@ -22,6 +22,7 @@ data class DiamantiferousResponse(
         var realName: String = "",
         var birthDay: Long = 0,
         var taxRegNumber:String = "",
+        var pinCode:String = "",
 
 
     ) : Parcelable

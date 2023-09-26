@@ -27,6 +27,7 @@ import com.loan.golden.cash.money.loan.data.param.CarPologyParam
 import com.loan.golden.cash.money.loan.data.param.DiamantiferousParam
 import com.loan.golden.cash.money.loan.data.response.AesirResponse
 import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
+import com.loan.golden.cash.money.loan.data.response.OCRDetailResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentOrcInspectionBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
@@ -62,6 +63,7 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
     private var mTaxRegNumber: String = ""
     private var mCardType: String = ""
     private var mBirthDay: String = ""
+    private var mPinCode: String = ""
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("ORC Inspection") {
@@ -101,23 +103,19 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                         RxToast.showToast("Please complete the certification")
                         return@setOnclickNoRepeat
                     }
-
-                    val carParam = CarPologyParam(
-                        CarPologyParam.Model(
-                            idCard = mIdCard,
-                            realName = mRealName,
-                            taxRegNumber = mTaxRegNumber,
-                            birthDay = mBirthDay,
-                            idCardImageFront = mIdCardImageFront,
-                            idCardImageBack = mIdCardImageBack,
-                            idCardImagePan = mIdCardImagePan
-                        )
+                    val ocrData = OCRDetailResponse(
+                        idCard = mIdCard,
+                        realName = mRealName,
+                        taxRegNumber = mTaxRegNumber,
+                        birthDay = mBirthDay,
+                        pinCode = mPinCode,
+                        idCardImageFront = mIdCardImageFront,
+                        idCardImageBack = mIdCardImageBack,
+                        idCardImagePan = mIdCardImagePan
                     )
-                    val strData = Gson().toJson(carParam)
-                    val paramsBody =
-                        AESTool.encrypt1(strData, Constant.AES_KEY)
-                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                    mViewModel.carpologyCallBack(paramsBody)
+                    nav().navigateAction(R.id.action_to_fragment_ocr_detail, Bundle().apply {
+                        putParcelable(Constant.DATA, ocrData)
+                    })
                 }
             }
         }
@@ -268,6 +266,9 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                                     mBirthDay = result.substring(1, result.length)
                                 }
                             }
+                            if (mCardType == "BACK") {
+                                mPinCode = mData.model!!.pinCode
+                            }
                             if (mCardType == "PAN") {
                                 mTaxRegNumber = mData.model!!.taxRegNumber
                             }
@@ -278,80 +279,6 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                    }
-                }
-            }
-        }
-
-        mViewModel.carpologyResult.observe(viewLifecycleOwner) {
-            if (it.code == 200) {
-                val dataBody = it.body!!.string()
-                if (dataBody.isNotEmpty()) {
-                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
-                    val gson = Gson()
-                    val mData: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
-                    if (mData != null) {
-                        if (mData.status == 1012) {
-                            startActivity<LoginActivity>()
-                            return@observe
-                        }
-                        if (mData.status == 0) {
-                            val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
-                            val strData = Gson().toJson(aeSirParam)
-                            val paramsBody =
-                                AESTool.encrypt1(strData, Constant.AES_KEY)
-                                    .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                            mViewModel.aesculinAesirCallBack(paramsBody)
-                        } else {
-                            val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                            RxToast.showToast(msg)
-                        }
-                    }
-                }
-            }
-        }
-
-        mViewModel.aesculinAesirResult.observe(viewLifecycleOwner) {
-            if (it.code == 200) {
-                var formType = ""
-                val dataBody = it.body!!.string()
-                if (dataBody.isNotEmpty()) {
-                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
-                    val gson = Gson()
-                    val aesirResponse: AesirResponse? =
-                        gson.fromJson(mResponse, AesirResponse::class.java)
-                    if (aesirResponse != null) {
-                        if (aesirResponse.status == 1012) {
-                            startActivity<LoginActivity>()
-                            return@observe
-                        }
-                        if (aesirResponse.status == 0 && aesirResponse.model != null) {
-                            if (aesirResponse.model!!.forms.isNotEmpty() || aesirResponse.model!!.forms.size != 0) {
-                                aesirResponse.model!!.forms.forEachIndexed { _, _ ->
-                                    formType = aesirResponse.model!!.forms[0].formType
-                                }
-                            }
-                        } else {
-                            val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                            RxToast.showToast(msg)
-                        }
-                    }
-                }
-                when (formType) {
-                    "OCR" -> {//证件识别
-                        nav().navigateAction(R.id.action_to_fragment_orc_inspection)
-                    }
-
-                    "BASIC" -> {//基础信息
-                        nav().navigateAction(R.id.action_to_fragment_basic_info)
-                    }
-
-                    "ALIVE" -> {//活体检测
-
-                    }
-
-                    "ALIVE_H5" -> {//活体检测H5
-
                     }
                 }
             }

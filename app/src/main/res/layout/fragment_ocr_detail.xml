@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.loan.golden.cash.money.loan.data.response.OCRDetailResponse" />
+
+        <import type="com.loan.golden.cash.money.loan.app.util.SettingUtil" />
+
+        <import type="com.loan.golden.cash.money.loan.app.util.DatetimeUtil" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorCommBg"
+        android:fitsSystemWindows="true"
+        tools:ignore="MissingConstraints">
+
+        <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#4470EC"
+            app:layout_constraintTop_toBottomOf="@+id/customToolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.15"
+            android:layout_marginTop="@dimen/dp.30"
+            android:layout_marginEnd="@dimen/dp.15"
+            android:background="@drawable/round_white_bg_11dp"
+            android:orientation="vertical"
+            android:padding="@dimen/dp.20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customToolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Id Card"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_12" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="None"
+                    android:text="@{SettingUtil.INSTANCE.cns(data.idCard)}"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp.15"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Real Name"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_12" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="None"
+                    android:text="@{SettingUtil.INSTANCE.cns(data.realName)}"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp.15"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date of Birth"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_12" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOCRDetailBirthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="None"
+                    android:text='@{DatetimeUtil.INSTANCE.formatDate(Long.parseLong(data.birthDay),"yyyy-MM-dd")}'
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_12" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp.5"
+                    android:src="@mipmap/icon_arrow_right_black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp.15"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pincode"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_12" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="None"
+                    android:text="@{SettingUtil.INSTANCE.cns(data.pinCode)}"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp.15"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pan Number"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/sp_12" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="None"
+                    android:text="@{SettingUtil.INSTANCE.cns(data.taxRegNumber)}"
+                    android:textColor="#202020"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOCRDetailSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp.56"
+            android:background="#4470EC"
+            android:gravity="center"
+            android:text="SUBMIT"
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

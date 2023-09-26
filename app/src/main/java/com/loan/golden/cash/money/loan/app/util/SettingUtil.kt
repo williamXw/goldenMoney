@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.StateListDrawable
 import android.preference.PreferenceManager
+import android.text.TextUtils
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.Utils
@@ -17,6 +18,21 @@ import kotlin.math.roundToInt
 
 
 object SettingUtil {
+
+    fun cns(msg: String?): String? {
+        return checkNullString(msg)
+    }
+
+    fun checkNullString(msg: String?): String? {
+        if (msg == null) {
+            return ""
+        }
+        return if (TextUtils.isEmpty(msg) || "null" == msg) {
+            ""
+        } else {
+            msg
+        }
+    }
 
     /**
      * 获取当前主题颜色

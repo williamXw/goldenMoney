@@ -8,12 +8,19 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
+import com.google.gson.Gson
 import com.hjq.toast.ToastUtils
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseActivity
+import com.loan.golden.cash.money.loan.app.util.AESTool
+import com.loan.golden.cash.money.loan.app.util.RxToast
+import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.DeviceUpLoadService
+import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.response.UpLoadDeviceInfoResponse
 import com.loan.golden.cash.money.loan.databinding.ActivityMainBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.MainViewModel
+import org.json.JSONObject
 
 /**
  * created by : huxiaowei
@@ -59,6 +66,40 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 }
             }
         })
+    }
+
+    override fun onRequestSuccess() {
+        super.onRequestSuccess()
+        mViewModel.nappyResult.observe(this) {
+            if (it.code == 200) {
+                val dataBody = it.body!!.string()
+                if (dataBody.isNotEmpty()) {
+                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                    val gson = Gson()
+                    val mData: UpLoadDeviceInfoResponse = gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
+                    if (mData.status == 1012) {
+                        startActivity<LoginActivity>()
+                        return@observe
+                    }
+                    if (mData.status == 0) {
+                        if (mData.list.isNotEmpty()) {
+                            mData.list.forEachIndexed { _, s ->
+                                when (s) {
+                                    "DEVICE" -> {
+
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                        RxToast.showToast(msg)
+                    }
+                } else {
+                    RxToast.showToast("dataBody is empty")
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

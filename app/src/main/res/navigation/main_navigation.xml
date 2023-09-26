@@ -123,6 +123,38 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_to_fragment_ocr_detail"
+            app:destination="@+id/fragmentOCRDetail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentOCRDetail"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.ocr.FragmentOCRDetail"
+        android:label="fragmentOCRDetail"
+        tools:layout="@layout/fragment_ocr_detail">
+
+        <action
+            android:id="@+id/action_to_fragment_orc_inspection"
+            app:destination="@+id/fragmentORCInspection"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_to_fragment_basic_info"
+            app:destination="@+id/fragmentBasicInfo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
