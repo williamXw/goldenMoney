@@ -36,4 +36,7 @@ object NetUrl {
     /** 检测设备信息上报情况 */
     const val NAPPER_NAPPY_NAPRAPATH = "/preclinical/mennonite_menology/napper_nappy_naprapath"
 
+    /** 获取工作岗位信息 */
+    const val KALEYARD_KALI = "/garboard_garboil_garbologist/kaleyard_kali"
+
 }

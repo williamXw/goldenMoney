@@ -1,7 +1,6 @@
 package com.loan.golden.cash.money.loan.data.repository
 
 import com.loan.golden.cash.money.loan.app.api.NetUrl
-import com.loan.golden.cash.money.loan.data.response.LoginRegisterReq
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.Response
@@ -55,6 +54,11 @@ object UserRepository {
     /** 提交用户信息 */
     fun nappyNaprapath(): Await<Response> {
         return RxHttp.get(NetUrl.NAPPER_NAPPY_NAPRAPATH).toOkResponse()
+    }
+
+    /** 获取工作岗位信息 */
+    fun kaleyardKali(): Await<Response> {
+        return RxHttp.postBody(NetUrl.KALEYARD_KALI).setBody("").toOkResponse()
     }
 
 }

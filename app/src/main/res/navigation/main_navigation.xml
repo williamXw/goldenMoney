@@ -70,9 +70,25 @@
 
     <fragment
         android:id="@+id/fragmentBasicInfo"
-        android:name="com.loan.golden.cash.money.loan.ui.fragment.ocr.FragmentBasicInfo"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.forms.FragmentBasicInfo"
         android:label="fragmentBasic"
         tools:layout="@layout/fragment_basic_info">
+
+        <action
+            android:id="@+id/action_to_fragment_personal_information"
+            app:destination="@+id/fragmentPersonalInformation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentPersonalInformation"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.forms.FragmentPersonalInformation"
+        android:label="fragmentPersonal"
+        tools:layout="@layout/fragment_personal_information">
 
 
     </fragment>
@@ -111,7 +127,7 @@
 
     <fragment
         android:id="@+id/fragmentORCInspection"
-        android:name="com.loan.golden.cash.money.loan.ui.fragment.ocr.ORCInspectionFragment"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.forms.ORCInspectionFragment"
         android:label="fragmentOrc"
         tools:layout="@layout/fragment_orc_inspection">
 
@@ -135,7 +151,7 @@
 
     <fragment
         android:id="@+id/fragmentOCRDetail"
-        android:name="com.loan.golden.cash.money.loan.ui.fragment.ocr.FragmentOCRDetail"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.forms.FragmentOCRDetail"
         android:label="fragmentOCRDetail"
         tools:layout="@layout/fragment_ocr_detail">
 

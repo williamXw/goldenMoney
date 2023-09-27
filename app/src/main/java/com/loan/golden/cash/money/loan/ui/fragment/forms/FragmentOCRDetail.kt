@@ -1,4 +1,4 @@
-package com.loan.golden.cash.money.loan.ui.fragment.ocr
+package com.loan.golden.cash.money.loan.ui.fragment.forms
 
 import android.os.Bundle
 import com.google.gson.Gson
