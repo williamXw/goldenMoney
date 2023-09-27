@@ -45,6 +45,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     private var city = ""
     private var area = ""
     private var town = ""
+    private var mFormId = ""
 
     private lateinit var dialogBottom: BottomSheetDialog
     private lateinit var dialogFigeaterBottom: BottomSheetDialog
@@ -60,6 +61,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         mBind.customToolbar.initBack("Work information") {
             nav().navigateUp()
         }
+        mFormId = arguments?.getString("mFormId").toString()
     }
 
     override fun onBindViewClick() {
@@ -71,6 +73,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         ) {
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
+                    submitFormsData()
                     nav().navigateAction(R.id.action_to_fragment_personal_information)
                 }
 
@@ -84,6 +87,10 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 }
             }
         }
+    }
+
+    private fun submitFormsData() {
+
     }
 
     private fun getCompanyAddress() {
@@ -134,7 +141,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         }
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SetTextI18n")
     private fun showFigeaterDialog() {
         dialogFigeaterBottom = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
         val dialogView: View =

@@ -25,6 +25,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
  */
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
+    private var mFormId = ""
     override fun initView(savedInstanceState: Bundle?) {
 
     }
@@ -37,7 +38,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                     val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
                     val strData = Gson().toJson(aeSirParam)
                     val paramsBody =
-                        AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                        AESTool.encrypt1(strData, Constant.AES_KEY)
+                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                     mViewModel.aesculinAesirCallBack(paramsBody)
                 }
             }
@@ -54,7 +56,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 if (dataBody.isNotEmpty()) {
                     val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                     val gson = Gson()
-                    val aesirResponse: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
+                    val aesirResponse: AesirResponse? =
+                        gson.fromJson(mResponse, AesirResponse::class.java)
                     if (aesirResponse != null) {
                         if (aesirResponse.status == 1012) {
                             startActivity<LoginActivity>()
@@ -64,6 +67,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                             if (!aesirResponse.model!!.forms.isNullOrEmpty() || aesirResponse.model!!.forms.size != 0) {
                                 aesirResponse.model!!.forms.forEachIndexed { index, formsData ->
                                     formType = aesirResponse.model!!.forms[0].formType
+                                    mFormId = aesirResponse.model!!.forms[0].formId
                                 }
                             }
                         }
@@ -76,7 +80,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                     }
 
                     "BASIC" -> {//基础信息
-                        nav().navigateAction(R.id.action_to_fragment_basic_info)
+                        nav().navigateAction(R.id.action_to_fragment_basic_info, Bundle().apply {
+                            putString("mFormId", mFormId)
+                        })
                     }
 
                     "ALIVE" -> {//活体检测
