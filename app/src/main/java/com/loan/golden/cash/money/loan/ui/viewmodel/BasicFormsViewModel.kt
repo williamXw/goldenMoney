@@ -7,6 +7,7 @@ import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
 import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
+import com.loan.golden.cash.money.loan.data.response.FigeaterResponse
 import com.loan.golden.cash.money.loan.data.response.KaliResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import me.hgj.mvvmhelper.base.BaseViewModel
@@ -47,7 +48,7 @@ class BasicFormsViewModel : BaseViewModel() {
     }
 
     /** 获取地址信息 */
-    val figeaterResult = MutableLiveData<KaliResponse>()
+    val figeaterResult = MutableLiveData<FigeaterResponse>()
     fun getFigeaterCallBack(body: RequestBody): MutableLiveData<Response>? {
         return rxHttpRequestCallBack {
             onRequest = {
@@ -58,7 +59,7 @@ class BasicFormsViewModel : BaseViewModel() {
                         if (mBody.isNotEmpty()) {
                             val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
                             val gson = Gson()
-                            val mData: KaliResponse = gson.fromJson(mResponse, KaliResponse::class.java)
+                            val mData: FigeaterResponse = gson.fromJson(mResponse, FigeaterResponse::class.java)
                             figeaterResult.value = mData
                         }
                     }

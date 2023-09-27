@@ -21,6 +21,7 @@ import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.FigeaterParam
 import com.loan.golden.cash.money.loan.databinding.FragmentBasicInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
+import com.loan.golden.cash.money.loan.ui.adapter.FigeaterAdapter
 import com.loan.golden.cash.money.loan.ui.adapter.OccupationAdapter
 import com.loan.golden.cash.money.loan.ui.adapter.OccupationAdapter2
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
@@ -42,8 +43,10 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     private var parentId = ""
 
     private lateinit var dialogBottom: BottomSheetDialog
+    private lateinit var dialogFigeaterBottom: BottomSheetDialog
     private val mAdapter: OccupationAdapter by lazy { OccupationAdapter(arrayListOf()) }
     private val mAdapter2: OccupationAdapter2 by lazy { OccupationAdapter2(arrayListOf()) }
+    private val mAdapterFigeater: FigeaterAdapter by lazy { FigeaterAdapter(arrayListOf()) }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Work information") {
@@ -76,6 +79,24 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     @SuppressLint("NotifyDataSetChanged")
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        mViewModel.figeaterResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                0 -> {
+                    showFigeaterDialog()
+                    mAdapterFigeater.setList(it.model)
+                    mAdapterFigeater.notifyDataSetChanged()
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+        }
+        /** 获取工作岗位信息 */
         mViewModel.kaliResponseResult.observe(viewLifecycleOwner) {
             when (it.status) {
                 1012 -> {
@@ -93,6 +114,30 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 }
             }
         }
+    }
+
+    @SuppressLint("MissingInflatedId")
+    private fun showFigeaterDialog() {
+        dialogFigeaterBottom = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
+        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
+        val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
+        swipeRecyclerView.run {
+            vertical()
+            divider {
+                //分割线颜色
+                setColor(getColorExt(R.color.colorBgGray_EBEBEB))
+                //分割线高度
+                setDivider(1)
+                //是否首尾都有分割线
+                includeVisible = false
+                //分割线方向
+                orientation = DividerOrientation.VERTICAL
+            }
+            adapter = mAdapterFigeater
+        }
+        dialogFigeaterBottom.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogFigeaterBottom.setContentView(dialogView)
+        dialogFigeaterBottom.show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
