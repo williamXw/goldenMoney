@@ -44,8 +44,10 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
 
     private lateinit var dialogBottom: BottomSheetDialog
     private lateinit var dialogFigeaterBottom: BottomSheetDialog
+    /** 选择工作类型 */
     private val mAdapter: OccupationAdapter by lazy { OccupationAdapter(arrayListOf()) }
     private val mAdapter2: OccupationAdapter2 by lazy { OccupationAdapter2(arrayListOf()) }
+    /** 选择省市区 */
     private val mAdapterFigeater: FigeaterAdapter by lazy { FigeaterAdapter(arrayListOf()) }
 
     override fun initView(savedInstanceState: Bundle?) {
