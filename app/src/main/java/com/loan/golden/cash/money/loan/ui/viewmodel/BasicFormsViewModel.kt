@@ -12,6 +12,7 @@ import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import me.hgj.mvvmhelper.base.BaseViewModel
 import me.hgj.mvvmhelper.ext.rxHttpRequestCallBack
 import me.hgj.mvvmhelper.net.LoadingType
+import okhttp3.RequestBody
 import okhttp3.Response
 
 /**
@@ -35,6 +36,30 @@ class BasicFormsViewModel : BaseViewModel() {
                             val gson = Gson()
                             val mData: KaliResponse = gson.fromJson(mResponse, KaliResponse::class.java)
                             kaliResponseResult.value = mData
+                        }
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.KALEYARD_KALI
+        }
+    }
+
+    /** 获取地址信息 */
+    val figeaterResult = MutableLiveData<KaliResponse>()
+    fun getFigeaterCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.getFigeater(body).await()
+                val mBody = response.body?.string()
+                if (response.code == 200) {
+                    if (mBody != null) {
+                        if (mBody.isNotEmpty()) {
+                            val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
+                            val gson = Gson()
+                            val mData: KaliResponse = gson.fromJson(mResponse, KaliResponse::class.java)
+                            figeaterResult.value = mData
                         }
                     }
                 }

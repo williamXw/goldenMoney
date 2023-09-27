@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp.20"
+            android:gravity="center"
+            android:text="Choose your profession"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp_18" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp.1"
+            android:layout_marginTop="@dimen/dp.15"
+            android:background="@color/colorPrimary" />
+
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/swipeRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp.15"
+            android:layout_marginBottom="@dimen/dp_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

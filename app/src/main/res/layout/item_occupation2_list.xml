@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.loan.golden.cash.money.loan.data.response.KaliResponse.ModelInfo.ChildrenBean" />
+
+        <import type="com.loan.golden.cash.money.loan.app.util.SettingUtil" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp.45"
+            android:gravity="center"
+            android:text="@{SettingUtil.INSTANCE.cns(data.name)}"
+            android:textSize="@dimen/sp_17"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

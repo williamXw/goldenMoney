@@ -24,13 +24,13 @@ class MyLoanFragment : BaseFragment<MineViewModel, FragmentMyLoanBinding>() {
 
     private fun initViewPager() {
         val orderIndex = arguments?.getInt("orderIndex", 0)
-        val tab1 = mBind.tabLayout.newTab().setText("ALL")
+        val tab1 = mBind.tabLayout.newTab().setText("All")
         mBind.tabLayout.addTab(tab1)
         val tab2 = mBind.tabLayout.newTab().setText("Success")
         mBind.tabLayout.addTab(tab2)
-        val tab3 = mBind.tabLayout.newTab().setText("overdue")
+        val tab3 = mBind.tabLayout.newTab().setText("Overdue")
         mBind.tabLayout.addTab(tab3)
-        val tab4 = mBind.tabLayout.newTab().setText("finish")
+        val tab4 = mBind.tabLayout.newTab().setText("Finish")
         mBind.tabLayout.addTab(tab4)
 
         mBind.tabLayout.addOnTabSelectedListener(object : TabLayout.BaseOnTabSelectedListener<TabLayout.Tab> {

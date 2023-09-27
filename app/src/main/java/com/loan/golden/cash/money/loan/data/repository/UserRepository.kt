@@ -61,5 +61,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.KALEYARD_KALI).setBody("").toOkResponse()
     }
 
+    /** 获取地址信息 */
+    fun getFigeater(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.FIGEATER).setBody(body).toOkResponse()
+    }
+
 }
 

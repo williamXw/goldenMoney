@@ -1,23 +1,36 @@
 package com.loan.golden.cash.money.loan.ui.fragment.forms
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
+import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
-import com.loan.golden.cash.money.loan.data.response.KaliResponse
+import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.FigeaterParam
 import com.loan.golden.cash.money.loan.databinding.FragmentBasicInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
+import com.loan.golden.cash.money.loan.ui.adapter.OccupationAdapter
+import com.loan.golden.cash.money.loan.ui.adapter.OccupationAdapter2
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
+import com.yanzhenjie.recyclerview.SwipeRecyclerView
+import me.hgj.mvvmhelper.ext.divider
+import me.hgj.mvvmhelper.ext.getColorExt
+import me.hgj.mvvmhelper.ext.vertical
+import me.hgj.mvvmhelper.util.decoration.DividerOrientation
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 /**
  *  author : huxiaowei
@@ -26,8 +39,11 @@ import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
  */
 class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBinding>() {
 
-    private lateinit var dialogBottom1: BottomSheetDialog
-    private lateinit var dialogBottom2: BottomSheetDialog
+    private var parentId = ""
+
+    private lateinit var dialogBottom: BottomSheetDialog
+    private val mAdapter: OccupationAdapter by lazy { OccupationAdapter(arrayListOf()) }
+    private val mAdapter2: OccupationAdapter2 by lazy { OccupationAdapter2(arrayListOf()) }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Work information") {
@@ -37,7 +53,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.llWorkInfoOccupation, mBind.tvBasicInfoSubmit) {
+        setOnclickNoRepeat(mBind.llWorkInfoOccupation, mBind.tvBasicInfoSubmit, mBind.llWorkInfoCompanyAddress) {
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
                     nav().navigateAction(R.id.action_to_fragment_personal_information)
@@ -46,10 +62,18 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 mBind.llWorkInfoOccupation -> {
                     mViewModel.kaliCallBack()
                 }
+
+                mBind.llWorkInfoCompanyAddress -> {
+                    val body = FigeaterParam(parentId)
+                    val gsonData = Gson().toJson(body)
+                    val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                    mViewModel.getFigeaterCallBack(paramsBody)
+                }
             }
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onRequestSuccess() {
         super.onRequestSuccess()
         mViewModel.kaliResponseResult.observe(viewLifecycleOwner) {
@@ -59,7 +83,9 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 }
 
                 0 -> {
-                    showOccupationDialog(it)
+                    showOccupationDialog(1)
+                    mAdapter.setList(it.model)
+                    mAdapter.notifyDataSetChanged()
                 }
 
                 else -> {
@@ -69,12 +95,47 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         }
     }
 
-    private fun showOccupationDialog(it: KaliResponse) {
-        dialogBottom1 = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
+    @SuppressLint("NotifyDataSetChanged")
+    private fun showOccupationDialog(it: Int) {
+        dialogBottom = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
         val dialogView: View = LayoutInflater.from(context).inflate(R.layout.bottom_occupation, null)
+        val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
+        swipeRecyclerView.run {
+            vertical()
+            divider {
+                //分割线颜色
+                setColor(getColorExt(R.color.colorBgGray_EBEBEB))
+                //分割线高度
+                setDivider(1)
+                //是否首尾都有分割线
+                includeVisible = false
+                //分割线方向
+                orientation = DividerOrientation.VERTICAL
+            }
+            //设置适配器
+            when (it) {
+                1 -> {
+                    adapter = mAdapter
+                }
 
-        dialogBottom1.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogBottom1.setContentView(dialogView)
-        dialogBottom1.show()
+                2 -> {
+                    adapter = mAdapter2
+                }
+            }
+        }
+        mAdapter.setOnItemClickListener { _, _, position ->
+            dialogBottom.dismiss()
+            showOccupationDialog(2)
+            mAdapter2.setList(mAdapter.data[position].children)
+            mAdapter2.notifyDataSetChanged()
+        }
+        mAdapter2.setOnItemClickListener { _, _, position ->
+            mBind.tvWorkInformationOccupation.text = mAdapter2.data[position].name
+            dialogBottom.dismiss()
+        }
+        dialogBottom.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogBottom.setContentView(dialogView)
+        dialogBottom.show()
     }
+
 }

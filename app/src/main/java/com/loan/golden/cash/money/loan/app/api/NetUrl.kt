@@ -39,4 +39,7 @@ object NetUrl {
     /** 获取工作岗位信息 */
     const val KALEYARD_KALI = "/garboard_garboil_garbologist/kaleyard_kali"
 
+    /** 获取地址信息 */
+    const val FIGEATER = "/grew_grewsome_grey/figeater"
+
 }
