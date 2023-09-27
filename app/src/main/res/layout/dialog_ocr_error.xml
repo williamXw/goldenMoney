@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp.20"
+        android:layout_marginEnd="@dimen/dp.20"
+        android:background="@drawable/round_white_bg_11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSuccessImage"
+            android:layout_width="135dp"
+            android:layout_height="103dp"
+            android:layout_marginTop="@dimen/dp_40"
+            android:src="@mipmap/icon_success_ocr_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvErrorExample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp.25"
+            android:gravity="center"
+            android:text="Error example"
+            android:textColor="#5B5B5B"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/ivSuccessImage" />
+
+        <LinearLayout
+            android:id="@+id/llError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.15"
+            android:layout_marginTop="@dimen/dp.20"
+            android:layout_marginEnd="@dimen/dp.15"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvErrorExample">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="78dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="@dimen/dp.12"
+                android:src="@mipmap/icon_error_ocr_image1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="78dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="@dimen/dp.12"
+                android:layout_marginEnd="12dp"
+                android:src="@mipmap/icon_error_ocr_image2" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="78dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="@dimen/dp.12"
+                android:src="@mipmap/icon_error_ocr_image3" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOcrErrorDialogContinue"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp.50"
+            android:layout_marginStart="@dimen/dp.15"
+            android:layout_marginTop="@dimen/dp.30"
+            android:layout_marginEnd="@dimen/dp.15"
+            android:layout_marginBottom="@dimen/dp.30"
+            android:background="@drawable/btn_gradient_25dp"
+            android:gravity="center"
+            android:text="Continue"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llError" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,15 +2,17 @@ package com.loan.golden.cash.money.loan.ui.fragment.ocr
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import androidx.core.content.ContextCompat
-import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.loan.golden.cash.money.loan.R
+import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.permissions.PermissionInterceptor
-import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.GlideEngine
 import com.loan.golden.cash.money.loan.app.util.ImageLoaderManager
 import com.loan.golden.cash.money.loan.app.util.ImgUtils
@@ -22,15 +24,10 @@ import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
-import com.loan.golden.cash.money.loan.data.param.AesirParam
-import com.loan.golden.cash.money.loan.data.param.CarPologyParam
-import com.loan.golden.cash.money.loan.data.param.DiamantiferousParam
-import com.loan.golden.cash.money.loan.data.response.AesirResponse
-import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
 import com.loan.golden.cash.money.loan.data.response.OCRDetailResponse
-import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentOrcInspectionBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
+import com.loan.golden.cash.money.loan.ui.dialog.RxOcrErrorDialog
 import com.loan.golden.cash.money.loan.ui.viewmodel.ORCViewModel
 import com.luck.picture.lib.basic.PictureSelectionModel
 import com.luck.picture.lib.basic.PictureSelector
@@ -40,9 +37,12 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.language.LanguageConfig
 import com.luck.picture.lib.style.PictureSelectorStyle
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
+import me.hgj.mvvmhelper.ext.showDialogMessage
+import me.hgj.mvvmhelper.net.LoadStatusEntity
+import org.jetbrains.anko.startActivity
 import org.json.JSONObject
+import java.io.File
+import java.lang.ref.WeakReference
 
 /**
  * @Author      : hxw
@@ -61,9 +61,38 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
     private var mIdCard: String = ""
     private var mRealName: String = ""
     private var mTaxRegNumber: String = ""
-    private var mCardType: String = ""
     private var mBirthDay: String = ""
     private var mPinCode: String = ""
+
+    private val mHandler = MyHandler(WeakReference(this))
+
+    private class MyHandler(val wrActivity: WeakReference<ORCInspectionFragment>) : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            wrActivity.get()?.run {
+                when (msg.what) {
+                    WHAT -> {
+                        mViewModel.streamStreambedCallBack(
+                            msg.obj as File,
+                            upLoadType,
+                            context!!,
+                            mBind.ivORCAadhaarFront,
+                            mBind.ivORCAadhaarBack,
+                            mBind.ivORCAadhaarPanFront
+                        )
+                    }
+
+                    else -> {
+
+                    }
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val WHAT = 100
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("ORC Inspection") {
@@ -164,10 +193,14 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 /** 方案2：压缩图片后上传 */
                 val bitmap = BitmapFactory.decodeFile(mRealPath)
                 /** 循环压缩图片 耗时任务  在子线程中运行 */
+
                 Thread {
                     val bitmapCompress = ImgUtils.compressByQuality(bitmap, 100)
                     val fileCompress = ImgUtils.saveBitmapFile(bitmapCompress)
-                    mViewModel.streamStreambedCallBack(fileCompress)
+                    mHandler.sendMessageDelayed(Message.obtain().apply {
+                        what = WHAT
+                        obj = fileCompress
+                    }, 300)
                 }.start()
             }
 
@@ -177,126 +210,48 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
 
     override fun onRequestSuccess() {
         super.onRequestSuccess()
-        mViewModel.ocrUpLoadResult.observe(viewLifecycleOwner) {
-            if (it.code == 200) {
-                var dataBody = it.body!!.string()
-                if (dataBody.startsWith('"')) {
-                    dataBody = dataBody.substring(1, dataBody.length)
+        mViewModel.diamanResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
                 }
-                if (dataBody.endsWith('"')) {
-                    dataBody = dataBody.substring(0, dataBody.length - 1)
-                }
-                if (dataBody.startsWith('"') && dataBody.endsWith('"')) {
-                    dataBody = dataBody.substring(1, dataBody.length - 1)
-                }
-                if (dataBody.isEmpty()) {
-                    RxToast.showToast("data is empty")
-                    return@observe
-                }
-                val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
-                val gson = Gson()
-                val ocrData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
-                if (ocrData.status == 0) {
-                    if (ocrData.model != null) {
-                        when (upLoadType) {
-                            1 -> {
-                                mCardType = "FRONT"
-                                mIdCardImageFront = ocrData.model.ossUrl
-                                diamantiferous(mIdCardImageFront, "FRONT")
-                                isUpLoadSuccess1 = true
-                                ImageLoaderManager.loadRoundImage(
-                                    context,
-                                    mIdCardImageFront,
-                                    mBind.ivORCAadhaarFront,
-                                    12
-                                )
-                            }
 
-                            2 -> {
-                                mCardType = "BACK"
-                                mIdCardImageBack = ocrData.model.ossUrl
-                                diamantiferous(mIdCardImageBack, "BACK")
-                                isUpLoadSuccess2 = true
-                                ImageLoaderManager.loadRoundImage(
-                                    context,
-                                    mIdCardImageBack,
-                                    mBind.ivORCAadhaarBack,
-                                    12
-                                )
+                0 -> {
+                    when (upLoadType) {
+                        1 -> {
+                            mIdCard = it.model!!.idCard
+                            mRealName = it.model.realName
+                            val result = it.model.birthDay.toString()
+                            if (result.isNotEmpty() && result.startsWith("-")) {
+                                mBirthDay = result.substring(1, result.length)
                             }
+                            isUpLoadSuccess1 = true
+                        }
 
-                            3 -> {
-                                mCardType = "PAN"
-                                mIdCardImagePan = ocrData.model.ossUrl
-                                diamantiferous(mIdCardImagePan, "PAN")
-                                isUpLoadSuccess3 = true
-                                ImageLoaderManager.loadRoundImage(
-                                    context,
-                                    mIdCardImagePan,
-                                    mBind.ivORCAadhaarPanFront,
-                                    12
-                                )
-                            }
+                        2 -> {
+                            mPinCode = it.model!!.pinCode
+                            isUpLoadSuccess2 = true
+                        }
+
+                        3 -> {
+                            mTaxRegNumber = it.model!!.taxRegNumber
+                            isUpLoadSuccess3 = true
                         }
                     }
-                } else {
-                    val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                    RxToast.showToast(msg)
+                    RxToast.showToast("Upload successful")
                 }
-            }
-        }
-        mViewModel.diamantiferousResult.observe(viewLifecycleOwner) {
-            if (it.code == 200) {
-                val dataBody = it.body!!.string()
-                if (dataBody.isNotEmpty()) {
-                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
-                    val gson = Gson()
-                    val mData: DiamantiferousResponse = gson.fromJson(mResponse, DiamantiferousResponse::class.java)
-                    try {
-                        if (mData.status == 1012) {
-                            startActivity<LoginActivity>()
-                            return@observe
-                        }
-                        if (mData.status == 0) {
-                            if (mCardType == "FRONT") {
-                                mIdCard = mData.model!!.idCard
-                                mRealName = mData.model.realName
-                                val result = mData.model.birthDay.toString()
-                                if (result.isNotEmpty() && result.startsWith("-")) {
-                                    mBirthDay = result.substring(1, result.length)
-                                }
-                            }
-                            if (mCardType == "BACK") {
-                                mPinCode = mData.model!!.pinCode
-                            }
-                            if (mCardType == "PAN") {
-                                mTaxRegNumber = mData.model!!.taxRegNumber
-                            }
-                            RxToast.showToast("upLoad Success")
-                        } else {
-                            val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                            RxToast.showToast(msg)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                    showOCRErrorDialog()
                 }
             }
         }
     }
 
-    /** 证件识别 */
-    private fun diamantiferous(url: String, cardType: String) {
-        val body = DiamantiferousParam(
-            DiamantiferousParam.Model(
-                url = url,
-                cardType = cardType
-            )
-        )
-        val strData = Gson().toJson(body)
-        val paramsBody =
-            AESTool.encrypt1(strData, Constant.AES_KEY)
-                .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-        mViewModel.diamantiferousCallBack(paramsBody)
+    private fun showOCRErrorDialog() {
+        val dialog = RxOcrErrorDialog(context)
+        dialog.setFullScreenWidth()
+        dialog.show()
     }
 }
