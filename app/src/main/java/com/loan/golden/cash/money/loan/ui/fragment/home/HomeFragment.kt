@@ -12,7 +12,6 @@ import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.response.AesirResponse
-import com.loan.golden.cash.money.loan.data.response.LoginResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentHomeBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.viewmodel.HomeViewModel
@@ -47,6 +46,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        /** 获取一个未完成的表单 */
         mViewModel.aesculinAesirResult.observe(viewLifecycleOwner) {
             if (it.code == 200) {
                 var formType = ""

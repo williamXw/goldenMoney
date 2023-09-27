@@ -41,12 +41,18 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBinding>() {
 
     private var parentId = ""
+    private var province = ""
+    private var city = ""
+    private var area = ""
+    private var town = ""
 
     private lateinit var dialogBottom: BottomSheetDialog
     private lateinit var dialogFigeaterBottom: BottomSheetDialog
+
     /** 选择工作类型 */
     private val mAdapter: OccupationAdapter by lazy { OccupationAdapter(arrayListOf()) }
     private val mAdapter2: OccupationAdapter2 by lazy { OccupationAdapter2(arrayListOf()) }
+
     /** 选择省市区 */
     private val mAdapterFigeater: FigeaterAdapter by lazy { FigeaterAdapter(arrayListOf()) }
 
@@ -58,7 +64,11 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.llWorkInfoOccupation, mBind.tvBasicInfoSubmit, mBind.llWorkInfoCompanyAddress) {
+        setOnclickNoRepeat(
+            mBind.llWorkInfoOccupation,
+            mBind.tvBasicInfoSubmit,
+            mBind.llWorkInfoCompanyAddress
+        ) {
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
                     nav().navigateAction(R.id.action_to_fragment_personal_information)
@@ -69,13 +79,19 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 }
 
                 mBind.llWorkInfoCompanyAddress -> {
-                    val body = FigeaterParam(parentId)
-                    val gsonData = Gson().toJson(body)
-                    val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                    mViewModel.getFigeaterCallBack(paramsBody)
+                    parentId = ""
+                    getCompanyAddress()
                 }
             }
         }
+    }
+
+    private fun getCompanyAddress() {
+        val body = FigeaterParam(parentId)
+        val gsonData = Gson().toJson(body)
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY)
+            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        mViewModel.getFigeaterCallBack(paramsBody)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -121,7 +137,8 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     @SuppressLint("MissingInflatedId")
     private fun showFigeaterDialog() {
         dialogFigeaterBottom = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
-        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
+        val dialogView: View =
+            LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
         val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
         swipeRecyclerView.run {
             vertical()
@@ -137,6 +154,38 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
             }
             adapter = mAdapterFigeater
         }
+        mAdapterFigeater.setOnItemClickListener { _, _, position ->
+            val mType = mAdapterFigeater.data[position].type
+            when (mType) {
+                "PROVINCES" -> {
+                    province = mAdapterFigeater.data[position].name
+                }
+
+                "REGENCIES" -> {
+                    city = mAdapterFigeater.data[position].name
+                }
+
+                "DISTRICTS" -> {
+                    area = mAdapterFigeater.data[position].name
+                }
+
+                "VILLAGES" -> {
+                    town = mAdapterFigeater.data[position].name
+                }
+            }
+            if (mAdapterFigeater.data[position].haveChild) {
+                dialogFigeaterBottom.dismiss()
+                parentId = if (mType == "PROVINCES") {
+                    mAdapterFigeater.data[position].id
+                } else {
+                    mAdapterFigeater.data[position].parentId
+                }
+                getCompanyAddress()
+            } else {
+                dialogFigeaterBottom.dismiss()
+                mBind.tvWorkInformationCompanyAddress.text = "$province $city $area $town"
+            }
+        }
         dialogFigeaterBottom.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogFigeaterBottom.setContentView(dialogView)
         dialogFigeaterBottom.show()
@@ -145,7 +194,8 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     @SuppressLint("NotifyDataSetChanged")
     private fun showOccupationDialog(it: Int) {
         dialogBottom = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
-        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.bottom_occupation, null)
+        val dialogView: View =
+            LayoutInflater.from(context).inflate(R.layout.bottom_occupation, null)
         val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
         swipeRecyclerView.run {
             vertical()

@@ -31,6 +31,7 @@ class FigeaterResponse(
         var created: Long = 0,
         var modified: Long = 0,
         var countryId: String = "",
+        var parentId: String = "",
         var type: String = "",//PROVINCES-省、REGENCIES-市、DISTRICTS-区、VILLAGES-村镇
         var name: String = "",
         var haveChild: Boolean = false,
