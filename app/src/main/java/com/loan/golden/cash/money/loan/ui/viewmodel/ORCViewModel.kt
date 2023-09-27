@@ -7,9 +7,12 @@ import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.ImageLoaderManager
 import com.loan.golden.cash.money.loan.app.util.RxToast
+import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.param.DiamantiferousParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
+import com.loan.golden.cash.money.loan.data.response.AesirResponse
 import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
@@ -77,7 +80,6 @@ class ORCViewModel : BaseViewModel() {
             onRequest = {
                 val upLoadPic = UserRepository.streamStreambed(requestBody).await()
                 val dataBody = upLoadPic.body?.string()
-                "打印一下upLoadPic的数据${dataBody}".logI()
                 if (upLoadPic.code == 200) {
                     if (dataBody != null) {
                         if (dataBody.isNotEmpty()) {
@@ -142,28 +144,52 @@ class ORCViewModel : BaseViewModel() {
     }
 
     /** 提交用户信息 */
-    var carpologyResult = MutableLiveData<Response>()
-    fun carpologyCallBack(body: RequestBody): MutableLiveData<Response>? {
-        return rxHttpRequestCallBack {
+    /** 获取一个未完成的表单  */
+    var aesirResult = MutableLiveData<AesirResponse>()
+    fun carpologyCallBack(body: RequestBody, mContext: Context) {
+        rxHttpRequest {
             onRequest = {
-                carpologyResult.value = UserRepository.carpologistCarpology(body).await()
+                val response = UserRepository.carpologistCarpology(body).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
+                        if (mData != null) {
+                            when (mData.status) {
+                                1012 -> {
+                                    mContext.startActivity<LoginActivity>()
+                                }
+
+                                0 -> {
+                                    val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
+                                    val strData = Gson().toJson(aeSirParam)
+                                    val paramsBody =
+                                        AESTool.encrypt1(strData, Constant.AES_KEY)
+                                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                                    val aesirResponse = UserRepository.aesculinAesir(paramsBody).await()
+                                    val aesirBody = aesirResponse.body!!.string()
+                                    if (aesirBody.isNotEmpty()) {
+                                        val aesirResponse = AESTool.decrypt(aesirBody, Constant.AES_KEY)
+                                        val gson = Gson()
+                                        val aesirData: AesirResponse? = gson.fromJson(aesirResponse, AesirResponse::class.java)
+                                        aesirResult.value = aesirData!!
+                                    }
+                                }
+
+                                else -> {
+                                    val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                                    RxToast.showToast(msg)
+                                }
+                            }
+                        }
+                    }
+                }
             }
             loadingType = LoadingType.LOADING_DIALOG
             loadingMessage = "loading....."
             requestCode = NetUrl.CARPOLOGIST_CARPOLOGY
-        }
-    }
-
-    /** 获取一个未完成的表单 */
-    var aesculinAesirResult = MutableLiveData<Response>()
-    fun aesculinAesirCallBack(body: RequestBody): MutableLiveData<Response>? {
-        return rxHttpRequestCallBack {
-            onRequest = {
-                aesculinAesirResult.value = UserRepository.aesculinAesir(body).await()
-            }
-            loadingType = LoadingType.LOADING_DIALOG
-            loadingMessage = "loading....."
-            requestCode = NetUrl.AESCULAPIUS_AESCULIN_AESIR
         }
     }
 

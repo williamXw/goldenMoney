@@ -181,13 +181,8 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvOCRDetailSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp.56"
-            android:background="#4470EC"
-            android:gravity="center"
+            style="@style/tv_bottom_btn_style"
             android:text="SUBMIT"
-            android:textColor="@color/colorWhite"
-            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
