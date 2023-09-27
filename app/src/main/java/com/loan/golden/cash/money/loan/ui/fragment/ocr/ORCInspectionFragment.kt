@@ -9,12 +9,10 @@ import androidx.core.content.ContextCompat
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.loan.golden.cash.money.loan.R
-import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.permissions.PermissionInterceptor
 import com.loan.golden.cash.money.loan.app.util.GlideEngine
-import com.loan.golden.cash.money.loan.app.util.ImageLoaderManager
 import com.loan.golden.cash.money.loan.app.util.ImgUtils
 import com.loan.golden.cash.money.loan.app.util.PictureUtil
 import com.loan.golden.cash.money.loan.app.util.RxTextTool
@@ -37,10 +35,6 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.language.LanguageConfig
 import com.luck.picture.lib.style.PictureSelectorStyle
-import me.hgj.mvvmhelper.ext.showDialogMessage
-import me.hgj.mvvmhelper.net.LoadStatusEntity
-import org.jetbrains.anko.startActivity
-import org.json.JSONObject
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -210,6 +204,23 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
 
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        /** 上传文件 */
+        mViewModel.ocrImageResult.observe(viewLifecycleOwner) {
+            when (upLoadType) {
+                1 -> {
+                    mIdCardImageFront = it.model!!.ossUrl
+                }
+
+                2 -> {
+                    mIdCardImageBack = it.model!!.ossUrl
+                }
+
+                3 -> {
+                    mIdCardImagePan = it.model!!.ossUrl
+                }
+            }
+        }
+        /** 证件识别 */
         mViewModel.diamanResult.observe(viewLifecycleOwner) {
             when (it.status) {
                 1012 -> {

@@ -6,7 +6,6 @@ import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
-import com.loan.golden.cash.money.loan.app.util.DatetimeUtil
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.navigateAction
@@ -58,9 +57,7 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
                         )
                     )
                     val strData = Gson().toJson(carParam)
-                    val paramsBody =
-                        AESTool.encrypt1(strData, Constant.AES_KEY)
-                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                    val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                     mViewModel.carpologyCallBack(paramsBody)
                 }
             }

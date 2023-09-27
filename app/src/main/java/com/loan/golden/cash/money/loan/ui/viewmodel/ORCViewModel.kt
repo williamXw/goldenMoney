@@ -39,6 +39,8 @@ class ORCViewModel : BaseViewModel() {
     private var imageUrl: String = ""
 
     /** 上传文件2 (串行 请求 写法) */
+    var ocrImageResult = MutableLiveData<OCRResponse>()
+
     /** 证件识别 */
     var diamanResult = MutableLiveData<DiamantiferousResponse>()
     fun streamStreambedCallBack(
@@ -82,15 +84,22 @@ class ORCViewModel : BaseViewModel() {
                             val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                             val gson = Gson()
                             val ocrData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
-                            if (ocrData.status == 1012) {
-                                mContext.startActivity<LoginActivity>()
-                            } else if (ocrData.status == 0) {
-                                if (ocrData.model != null) {
-                                    imageUrl = ocrData.model.ossUrl
+                            when (ocrData.status) {
+                                1012 -> {
+                                    mContext.startActivity<LoginActivity>()
                                 }
-                            } else {
-                                val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                                RxToast.showToast(msg)
+
+                                0 -> {
+                                    if (ocrData.model != null) {
+                                        imageUrl = ocrData.model.ossUrl
+                                    }
+                                    ocrImageResult.value = ocrData
+                                }
+
+                                else -> {
+                                    val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                                    RxToast.showToast(msg)
+                                }
                             }
                         }
                     }
