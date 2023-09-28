@@ -70,7 +70,7 @@
                             android:textColor="#828282"
                             android:textSize="@dimen/sp_12" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPersonalInfoEducation"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -91,7 +91,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/llPersonalInfoPhone"
+                        android:id="@+id/llPersonalInfoGender"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp.45"
                         android:layout_marginTop="@dimen/dp.15"
@@ -108,7 +108,7 @@
                             android:textColor="#828282"
                             android:textSize="@dimen/sp_12" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPersonalInfoPhone"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -146,7 +146,7 @@
                             android:textColor="#828282"
                             android:textSize="@dimen/sp_12" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPersonalInfoMaritalStatus"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -163,6 +163,219 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/icon_arrow_right_black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPersonalInfoChildrenCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp.45"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:background="#F6F9FF"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/dp.13"
+                        android:paddingEnd="@dimen/dp.13">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Children count"
+                            android:textColor="#828282"
+                            android:textSize="@dimen/sp_12" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPersonalInfoChildrenCount"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/dp.15"
+                            android:layout_marginEnd="@dimen/dp.6"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="end|center_vertical"
+                            android:hint=""
+                            android:textColorHint="#D0D0D0"
+                            android:textSize="@dimen/sp_11" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/icon_arrow_right_black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPersonalInfoCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp.45"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:background="#F6F9FF"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/dp.13"
+                        android:paddingEnd="@dimen/dp.13">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Postal code"
+                            android:textColor="#828282"
+                            android:textSize="@dimen/sp_12" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/etPersonalInfoCode"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/dp.15"
+                            android:layout_marginEnd="@dimen/dp.6"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="end|center_vertical"
+                            android:hint="please enter Postal code"
+                            android:textColorHint="#D0D0D0"
+                            android:textSize="@dimen/sp_11" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPersonalInfoResidence"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp.45"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:background="#F6F9FF"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/dp.13"
+                        android:paddingEnd="@dimen/dp.13">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Residence"
+                            android:textColor="#828282"
+                            android:textSize="@dimen/sp_12" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPersonalInfoResidence"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/dp.15"
+                            android:layout_marginEnd="@dimen/dp.6"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="end|center_vertical"
+                            android:hint=""
+                            android:textColorHint="#D0D0D0"
+                            android:textSize="@dimen/sp_11" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/icon_arrow_right_black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPersonalInfoAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp.45"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:background="#F6F9FF"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/dp.13"
+                        android:paddingEnd="@dimen/dp.13">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Address"
+                            android:textColor="#828282"
+                            android:textSize="@dimen/sp_12" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPersonalInfoAddress"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/dp.15"
+                            android:layout_marginEnd="@dimen/dp.6"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="end|center_vertical"
+                            android:hint=""
+                            android:textColorHint="#D0D0D0"
+                            android:textSize="@dimen/sp_11" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/icon_arrow_right_black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPersonalInfoAddressDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp.45"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:background="#F6F9FF"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/dp.13"
+                        android:paddingEnd="@dimen/dp.13">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Address Details"
+                            android:textColor="#828282"
+                            android:textSize="@dimen/sp_12" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/etPersonalAddressDetails"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/dp.15"
+                            android:layout_marginEnd="@dimen/dp.6"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="end|center_vertical"
+                            android:hint="please enter Address Details"
+                            android:textColorHint="#D0D0D0"
+                            android:textSize="@dimen/sp_11" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPersonalInfoEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp.45"
+                        android:layout_marginTop="@dimen/dp.15"
+                        android:background="#F6F9FF"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/dp.13"
+                        android:paddingEnd="@dimen/dp.13">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Email"
+                            android:textColor="#828282"
+                            android:textSize="@dimen/sp_12" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/etPersonalInfoEmail"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/dp.15"
+                            android:layout_marginEnd="@dimen/dp.6"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="end|center_vertical"
+                            android:hint="please enter Email"
+                            android:textColorHint="#D0D0D0"
+                            android:textSize="@dimen/sp_11" />
 
                     </LinearLayout>
 

@@ -95,6 +95,7 @@ dependencies {
     implementation project(path: ':ucrop')
     implementation project(path: ':compress')
     implementation project(path: ':camera')
+    implementation project(path: ':wheel')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
