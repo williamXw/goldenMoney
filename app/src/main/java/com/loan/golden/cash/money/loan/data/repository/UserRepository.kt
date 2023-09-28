@@ -66,5 +66,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.FIGEATER).setBody(body).toOkResponse()
     }
 
+    /** 提交表单 */
+    fun lustrationLustre(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.LUSTRATION_LUSTRE).setBody(body).toOkResponse()
+    }
+
 }
 

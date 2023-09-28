@@ -42,4 +42,7 @@ object NetUrl {
     /** 获取地址信息 */
     const val FIGEATER = "/grew_grewsome_grey/figeater"
 
+    /** 提交表单 */
+    const val LUSTRATION_LUSTRE = "/cramped_crampfish/affixture/lustration_lustre"
+
 }

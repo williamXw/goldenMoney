@@ -19,6 +19,8 @@ import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.FigeaterParam
+import com.loan.golden.cash.money.loan.data.param.LustreParam
+import com.loan.golden.cash.money.loan.data.param.WorkParam
 import com.loan.golden.cash.money.loan.databinding.FragmentBasicInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.adapter.FigeaterAdapter
@@ -46,6 +48,8 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     private var area = ""
     private var town = ""
     private var mFormId = ""
+    private var mProfession = ""//行业
+    private var mWorkType = ""
 
     private lateinit var dialogBottom: BottomSheetDialog
     private lateinit var dialogFigeaterBottom: BottomSheetDialog
@@ -74,7 +78,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
                     submitFormsData()
-                    nav().navigateAction(R.id.action_to_fragment_personal_information)
+//                    nav().navigateAction(R.id.action_to_fragment_personal_information)
                 }
 
                 mBind.llWorkInfoOccupation -> {
@@ -90,7 +94,47 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     }
 
     private fun submitFormsData() {
-
+        when {
+            mBind.tvWorkInformationOccupation.text.toString().trim().isEmpty() -> RxToast.showToast("Please select your industry")
+            mBind.etWorkInfoMonthIncome.text.toString().trim().isEmpty() -> RxToast.showToast("Please fill in your income")
+            mBind.etWorkInfoCompanyName.text.toString().trim().isEmpty() -> RxToast.showToast("Please fill in your company name")
+            mBind.tvWorkInformationCompanyAddress.text.toString().trim().isEmpty() -> RxToast.showToast("Please select a company address")
+            mBind.etWorkInfoDetailAddress.text.toString().trim().isEmpty() -> RxToast.showToast("Please enter the company's detailed address")
+            mBind.etWorkInfoCompanyPinCode.text.toString().trim().isEmpty() -> RxToast.showToast("please enter Company PinCode")
+            else -> {
+                val work = WorkParam(
+                    WorkParam.Model(
+                        formId = mFormId,
+                        submitData = WorkParam.Model.SubmitData(
+                            professionInfo = WorkParam.Model.SubmitData.ProfessionInfo(
+                                workType = mWorkType,
+                                profession = mProfession
+                            ),
+                            monthIncome = mBind.etWorkInfoMonthIncome.text.toString().toInt(),
+                            company = mBind.etWorkInfoCompanyName.text.toString().trim(),
+                            companyAddress = WorkParam.Model.SubmitData.CompanyAddress(
+                                bigAddress = WorkParam.Model.SubmitData.CompanyAddress.BigAddress(
+                                    province = province,
+                                    city = city
+                                ),
+                                detailAddress = mBind.etWorkInfoDetailAddress.text.toString().trim()
+                            ),
+                            companyPinCode = mBind.etWorkInfoCompanyPinCode.text.toString().trim()
+                        )
+                    )
+                )
+                val body = LustreParam(
+                    LustreParam.Model(
+                        formId = mFormId,
+                        submitData = work
+                    )
+                )
+                val gsonData = Gson().toJson(body)
+                val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY)
+                    .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                mViewModel.lustrationLustreCallBack(paramsBody)
+            }
+        }
     }
 
     private fun getCompanyAddress() {
@@ -104,6 +148,59 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     @SuppressLint("NotifyDataSetChanged")
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        /** 获取未完成的表单 */
+        mViewModel.aesirResult.observe(viewLifecycleOwner) {
+            var formType = ""
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                0 -> {
+                    if (it.model != null) {
+                        if (!it.model!!.forms.isNullOrEmpty() || it.model!!.forms.size != 0) {
+                            it.model!!.forms.forEachIndexed { index, formsData ->
+                                formType = it.model!!.forms[0].formType
+                            }
+                        }
+                    }
+                    when (formType) {
+                        "OCR" -> {//证件识别
+                            nav().navigateAction(R.id.action_to_fragment_orc_inspection)
+                        }
+
+                        "BASIC" -> {//基础信息
+                            nav().navigateAction(R.id.action_to_fragment_basic_info, Bundle().apply {
+                                putString("mFormId", mFormId)
+                            })
+                        }
+
+                        "ALIVE" -> {//活体检测
+
+                        }
+
+                        "ALIVE_H5" -> {//活体检测H5
+
+                        }
+                    }
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+        }
+        /** 提交表单 */
+        mViewModel.lustreResult.observe(viewLifecycleOwner) {
+            if (it.status == 1012) {
+                startActivity<LoginActivity>()
+                return@observe
+            }
+            if (it.status != 0) {
+                RxToast.showToast(it.message)
+            }
+        }
+        /** 获取地址信息 */
         mViewModel.figeaterResult.observe(viewLifecycleOwner) {
             when (it.status) {
                 1012 -> {
@@ -144,8 +241,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     @SuppressLint("MissingInflatedId", "SetTextI18n")
     private fun showFigeaterDialog() {
         dialogFigeaterBottom = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
-        val dialogView: View =
-            LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
+        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
         val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
         swipeRecyclerView.run {
             vertical()
@@ -229,11 +325,13 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         }
         mAdapter.setOnItemClickListener { _, _, position ->
             dialogBottom.dismiss()
+            mWorkType = mAdapter.data[position].id
             showOccupationDialog(2)
             mAdapter2.setList(mAdapter.data[position].children)
             mAdapter2.notifyDataSetChanged()
         }
         mAdapter2.setOnItemClickListener { _, _, position ->
+            mProfession = mAdapter2.data[position].id
             mBind.tvWorkInformationOccupation.text = mAdapter2.data[position].name
             dialogBottom.dismiss()
         }
