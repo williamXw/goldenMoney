@@ -12,6 +12,7 @@ import com.loan.golden.cash.money.loan.data.response.CommonResponse
 import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
 import com.loan.golden.cash.money.loan.data.response.FigeaterResponse
 import com.loan.golden.cash.money.loan.data.response.KaliResponse
+import com.loan.golden.cash.money.loan.data.response.LottetownResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import me.hgj.mvvmhelper.base.BaseViewModel
 import me.hgj.mvvmhelper.ext.rxHttpRequest
@@ -41,7 +42,8 @@ class BasicFormsViewModel : BaseViewModel() {
                         if (mBody.isNotEmpty()) {
                             val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
                             val gson = Gson()
-                            val mData: KaliResponse = gson.fromJson(mResponse, KaliResponse::class.java)
+                            val mData: KaliResponse =
+                                gson.fromJson(mResponse, KaliResponse::class.java)
                             kaliResponseResult.value = mData
                         }
                     }
@@ -65,7 +67,8 @@ class BasicFormsViewModel : BaseViewModel() {
                         if (mBody.isNotEmpty()) {
                             val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
                             val gson = Gson()
-                            val mData: FigeaterResponse = gson.fromJson(mResponse, FigeaterResponse::class.java)
+                            val mData: FigeaterResponse =
+                                gson.fromJson(mResponse, FigeaterResponse::class.java)
                             figeaterResult.value = mData
                         }
                     }
@@ -89,7 +92,8 @@ class BasicFormsViewModel : BaseViewModel() {
                         if (mBody.isNotEmpty()) {
                             val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
                             val gson = Gson()
-                            val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
+                            val mData: CommonResponse =
+                                gson.fromJson(mResponse, CommonResponse::class.java)
                             lustreResult.value = mData
                         }
                     }
@@ -98,6 +102,31 @@ class BasicFormsViewModel : BaseViewModel() {
             loadingType = LoadingType.LOADING_DIALOG
             loadingMessage = "loading....."
             requestCode = NetUrl.LUSTRATION_LUSTRE
+        }
+    }
+
+    /** 获取指定表单 */
+    val lottetownResult = MutableLiveData<LottetownResponse>()
+    fun lottetownCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.charlotteCharlottetown(body).await()
+                val mBody = response.body?.string()
+                if (response.code == 200) {
+                    if (mBody != null) {
+                        if (mBody.isNotEmpty()) {
+                            val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
+                            val gson = Gson()
+                            val mData: LottetownResponse =
+                                gson.fromJson(mResponse, LottetownResponse::class.java)
+                            lottetownResult.value = mData
+                        }
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.CHARLOTTE_CHARLOTTETOWN
         }
     }
 

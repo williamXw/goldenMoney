@@ -71,5 +71,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.LUSTRATION_LUSTRE).setBody(body).toOkResponse()
     }
 
+    /** 获取指定表单 */
+    fun charlotteCharlottetown(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.CHARLOTTE_CHARLOTTETOWN).setBody(body).toOkResponse()
+    }
+
 }
 

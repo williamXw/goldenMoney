@@ -78,7 +78,10 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
 //                    submitFormsData()
-                    nav().navigateAction(R.id.action_to_fragment_personal_information)
+                    nav().navigateAction(
+                        R.id.action_to_fragment_personal_information, Bundle().apply {
+                            putString("formId", mFormId)
+                        })
                 }
 
                 mBind.llWorkInfoOccupation -> {
@@ -95,12 +98,25 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
 
     private fun submitFormsData() {
         when {
-            mBind.tvWorkInformationOccupation.text.toString().trim().isEmpty() -> RxToast.showToast("Please select your industry")
-            mBind.etWorkInfoMonthIncome.text.toString().trim().isEmpty() -> RxToast.showToast("Please fill in your income")
-            mBind.etWorkInfoCompanyName.text.toString().trim().isEmpty() -> RxToast.showToast("Please fill in your company name")
-            mBind.tvWorkInformationCompanyAddress.text.toString().trim().isEmpty() -> RxToast.showToast("Please select a company address")
-            mBind.etWorkInfoDetailAddress.text.toString().trim().isEmpty() -> RxToast.showToast("Please enter the company's detailed address")
-            mBind.etWorkInfoCompanyPinCode.text.toString().trim().isEmpty() -> RxToast.showToast("please enter Company PinCode")
+            mBind.tvWorkInformationOccupation.text.toString().trim().isEmpty() -> RxToast.showToast(
+                "Please select your industry"
+            )
+
+            mBind.etWorkInfoMonthIncome.text.toString().trim()
+                .isEmpty() -> RxToast.showToast("Please fill in your income")
+
+            mBind.etWorkInfoCompanyName.text.toString().trim()
+                .isEmpty() -> RxToast.showToast("Please fill in your company name")
+
+            mBind.tvWorkInformationCompanyAddress.text.toString().trim()
+                .isEmpty() -> RxToast.showToast("Please select a company address")
+
+            mBind.etWorkInfoDetailAddress.text.toString().trim()
+                .isEmpty() -> RxToast.showToast("Please enter the company's detailed address")
+
+            mBind.etWorkInfoCompanyPinCode.text.toString().trim()
+                .isEmpty() -> RxToast.showToast("please enter Company PinCode")
+
             else -> {
                 val work = WorkParam(
                     WorkParam.Model(
@@ -205,7 +221,8 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     @SuppressLint("MissingInflatedId", "SetTextI18n")
     private fun showFigeaterDialog() {
         dialogFigeaterBottom = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
-        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
+        val dialogView: View =
+            LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
         val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
         swipeRecyclerView.run {
             vertical()

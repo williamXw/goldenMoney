@@ -45,4 +45,7 @@ object NetUrl {
     /** 提交表单 */
     const val LUSTRATION_LUSTRE = "/cramped_crampfish/affixture/lustration_lustre"
 
+    /** 获取指定表单 */
+    const val CHARLOTTE_CHARLOTTETOWN = "/leghorn_legibility_legible/charlotte_charlottetown"
+
 }
