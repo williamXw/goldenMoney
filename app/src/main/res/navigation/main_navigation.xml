@@ -75,6 +75,14 @@
         tools:layout="@layout/fragment_basic_info">
 
         <action
+            android:id="@+id/action_to_fragment_contact_information"
+            app:destination="@+id/fragmentContactInformation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
             android:id="@+id/action_to_fragment_personal_information"
             app:destination="@+id/fragmentPersonalInformation"
             app:enterAnim="@anim/slide_in_right"
@@ -86,9 +94,17 @@
 
     <fragment
         android:id="@+id/fragmentPersonalInformation"
-        android:name="com.loan.golden.cash.money.loan.ui.fragment.forms.FragmentPersonalInformation"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.forms.FragmentPersonalInfo"
         android:label="fragmentPersonal"
-        tools:layout="@layout/fragment_personal_information">
+        tools:layout="@layout/fragment_personal_info">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentContactInformation"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.forms.FragmentContactInformation"
+        android:label="fragmentContact"
+        tools:layout="@layout/fragment_contact_information">
 
 
     </fragment>

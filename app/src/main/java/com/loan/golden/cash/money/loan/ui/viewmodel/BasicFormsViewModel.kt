@@ -79,11 +79,8 @@ class BasicFormsViewModel : BaseViewModel() {
 
     /** 提交表单 */
     val lustreResult = MutableLiveData<CommonResponse>()
-
-    /** 获取未完成的表单 */
-    val aesirResult = MutableLiveData<AesirResponse>()
-    fun lustrationLustreCallBack(body: RequestBody) {
-        rxHttpRequest {
+    fun lustrationLustreCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
             onRequest = {
                 val response = UserRepository.lustrationLustre(body).await()
                 val mBody = response.body?.string()
@@ -94,24 +91,6 @@ class BasicFormsViewModel : BaseViewModel() {
                             val gson = Gson()
                             val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
                             lustreResult.value = mData
-                        }
-                    }
-                }
-                val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
-                val strData = Gson().toJson(aeSirParam)
-                val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY)
-                    .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                val mResponse = UserRepository.aesculinAesir(paramsBody).await()
-                val aesirBody = mResponse.body?.string()
-                if (mResponse.code == 200) {
-                    if (aesirBody != null) {
-                        if (aesirBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
-                            val gson = Gson()
-                            val mData: AesirResponse = gson.fromJson(mResponse, AesirResponse::class.java)
-                            if (mData.status == 0) {
-                                aesirResult.value = mData
-                            }
                         }
                     }
                 }

@@ -78,7 +78,6 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
                     submitFormsData()
-//                    nav().navigateAction(R.id.action_to_fragment_personal_information)
                 }
 
                 mBind.llWorkInfoOccupation -> {
@@ -148,56 +147,20 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     @SuppressLint("NotifyDataSetChanged")
     override fun onRequestSuccess() {
         super.onRequestSuccess()
-        /** 获取未完成的表单 */
-        mViewModel.aesirResult.observe(viewLifecycleOwner) {
-            var formType = ""
+        /** 提交表单 */
+        mViewModel.lustreResult.observe(viewLifecycleOwner) {
             when (it.status) {
                 1012 -> {
                     startActivity<LoginActivity>()
                 }
 
                 0 -> {
-                    if (it.model != null) {
-                        if (!it.model!!.forms.isNullOrEmpty() || it.model!!.forms.size != 0) {
-                            it.model!!.forms.forEachIndexed { index, formsData ->
-                                formType = it.model!!.forms[0].formType
-                            }
-                        }
-                    }
-                    when (formType) {
-                        "OCR" -> {//证件识别
-                            nav().navigateAction(R.id.action_to_fragment_orc_inspection)
-                        }
-
-                        "BASIC" -> {//基础信息
-                            nav().navigateAction(R.id.action_to_fragment_basic_info, Bundle().apply {
-                                putString("mFormId", mFormId)
-                            })
-                        }
-
-                        "ALIVE" -> {//活体检测
-
-                        }
-
-                        "ALIVE_H5" -> {//活体检测H5
-
-                        }
-                    }
+                    nav().navigateAction(R.id.action_to_fragment_personal_information)
                 }
 
                 else -> {
                     RxToast.showToast(it.message)
                 }
-            }
-        }
-        /** 提交表单 */
-        mViewModel.lustreResult.observe(viewLifecycleOwner) {
-            if (it.status == 1012) {
-                startActivity<LoginActivity>()
-                return@observe
-            }
-            if (it.status != 0) {
-                RxToast.showToast(it.message)
             }
         }
         /** 获取地址信息 */
