@@ -77,7 +77,8 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         ) {
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
-                    submitFormsData()
+//                    submitFormsData()
+                    nav().navigateAction(R.id.action_to_fragment_personal_information)
                 }
 
                 mBind.llWorkInfoOccupation -> {

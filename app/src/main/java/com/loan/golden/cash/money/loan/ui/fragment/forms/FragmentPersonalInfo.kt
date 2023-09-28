@@ -17,6 +17,9 @@ import com.loan.golden.cash.money.wheel.contract.OnOptionPickedListener
  */
 class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(), OnOptionPickedListener {
 
+    private lateinit var picker: SexPicker
+    private var mGender = "女"
+
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Personal information") { nav().navigateUp() }
     }
@@ -27,10 +30,10 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
         setOnclickNoRepeat(mBind.llPersonalInfoGender) {
             when (it) {
                 mBind.llPersonalInfoGender -> {
-                    val picker = SexPicker(activity)
+                    picker = SexPicker(activity)
                     picker.setBodyWidth(140)
                     picker.setIncludeSecrecy(false)
-                    picker.setDefaultValue("女")
+                    picker.setDefaultValue(mGender)
                     picker.setOnOptionPickedListener(this)
                     picker.wheelLayout.setOnOptionSelectedListener { position, item ->
                         picker.titleView.text = picker.wheelView.formatItem(position)
@@ -42,6 +45,7 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     }
 
     override fun onOptionPicked(position: Int, item: Any?) {
-
+        mGender = picker.wheelView.formatItem(position)
+        mBind.tvPersonalInfoPhone.text = mGender
     }
 }
