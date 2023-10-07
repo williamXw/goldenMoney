@@ -29,19 +29,18 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(),
     OnOptionPickedListener {
 
-    private var selectType = 0
+    private var selectType = -1
     private var maritalJSonStr: String = ""
     private var genderJSonStr: String = ""
     private var childrenJSonStr: String = ""
     private var residenceJSonStr: String = ""
-    private lateinit var genderPicker: SinglePicker
-    private lateinit var sinPicker: SinglePicker
-    private lateinit var childPicker: SinglePicker
-    private lateinit var residencePicker: SinglePicker
+    private var educationJSonStr: String = ""
+    private lateinit var mPicker: SinglePicker
     private var mGenderIndex = -1
     private var mMaritalIndex = -1
     private var mChildIndex = -1
     private var mResidenceIndex = -1
+    private var mEducationIndex = -1
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Personal information") { nav().navigateUp() }
@@ -54,7 +53,8 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
             )
         )
         val gsonData = Gson().toJson(body)
-        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY)
+            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         showLoadingExt("loading....")
         mViewModel.lottetownCallBack(paramsBody)
     }
@@ -63,95 +63,101 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     override fun onBindViewClick() {
         super.onBindViewClick()
         setOnclickNoRepeat(
+            mBind.llPersonalInfoEducation,
             mBind.llPersonalInfoGender,
             mBind.llPersonalInfoMaritalStatus,
             mBind.llPersonalInfoChildrenCount,
             mBind.llPersonalInfoResidence
         ) {
             when (it) {
+                mBind.llPersonalInfoEducation->{//教育
+                    selectType = 0
+                    selectedPicker(selectType, educationJSonStr)
+                }
                 mBind.llPersonalInfoGender -> {//性别
-                    if (genderJSonStr.isEmpty()) {
-                        RxToast.showToast("data exception")
-                        return@setOnclickNoRepeat
-                    }
                     selectType = 1
-                    genderPicker = activity?.let { it1 -> SinglePicker(it1, genderJSonStr) }!!
-                    genderPicker.setDefaultPosition(mGenderIndex)
-                    genderPicker.setOnOptionPickedListener(this)
-                    genderPicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
-                        genderPicker.titleView.text = genderPicker.wheelView.formatItem(position)
-                    }
-                    genderPicker.show()
+                    selectedPicker(selectType, genderJSonStr)
                 }
 
                 mBind.llPersonalInfoMaritalStatus -> {//婚姻状况
-                    if (maritalJSonStr.isEmpty()) {
-                        RxToast.showToast("data exception")
-                        return@setOnclickNoRepeat
-                    }
                     selectType = 2
-                    sinPicker = activity?.let { it1 -> SinglePicker(it1, maritalJSonStr) }!!
-                    sinPicker.setDefaultPosition(mMaritalIndex)
-                    sinPicker.setOnOptionPickedListener(this)
-                    sinPicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
-                        sinPicker.titleView.text = sinPicker.wheelView.formatItem(position)
-                    }
-                    sinPicker.show()
+                    selectedPicker(selectType, maritalJSonStr)
                 }
 
                 mBind.llPersonalInfoChildrenCount -> {//几个孩子
-                    if (childrenJSonStr.isEmpty()) {
-                        RxToast.showToast("data exception")
-                        return@setOnclickNoRepeat
-                    }
                     selectType = 3
-                    childPicker = activity?.let { it1 -> SinglePicker(it1, childrenJSonStr) }!!
-                    childPicker.setDefaultPosition(mChildIndex)
-                    childPicker.setOnOptionPickedListener(this)
-                    childPicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
-                        childPicker.titleView.text = childPicker.wheelView.formatItem(position)
-                    }
-                    childPicker.show()
+                    selectedPicker(selectType, childrenJSonStr)
                 }
 
                 mBind.llPersonalInfoResidence -> {//住所
-                    if (residenceJSonStr.isEmpty()) {
-                        RxToast.showToast("data exception")
-                        return@setOnclickNoRepeat
-                    }
                     selectType = 4
-                    residencePicker = activity?.let { it1 -> SinglePicker(it1, residenceJSonStr) }!!
-                    residencePicker.setDefaultPosition(mResidenceIndex)
-                    residencePicker.setOnOptionPickedListener(this)
-                    residencePicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
-                        residencePicker.titleView.text = residencePicker.wheelView.formatItem(position)
-                    }
-                    residencePicker.show()
+                    selectedPicker(selectType, residenceJSonStr)
                 }
             }
         }
     }
 
+    private fun selectedPicker(selectType: Int, jsonStr: String) {
+        if (jsonStr.isEmpty()) {
+            RxToast.showToast("data exception")
+            return
+        }
+        mPicker = activity?.let { it1 -> SinglePicker(it1, jsonStr) }!!
+        when (selectType) {
+            0 -> {
+                mPicker.setDefaultPosition(mEducationIndex)
+            }
+
+            1 -> {
+                mPicker.setDefaultPosition(mGenderIndex)
+            }
+
+            2 -> {
+                mPicker.setDefaultPosition(mMaritalIndex)
+            }
+
+            3 -> {
+                mPicker.setDefaultPosition(mChildIndex)
+            }
+
+            4 -> {
+                mPicker.setDefaultPosition(mResidenceIndex)
+            }
+        }
+
+        mPicker.setOnOptionPickedListener(this)
+        mPicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
+            mPicker.titleView.text = mPicker.wheelView.formatItem(position)
+        }
+        mPicker.show()
+
+    }
+
     override fun onOptionPicked(position: Int, item: Any?) {
         when (selectType) {
+            0 -> {
+                mEducationIndex = position
+                mBind.tvPersonalInfoEducation.text = mPicker.wheelView.formatItem(position)
+            }
+
             1 -> {
                 mGenderIndex = position
-                mBind.tvPersonalInfoPhone.text = genderPicker.wheelView.formatItem(position)
+                mBind.tvPersonalInfoPhone.text = mPicker.wheelView.formatItem(position)
             }
 
             2 -> {
                 mMaritalIndex = position
-                mBind.tvPersonalInfoMaritalStatus.text = sinPicker.wheelView.formatItem(position)
+                mBind.tvPersonalInfoMaritalStatus.text = mPicker.wheelView.formatItem(position)
             }
 
             3 -> {
                 mChildIndex = position
-                mBind.tvPersonalInfoChildrenCount.text = childPicker.wheelView.formatItem(position)
+                mBind.tvPersonalInfoChildrenCount.text = mPicker.wheelView.formatItem(position)
             }
 
             4 -> {
                 mResidenceIndex = position
-                mBind.tvPersonalInfoResidence.text = residencePicker.wheelView.formatItem(position)
+                mBind.tvPersonalInfoResidence.text = mPicker.wheelView.formatItem(position)
             }
         }
     }
@@ -167,6 +173,9 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 0 -> {
                     if (it?.model != null && it.model!!.forms.isNotEmpty() && it.model!!.forms[0].content.isNotEmpty()) {
                         it.model?.forms?.get(0)?.content?.forEachIndexed { _, contentBean ->
+                            if (contentBean.name == "Education") {
+                                educationJSonStr = JSONObject.toJSONString(contentBean.options)
+                            }
                             if (contentBean.name == "Marital Status") {
                                 maritalJSonStr = JSONObject.toJSONString(contentBean.options)
                             }
