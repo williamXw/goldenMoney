@@ -17,6 +17,7 @@ import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
 import com.loan.golden.cash.money.wheel.SexPicker
 import com.loan.golden.cash.money.wheel.contract.OnOptionPickedListener
+import com.loan.golden.cash.money.wheel.entity.MaritalEntity
 import com.loan.golden.cash.money.wheel.widget.SinglePicker
 import me.hgj.mvvmhelper.ext.showLoadingExt
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -31,11 +32,12 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     OnOptionPickedListener {
 
     private var maritalJSonStr: String = ""
-    private lateinit var picker: SexPicker
+    private var genderJSonStr: String = ""
+    private lateinit var genderPicker: SinglePicker
     private lateinit var sinPicker: SinglePicker
-    private var mGender = "女"
-    private var mMarital = "Single"
     private var selectType = 0
+    private var mGenderIndex = -1
+    private var mMaritalIndex = -1
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Personal information") { nav().navigateUp() }
@@ -59,15 +61,18 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
         setOnclickNoRepeat(mBind.llPersonalInfoGender, mBind.llPersonalInfoMaritalStatus) {
             when (it) {
                 mBind.llPersonalInfoGender -> {//性别
-                    selectType = 1
-                    picker = SexPicker(activity)
-                    picker.setIncludeSecrecy(false)
-                    picker.setDefaultValue(mGender)
-                    picker.setOnOptionPickedListener(this)
-                    picker.wheelLayout.setOnOptionSelectedListener { position, item ->
-                        picker.titleView.text = picker.wheelView.formatItem(position)
+                    if (genderJSonStr.isEmpty()) {
+                        RxToast.showToast("data exception")
+                        return@setOnclickNoRepeat
                     }
-                    picker.show()
+                    selectType = 1
+                    genderPicker = activity?.let { it1 -> SinglePicker(it1, genderJSonStr) }!!
+                    genderPicker.setDefaultPosition(mGenderIndex)
+                    genderPicker.setOnOptionPickedListener(this)
+                    genderPicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
+                        genderPicker.titleView.text = genderPicker.wheelView.formatItem(position)
+                    }
+                    genderPicker.show()
                 }
 
                 mBind.llPersonalInfoMaritalStatus -> {//婚姻状况
@@ -77,8 +82,11 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                     }
                     selectType = 2
                     sinPicker = activity?.let { it1 -> SinglePicker(it1, maritalJSonStr) }!!
-                    sinPicker.setDefaultValue("")
+                    sinPicker.setDefaultPosition(mMaritalIndex)
                     sinPicker.setOnOptionPickedListener(this)
+                    sinPicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
+                        sinPicker.titleView.text = sinPicker.wheelView.formatItem(position)
+                    }
                     sinPicker.show()
                 }
             }
@@ -88,13 +96,13 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     override fun onOptionPicked(position: Int, item: Any?) {
         when (selectType) {
             1 -> {
-                mGender = picker.wheelView.formatItem(position)
-                mBind.tvPersonalInfoPhone.text = mGender
+                mGenderIndex = position
+                mBind.tvPersonalInfoPhone.text = genderPicker.wheelView.formatItem(position)
             }
 
             2 -> {
-                mMarital = sinPicker.wheelView.formatItem(position)
-                mBind.tvPersonalInfoMaritalStatus.text = mMarital
+                mMaritalIndex = position
+                mBind.tvPersonalInfoMaritalStatus.text = sinPicker.wheelView.formatItem(position)
             }
         }
     }
@@ -108,9 +116,14 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 }
 
                 0 -> {
-                    it.model?.forms?.get(0)?.content?.forEachIndexed { index, contentBean ->
-                        if (contentBean.name == "Marital Status") {
-                            maritalJSonStr = JSONObject.toJSONString(contentBean.options)
+                    if (it?.model != null && it.model!!.forms.isNotEmpty() && it.model!!.forms[0].content.isNotEmpty()) {
+                        it.model?.forms?.get(0)?.content?.forEachIndexed { _, contentBean ->
+                            if (contentBean.name == "Marital Status") {
+                                maritalJSonStr = JSONObject.toJSONString(contentBean.options)
+                            }
+                            if (contentBean.name == "Gender") {
+                                genderJSonStr = JSONObject.toJSONString(contentBean.options)
+                            }
                         }
                     }
                 }

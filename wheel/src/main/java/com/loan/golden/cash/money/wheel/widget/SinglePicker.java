@@ -38,7 +38,6 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class SinglePicker extends OptionPicker {
     public static String JSON = "";
-    private int ethnicSpec = EthnicSpec.DEFAULT;
 
     public SinglePicker(@NonNull Activity activity, String mJSON) {
         super(activity);
@@ -50,7 +49,6 @@ public class SinglePicker extends OptionPicker {
     }
 
     public void setEthnicSpec(@EthnicSpec int ethnicSpec) {
-        this.ethnicSpec = ethnicSpec;
         setData(provideData());
     }
 
@@ -61,6 +59,11 @@ public class SinglePicker extends OptionPicker {
         } else {
             super.setDefaultValue(item);
         }
+    }
+
+    @Override
+    public void setDefaultPosition(int position) {
+        super.setDefaultPosition(position);
     }
 
     public void setDefaultValueByCode(String id) {
@@ -84,8 +87,16 @@ public class SinglePicker extends OptionPicker {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 MaritalEntity entity = new MaritalEntity();
                 entity.setId(jsonObject.getString("id"));
+                entity.setCreated(jsonObject.getLong("created"));
+                entity.setModified(jsonObject.getLong("modified"));
+//                entity.setCountryIds(jsonObject.getJSONArray("countryIds"));
+                entity.setCategoryId(jsonObject.getString("categoryId"));
                 entity.setName(jsonObject.getString("name"));
                 entity.setValue(jsonObject.getString("value"));
+                entity.setColor(jsonObject.getString("color"));
+                entity.setHasChildren(jsonObject.getBoolean("hasChildren"));
+                entity.setSort(jsonObject.getInt("sort"));
+//                entity.setValues(jsonObject.getJSONObject("values"));
                 data.add(entity);
             }
         } catch (JSONException e) {
