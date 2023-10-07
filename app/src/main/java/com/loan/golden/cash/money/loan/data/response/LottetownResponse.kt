@@ -24,7 +24,7 @@ data class LottetownResponse(
 
         var forms: ArrayList<FormsBean> = arrayListOf(),
         var baseInfo: BaseInfoBean? = null,
-        var phone: Long = 0
+        var phone: String = ""
 
     ) : Parcelable {
 
@@ -70,8 +70,42 @@ data class LottetownResponse(
                 @Parcelize
                 class OptionsBeean(
 
+                    var id: String = "",
+                    var created: Long = 0,
+                    var modified: Long = 0,
+                    var countryIds: ArrayList<String> = arrayListOf(),
+                    var categoryId: String = "",
+                    var name: String = "",
+                    var value: String = "",
+                    var hasChildren: Boolean = false,
+                    var color: String = "",
+                    var values: ValuesBean? = null,
+                    var sort: Int = 0
 
-                ) : Parcelable
+                ) : Parcelable {
+
+                    @Parcelize
+                    class ValuesBean(
+
+                        var values: ValuesBeanChild? = null,
+                        var _t: String = ""
+
+                    ) : Parcelable {
+
+                        @Parcelize
+                        class ValuesBeanChild(
+
+                            var id: String = "",
+                            var es_NI: String = "",
+                            var en_us: String = "",
+                            var hi: String = "",
+                            var vi: String = "",
+                            var zh_TW: String = "",
+                            var ur: String = "",
+
+                            ) : Parcelable
+                    }
+                }
             }
         }
     }

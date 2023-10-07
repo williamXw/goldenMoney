@@ -19,6 +19,11 @@ import kotlin.math.roundToInt
 
 object SettingUtil {
 
+    fun removeQuotes(s: String?): String? {
+        if (s == null || s.length < 2) return s
+        return if (s[0] == '"' && s[s.length - 1] == '"') s.substring(1, s.length - 1) else s
+    }
+
     fun cns(msg: String?): String? {
         return checkNullString(msg)
     }

@@ -78,8 +78,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
 //                    submitFormsData()
-                    nav().navigateAction(
-                        R.id.action_to_fragment_personal_information, Bundle().apply {
+                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
                             putString("formId", mFormId)
                         })
                 }
@@ -146,8 +145,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                     )
                 )
                 val gsonData = Gson().toJson(body)
-                val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-                    .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                 mViewModel.lustrationLustreCallBack(paramsBody)
             }
         }
@@ -156,8 +154,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
     private fun getCompanyAddress() {
         val body = FigeaterParam(parentId)
         val gsonData = Gson().toJson(body)
-        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         mViewModel.getFigeaterCallBack(paramsBody)
     }
 
@@ -172,7 +169,9 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 }
 
                 0 -> {
-                    nav().navigateAction(R.id.action_to_fragment_personal_information)
+                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
                 }
 
                 else -> {

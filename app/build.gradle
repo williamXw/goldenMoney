@@ -169,5 +169,7 @@ dependencies {
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     //glide圆角
     implementation 'jp.wasabeef:glide-transformations:4.0.0'
+    //fastjson(阿里云json解析框架导入)
+    api 'com.alibaba:fastjson:1.2.61'
 
 }

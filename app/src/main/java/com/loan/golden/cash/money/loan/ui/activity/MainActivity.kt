@@ -14,6 +14,7 @@ import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseActivity
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
+import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.DeviceUpLoadService
 import com.loan.golden.cash.money.loan.data.commom.Constant
@@ -74,7 +75,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             if (it.code == 200) {
                 val dataBody = it.body!!.string()
                 if (dataBody.isNotEmpty()) {
-                    val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                    val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
                     val gson = Gson()
                     val mData: UpLoadDeviceInfoResponse = gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
                     if (mData.status == 1012) {

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.util.AESTool
+import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
@@ -92,8 +93,7 @@ class BasicFormsViewModel : BaseViewModel() {
                         if (mBody.isNotEmpty()) {
                             val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
                             val gson = Gson()
-                            val mData: CommonResponse =
-                                gson.fromJson(mResponse, CommonResponse::class.java)
+                            val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
                             lustreResult.value = mData
                         }
                     }
@@ -115,16 +115,15 @@ class BasicFormsViewModel : BaseViewModel() {
                 if (response.code == 200) {
                     if (mBody != null) {
                         if (mBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
+                            val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(mBody, Constant.AES_KEY))
                             val gson = Gson()
-                            val mData: LottetownResponse =
-                                gson.fromJson(mResponse, LottetownResponse::class.java)
+                            val mData: LottetownResponse = gson.fromJson(mResponse, LottetownResponse::class.java)
                             lottetownResult.value = mData
                         }
                     }
                 }
             }
-            loadingType = LoadingType.LOADING_DIALOG
+            loadingType = LoadingType.LOADING_CUSTOM
             loadingMessage = "loading....."
             requestCode = NetUrl.CHARLOTTE_CHARLOTTETOWN
         }
