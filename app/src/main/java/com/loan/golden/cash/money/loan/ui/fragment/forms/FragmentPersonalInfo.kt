@@ -15,9 +15,7 @@ import com.loan.golden.cash.money.loan.data.param.CharlottetownParam
 import com.loan.golden.cash.money.loan.databinding.FragmentPersonalInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
-import com.loan.golden.cash.money.wheel.SexPicker
 import com.loan.golden.cash.money.wheel.contract.OnOptionPickedListener
-import com.loan.golden.cash.money.wheel.entity.MaritalEntity
 import com.loan.golden.cash.money.wheel.widget.SinglePicker
 import me.hgj.mvvmhelper.ext.showLoadingExt
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -31,13 +29,19 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(),
     OnOptionPickedListener {
 
+    private var selectType = 0
     private var maritalJSonStr: String = ""
     private var genderJSonStr: String = ""
+    private var childrenJSonStr: String = ""
+    private var residenceJSonStr: String = ""
     private lateinit var genderPicker: SinglePicker
     private lateinit var sinPicker: SinglePicker
-    private var selectType = 0
+    private lateinit var childPicker: SinglePicker
+    private lateinit var residencePicker: SinglePicker
     private var mGenderIndex = -1
     private var mMaritalIndex = -1
+    private var mChildIndex = -1
+    private var mResidenceIndex = -1
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Personal information") { nav().navigateUp() }
@@ -58,7 +62,12 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.llPersonalInfoGender, mBind.llPersonalInfoMaritalStatus) {
+        setOnclickNoRepeat(
+            mBind.llPersonalInfoGender,
+            mBind.llPersonalInfoMaritalStatus,
+            mBind.llPersonalInfoChildrenCount,
+            mBind.llPersonalInfoResidence
+        ) {
             when (it) {
                 mBind.llPersonalInfoGender -> {//性别
                     if (genderJSonStr.isEmpty()) {
@@ -89,6 +98,36 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                     }
                     sinPicker.show()
                 }
+
+                mBind.llPersonalInfoChildrenCount -> {//几个孩子
+                    if (childrenJSonStr.isEmpty()) {
+                        RxToast.showToast("data exception")
+                        return@setOnclickNoRepeat
+                    }
+                    selectType = 3
+                    childPicker = activity?.let { it1 -> SinglePicker(it1, childrenJSonStr) }!!
+                    childPicker.setDefaultPosition(mChildIndex)
+                    childPicker.setOnOptionPickedListener(this)
+                    childPicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
+                        childPicker.titleView.text = childPicker.wheelView.formatItem(position)
+                    }
+                    childPicker.show()
+                }
+
+                mBind.llPersonalInfoResidence -> {//住所
+                    if (residenceJSonStr.isEmpty()) {
+                        RxToast.showToast("data exception")
+                        return@setOnclickNoRepeat
+                    }
+                    selectType = 4
+                    residencePicker = activity?.let { it1 -> SinglePicker(it1, residenceJSonStr) }!!
+                    residencePicker.setDefaultPosition(mResidenceIndex)
+                    residencePicker.setOnOptionPickedListener(this)
+                    residencePicker.wheelLayout.setOnOptionSelectedListener { position, _ ->
+                        residencePicker.titleView.text = residencePicker.wheelView.formatItem(position)
+                    }
+                    residencePicker.show()
+                }
             }
         }
     }
@@ -103,6 +142,16 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
             2 -> {
                 mMaritalIndex = position
                 mBind.tvPersonalInfoMaritalStatus.text = sinPicker.wheelView.formatItem(position)
+            }
+
+            3 -> {
+                mChildIndex = position
+                mBind.tvPersonalInfoChildrenCount.text = childPicker.wheelView.formatItem(position)
+            }
+
+            4 -> {
+                mResidenceIndex = position
+                mBind.tvPersonalInfoResidence.text = residencePicker.wheelView.formatItem(position)
             }
         }
     }
@@ -123,6 +172,12 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                             }
                             if (contentBean.name == "Gender") {
                                 genderJSonStr = JSONObject.toJSONString(contentBean.options)
+                            }
+                            if (contentBean.name == "Children count") {
+                                childrenJSonStr = JSONObject.toJSONString(contentBean.options)
+                            }
+                            if (contentBean.name == "Residence") {
+                                residenceJSonStr = JSONObject.toJSONString(contentBean.options)
                             }
                         }
                     }
