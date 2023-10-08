@@ -6,22 +6,15 @@ import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.data.commom.Constant
-import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
-import com.loan.golden.cash.money.loan.data.response.AesirResponse
 import com.loan.golden.cash.money.loan.data.response.CommonResponse
-import com.loan.golden.cash.money.loan.data.response.DiamantiferousResponse
 import com.loan.golden.cash.money.loan.data.response.FigeaterResponse
 import com.loan.golden.cash.money.loan.data.response.KaliResponse
 import com.loan.golden.cash.money.loan.data.response.LottetownResponse
-import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import me.hgj.mvvmhelper.base.BaseViewModel
-import me.hgj.mvvmhelper.ext.rxHttpRequest
 import me.hgj.mvvmhelper.ext.rxHttpRequestCallBack
 import me.hgj.mvvmhelper.net.LoadingType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 
 /**

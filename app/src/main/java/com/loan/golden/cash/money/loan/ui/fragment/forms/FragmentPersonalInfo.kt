@@ -1,8 +1,15 @@
 package com.loan.golden.cash.money.loan.ui.fragment.forms
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import com.alibaba.fastjson.JSONObject
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
@@ -12,12 +19,20 @@ import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.CharlottetownParam
+import com.loan.golden.cash.money.loan.data.param.FigeaterParam
+import com.loan.golden.cash.money.loan.data.param.PersonalInfoParam
 import com.loan.golden.cash.money.loan.databinding.FragmentPersonalInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
+import com.loan.golden.cash.money.loan.ui.adapter.FigeaterAdapter
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
 import com.loan.golden.cash.money.wheel.contract.OnOptionPickedListener
 import com.loan.golden.cash.money.wheel.widget.SinglePicker
+import com.yanzhenjie.recyclerview.SwipeRecyclerView
+import me.hgj.mvvmhelper.ext.divider
+import me.hgj.mvvmhelper.ext.getColorExt
 import me.hgj.mvvmhelper.ext.showLoadingExt
+import me.hgj.mvvmhelper.ext.vertical
+import me.hgj.mvvmhelper.util.decoration.DividerOrientation
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
@@ -41,6 +56,17 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     private var mChildIndex = -1
     private var mResidenceIndex = -1
     private var mEducationIndex = -1
+
+    private lateinit var dialogBottomAddress: BottomSheetDialog
+
+    /** 选择省市区 */
+    private val mAdapter: FigeaterAdapter by lazy { FigeaterAdapter(arrayListOf()) }
+    private var parentId = ""
+    private var province = ""
+    private var city = ""
+    private var area = ""
+    private var town = ""
+    private var mFormId = ""
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Personal information") { nav().navigateUp() }
@@ -67,13 +93,16 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
             mBind.llPersonalInfoGender,
             mBind.llPersonalInfoMaritalStatus,
             mBind.llPersonalInfoChildrenCount,
-            mBind.llPersonalInfoResidence
+            mBind.llPersonalInfoResidence,
+            mBind.llPersonalInfoAddress,
+            mBind.tvPersonalInfoSubmit
         ) {
             when (it) {
-                mBind.llPersonalInfoEducation->{//教育
+                mBind.llPersonalInfoEducation -> {//教育
                     selectType = 0
                     selectedPicker(selectType, educationJSonStr)
                 }
+
                 mBind.llPersonalInfoGender -> {//性别
                     selectType = 1
                     selectedPicker(selectType, genderJSonStr)
@@ -93,7 +122,104 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                     selectType = 4
                     selectedPicker(selectType, residenceJSonStr)
                 }
+
+                mBind.llPersonalInfoAddress -> {//地址
+                    parentId = ""
+                    getCompanyAddress()
+                }
+
+                mBind.tvPersonalInfoSubmit -> {
+                    submitPersonalInfo()
+                }
             }
+        }
+    }
+
+    private fun submitPersonalInfo() {
+        val body = PersonalInfoParam(
+            PersonalInfoParam.ModelBean(
+                formId = mFormId,
+                submitData = PersonalInfoParam.ModelBean.SubmitDataBean(
+                    education = "",
+                    sex = "",
+                    marital = "",
+                    childrenCount = "",
+                    postalCode = "",
+                    residence = "",
+                    address = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean(
+                        bigAddress = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean.BigAddressBean(
+                            province = "",
+                            city = ""
+                        ),
+                        detailAddress = ""
+                    ),
+                    email = ""
+                )
+            )
+        )
+    }
+
+    private fun getCompanyAddress() {
+        val body = FigeaterParam(parentId)
+        val gsonData = Gson().toJson(body)
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        mViewModel.getFigeaterCallBack(paramsBody)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showAddressDialog() {
+        dialogBottomAddress = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
+        val dialogView: View =
+            LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
+        val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
+        swipeRecyclerView.run {
+            vertical()
+            divider {
+                //分割线颜色
+                setColor(getColorExt(R.color.colorBgGray_EBEBEB))
+                //分割线高度
+                setDivider(1)
+                //是否首尾都有分割线
+                includeVisible = false
+                //分割线方向
+                orientation = DividerOrientation.VERTICAL
+            }
+            adapter = mAdapter
+            mAdapter.setOnItemClickListener { _, _, position ->
+                val mType = mAdapter.data[position].type
+                when (mType) {
+                    "PROVINCES" -> {
+                        province = mAdapter.data[position].name
+                    }
+
+                    "REGENCIES" -> {
+                        city = mAdapter.data[position].name
+                    }
+
+                    "DISTRICTS" -> {
+                        area = mAdapter.data[position].name
+                    }
+
+                    "VILLAGES" -> {
+                        town = mAdapter.data[position].name
+                    }
+                }
+                if (mAdapter.data[position].haveChild) {
+                    dialogBottomAddress.dismiss()
+                    parentId = if (mType == "PROVINCES") {
+                        mAdapter.data[position].id
+                    } else {
+                        mAdapter.data[position].parentId
+                    }
+                    getCompanyAddress()
+                } else {
+                    dialogBottomAddress.dismiss()
+                    mBind.tvPersonalInfoAddress.text = "$province $city $area $town"
+                }
+            }
+            dialogBottomAddress.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBottomAddress.setContentView(dialogView)
+            dialogBottomAddress.show()
         }
     }
 
@@ -162,8 +288,28 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        /** 获取地址信息 */
+        mViewModel.figeaterResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                0 -> {
+                    showAddressDialog()
+                    mAdapter.setList(it.model)
+                    mAdapter.notifyDataSetChanged()
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+        }
+        /** 获取指定表单 */
         mViewModel.lottetownResult.observe(viewLifecycleOwner) {
             when (it.status) {
                 1012 -> {
