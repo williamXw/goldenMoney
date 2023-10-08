@@ -14,6 +14,9 @@ import com.loan.golden.cash.money.loan.data.param.CarPologyParam
 import com.loan.golden.cash.money.loan.data.response.OCRDetailResponse
 import com.loan.golden.cash.money.loan.databinding.FragmentOcrDetailBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.ORCViewModel
+import com.loan.golden.cash.money.wheelpicker.BirthdayPicker
+import com.loan.golden.cash.money.wheelpicker.contract.OnDatePickedListener
+import com.loan.golden.cash.money.wheelpicker.contract.OnTimePickedListener
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
@@ -22,7 +25,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
  * @Date        : 2023/9/26 13:28
  * @Describe    : OCRDetail
  */
-class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>() {
+class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>() ,
+    OnDatePickedListener,OnTimePickedListener {
 
     private lateinit var mData: OCRDetailResponse
 
@@ -56,11 +60,13 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
                 }
 
                 mBind.llDataOfBirth -> {
-//                    val picker = BirthdayPicker(this)
-//                    picker.setDefaultValue(1991, 11, 11)
-//                    picker.setOnDatePickedListener(this)
-//                    picker.getWheelLayout().setResetWhenLinkage(false)
-//                    picker.show()
+                    val picker = activity?.let { it1 -> BirthdayPicker(it1) }
+                    if (picker != null) {
+                        picker.setDefaultValue(1991, 11, 11)
+                        picker.setOnDatePickedListener(this)
+                        picker.wheelLayout.setResetWhenLinkage(false)
+                        picker.show()
+                    }
                 }
             }
         }
@@ -96,5 +102,13 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
                 }
             }
         }
+    }
+
+    override fun onTimePicked(hour: Int, minute: Int, second: Int) {
+
+    }
+
+    override fun onDatePicked(year: Int, month: Int, day: Int) {
+
     }
 }

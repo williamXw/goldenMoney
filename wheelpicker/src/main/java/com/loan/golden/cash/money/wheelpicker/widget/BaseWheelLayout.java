@@ -27,10 +27,11 @@ import androidx.annotation.Px;
 import androidx.annotation.StyleRes;
 
 import com.loan.golden.cash.money.wheelpicker.R;
-import com.loan.golden.cash.money.wheelpicker.annotation.CurtainCorner;
-import com.loan.golden.cash.money.wheelpicker.annotation.ItemTextAlign;
-import com.loan.golden.cash.money.wheelpicker.annotation.ScrollState;
-import com.loan.golden.cash.money.wheelpicker.listener.OnWheelChangedListener;
+import com.loan.golden.cash.money.wheelview.annotation.CurtainCorner;
+import com.loan.golden.cash.money.wheelview.annotation.ItemTextAlign;
+import com.loan.golden.cash.money.wheelview.annotation.ScrollState;
+import com.loan.golden.cash.money.wheelview.contract.OnWheelChangedListener;
+import com.loan.golden.cash.money.wheelview.widget.WheelView;
 
 import java.util.ArrayList;
 import java.util.List;

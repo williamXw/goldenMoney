@@ -22,7 +22,7 @@ import androidx.annotation.StyleRes;
 import com.loan.golden.cash.money.wheelpicker.contract.OnOptionPickedListener;
 import com.loan.golden.cash.money.wheelpicker.dialog.ModalDialog;
 import com.loan.golden.cash.money.wheelpicker.widget.OptionWheelLayout;
-import com.loan.golden.cash.money.wheelpicker.widget.WheelView;
+import com.loan.golden.cash.money.wheelview.widget.WheelView;
 
 import java.util.Arrays;
 import java.util.List;

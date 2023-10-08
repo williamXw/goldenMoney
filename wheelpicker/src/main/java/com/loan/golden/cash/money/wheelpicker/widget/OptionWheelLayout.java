@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 
 import com.loan.golden.cash.money.wheelpicker.R;
 import com.loan.golden.cash.money.wheelpicker.contract.OnOptionSelectedListener;
+import com.loan.golden.cash.money.wheelview.widget.WheelView;
 
 import java.util.Collections;
 import java.util.List;

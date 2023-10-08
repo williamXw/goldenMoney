@@ -2,7 +2,7 @@ package com.loan.golden.cash.money.wheelpicker.entity;
 
 import androidx.annotation.Nullable;
 
-import com.loan.golden.cash.money.wheelpicker.listener.TextProvider;
+import com.loan.golden.cash.money.wheelview.contract.TextProvider;
 
 import java.io.Serializable;
 import java.util.ArrayList;
