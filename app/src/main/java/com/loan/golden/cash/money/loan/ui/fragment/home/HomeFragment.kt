@@ -35,8 +35,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                     val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
                     val strData = Gson().toJson(aeSirParam)
                     val paramsBody =
-                        AESTool.encrypt1(strData, Constant.AES_KEY)
-                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                        AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                     context?.let { it1 -> mViewModel.aesculinAesirCallBack(paramsBody, it1) }
                 }
             }

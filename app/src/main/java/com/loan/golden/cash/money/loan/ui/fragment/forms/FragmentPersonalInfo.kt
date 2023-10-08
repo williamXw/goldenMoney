@@ -15,17 +15,21 @@ import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
+import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.param.CharlottetownParam
 import com.loan.golden.cash.money.loan.data.param.FigeaterParam
+import com.loan.golden.cash.money.loan.data.param.LustrePersonalParam
 import com.loan.golden.cash.money.loan.data.param.PersonalInfoParam
 import com.loan.golden.cash.money.loan.databinding.FragmentPersonalInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.adapter.FigeaterAdapter
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
 import com.loan.golden.cash.money.wheel.contract.OnOptionPickedListener
+import com.loan.golden.cash.money.wheel.entity.MaritalEntity
 import com.loan.golden.cash.money.wheel.widget.SinglePicker
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import me.hgj.mvvmhelper.ext.divider
@@ -41,8 +45,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
  * @Date        : 2023/9/28 15:49
  * @Describe    : PersonalInfo
  */
-class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(),
-    OnOptionPickedListener {
+class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(), OnOptionPickedListener {
 
     private var selectType = -1
     private var maritalJSonStr: String = ""
@@ -67,10 +70,15 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     private var area = ""
     private var town = ""
     private var mFormId = ""
+    private var mEducation = ""//教育
+    private var mSex = ""//性别
+    private var mMarital = ""//婚姻状态
+    private var mChildrenCount = ""//
+    private var mResidence = ""//住所
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Personal information") { nav().navigateUp() }
-        val mFormId = arguments?.getString("formId").toString()
+        mFormId = arguments?.getString("formId").toString()
 
         /** 获取指定表单 */
         val body = CharlottetownParam(
@@ -129,6 +137,11 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 }
 
                 mBind.tvPersonalInfoSubmit -> {
+//                    nav().navigateAction(R.id.action_to_fragment_contact_information, Bundle().apply {
+//                        putString("formId", mFormId)
+//                        putString("genderJSonStr", genderJSonStr)
+//                        putString("maritalJSonStr", maritalJSonStr)
+//                    })
                     submitPersonalInfo()
                 }
             }
@@ -136,27 +149,42 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     }
 
     private fun submitPersonalInfo() {
-        val body = PersonalInfoParam(
-            PersonalInfoParam.ModelBean(
-                formId = mFormId,
-                submitData = PersonalInfoParam.ModelBean.SubmitDataBean(
-                    education = "",
-                    sex = "",
-                    marital = "",
-                    childrenCount = "",
-                    postalCode = "",
-                    residence = "",
-                    address = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean(
-                        bigAddress = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean.BigAddressBean(
-                            province = "",
-                            city = ""
-                        ),
-                        detailAddress = ""
-                    ),
-                    email = ""
+        when {
+            mBind.tvPersonalInfoEducation.text.isEmpty() -> RxToast.showToast("Please select your education")
+
+            else -> {
+                val personal = PersonalInfoParam(
+                    PersonalInfoParam.ModelBean(
+                        formId = mFormId,
+                        submitData = PersonalInfoParam.ModelBean.SubmitDataBean(
+                            education = mEducation,
+                            sex = mSex,
+                            marital = mMarital,
+                            childrenCount = mChildrenCount,
+                            postalCode = mBind.etPersonalInfoCode.text.toString().trim(),
+                            residence = mResidence,
+                            address = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean(
+                                bigAddress = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean.BigAddressBean(
+                                    province = province,
+                                    city = city
+                                ),
+                                detailAddress = mBind.etPersonalAddressDetails.text.toString().trim()
+                            ),
+                            email = mBind.etPersonalInfoEmail.text.toString().trim()
+                        )
+                    )
                 )
-            )
-        )
+                val body = LustrePersonalParam(
+                    LustrePersonalParam.Model(
+                        formId = mFormId,
+                        submitData = personal
+                    )
+                )
+                val gsonData = Gson().toJson(body)
+                val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                mViewModel.lustrationLustreCallBack(paramsBody)
+            }
+        }
     }
 
     private fun getCompanyAddress() {
@@ -256,32 +284,36 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
             mPicker.titleView.text = mPicker.wheelView.formatItem(position)
         }
         mPicker.show()
-
     }
 
     override fun onOptionPicked(position: Int, item: Any?) {
         when (selectType) {
             0 -> {
+                mEducation = (item as MaritalEntity).id
                 mEducationIndex = position
                 mBind.tvPersonalInfoEducation.text = mPicker.wheelView.formatItem(position)
             }
 
             1 -> {
+                mSex = (item as MaritalEntity).id
                 mGenderIndex = position
                 mBind.tvPersonalInfoPhone.text = mPicker.wheelView.formatItem(position)
             }
 
             2 -> {
+                mMarital = (item as MaritalEntity).id
                 mMaritalIndex = position
                 mBind.tvPersonalInfoMaritalStatus.text = mPicker.wheelView.formatItem(position)
             }
 
             3 -> {
+                mChildrenCount = (item as MaritalEntity).id
                 mChildIndex = position
                 mBind.tvPersonalInfoChildrenCount.text = mPicker.wheelView.formatItem(position)
             }
 
             4 -> {
+                mResidence = (item as MaritalEntity).id
                 mResidenceIndex = position
                 mBind.tvPersonalInfoResidence.text = mPicker.wheelView.formatItem(position)
             }
@@ -291,6 +323,27 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     @SuppressLint("NotifyDataSetChanged")
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        /** 提交表单 */
+        mViewModel.lustreResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                0 -> {
+                    getIncompleteForm()
+//                    nav().navigateAction(R.id.action_to_fragment_contact_information, Bundle().apply {
+//                        putString("formId", mFormId)
+//                        putString("genderJSonStr", genderJSonStr)
+//                        putString("maritalJSonStr", maritalJSonStr)
+//                    })
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+        }
         /** 获取地址信息 */
         mViewModel.figeaterResult.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -343,5 +396,13 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 }
             }
         }
+    }
+
+    private fun getIncompleteForm() {
+        val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
+        val strData = Gson().toJson(aeSirParam)
+        val paramsBody =
+            AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        context?.let { it1 -> mViewModel.aesculinAesirCallBack(paramsBody, it1) }
     }
 }

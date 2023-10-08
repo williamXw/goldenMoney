@@ -36,7 +36,7 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.tvOCRDetailSubmit) {
+        setOnclickNoRepeat(mBind.tvOCRDetailSubmit, mBind.llDataOfBirth) {
             when (it) {
                 mBind.tvOCRDetailSubmit -> {
                     val carParam = CarPologyParam(
@@ -53,6 +53,14 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
                     val strData = Gson().toJson(carParam)
                     val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                     context?.let { it1 -> mViewModel.carpologyCallBack(paramsBody, it1) }
+                }
+
+                mBind.llDataOfBirth -> {
+//                    val picker = BirthdayPicker(this)
+//                    picker.setDefaultValue(1991, 11, 11)
+//                    picker.setOnDatePickedListener(this)
+//                    picker.getWheelLayout().setResetWhenLinkage(false)
+//                    picker.show()
                 }
             }
         }
