@@ -15,7 +15,6 @@ import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
-import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
@@ -28,9 +27,9 @@ import com.loan.golden.cash.money.loan.databinding.FragmentPersonalInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.adapter.FigeaterAdapter
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
-import com.loan.golden.cash.money.wheel.contract.OnOptionPickedListener
-import com.loan.golden.cash.money.wheel.entity.MaritalEntity
-import com.loan.golden.cash.money.wheel.widget.SinglePicker
+import com.loan.golden.cash.money.wheelpicker.contract.OnOptionPickedListener
+import com.loan.golden.cash.money.wheelpicker.entity.MaritalEntity
+import com.loan.golden.cash.money.wheelpicker.widget.SinglePicker
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import me.hgj.mvvmhelper.ext.divider
 import me.hgj.mvvmhelper.ext.getColorExt
@@ -45,7 +44,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
  * @Date        : 2023/9/28 15:49
  * @Describe    : PersonalInfo
  */
-class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(), OnOptionPickedListener {
+class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(),
+    OnOptionPickedListener {
 
     private var selectType = -1
     private var maritalJSonStr: String = ""

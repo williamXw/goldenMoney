@@ -9,16 +9,17 @@ import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.data.param.ContactParam
 import com.loan.golden.cash.money.loan.databinding.FragmentContactInformationBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.BasicFormsViewModel
-import com.loan.golden.cash.money.wheel.contract.OnOptionPickedListener
-import com.loan.golden.cash.money.wheel.entity.MaritalEntity
-import com.loan.golden.cash.money.wheel.widget.SinglePicker
+import com.loan.golden.cash.money.wheelpicker.contract.OnOptionPickedListener
+import com.loan.golden.cash.money.wheelpicker.entity.MaritalEntity
+import com.loan.golden.cash.money.wheelpicker.widget.SinglePicker
 
 /**
  * @Author      : hxw
  * @Date        : 2023/9/27 14:45
  * @Describe    : ContactInformation
  */
-class FragmentContactInformation : BaseFragment<BasicFormsViewModel, FragmentContactInformationBinding>(), OnOptionPickedListener {
+class FragmentContactInformation : BaseFragment<BasicFormsViewModel, FragmentContactInformationBinding>(),
+    OnOptionPickedListener {
 
     private var selectType = -1
     private var mFormId = ""
