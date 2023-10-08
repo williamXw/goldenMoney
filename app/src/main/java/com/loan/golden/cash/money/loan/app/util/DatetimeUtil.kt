@@ -206,4 +206,15 @@ object DatetimeUtil {
         }
         return endDate?.let { dft.format(it) }
     }
+
+    fun timeConverter(timeStr: String): String {
+        val format = SimpleDateFormat(DATE_PATTERN)
+        try {
+            val date = format.parse(timeStr)
+            return date.time.toString()
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return ""
+    }
 }

@@ -16,7 +16,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.loan.golden.cash.money.wheelpicker.widget.WheelView
+    <com.loan.golden.cash.money.wheelview.widget.WheelView
         android:id="@+id/wheel_picker_option_wheel"
         style="@style/WheelDefault"
         android:layout_width="0dp"

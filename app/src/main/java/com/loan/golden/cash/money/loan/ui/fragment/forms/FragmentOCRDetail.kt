@@ -6,6 +6,8 @@ import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
+import com.loan.golden.cash.money.loan.app.util.DatetimeUtil
+import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
@@ -25,10 +27,11 @@ import okhttp3.RequestBody.Companion.toRequestBody
  * @Date        : 2023/9/26 13:28
  * @Describe    : OCRDetail
  */
-class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>() ,
-    OnDatePickedListener,OnTimePickedListener {
+class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>(),
+    OnDatePickedListener {
 
     private lateinit var mData: OCRDetailResponse
+    private var birthDay = ""
 
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Ocr Detail") {
@@ -36,6 +39,7 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
         }
         mData = arguments?.getParcelable(Constant.DATA)!!
         mBind.data = mData
+        birthDay = mData.birthDay
     }
 
     override fun onBindViewClick() {
@@ -48,14 +52,15 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
                             idCard = mData.idCard,
                             realName = mData.realName,
                             taxRegNumber = mData.taxRegNumber,
-                            birthDay = mData.birthDay,
+                            birthDay = birthDay,
                             idCardImageFront = mData.idCardImageFront,
                             idCardImageBack = mData.idCardImageBack,
                             idCardImagePan = mData.idCardImagePan
                         )
                     )
                     val strData = Gson().toJson(carParam)
-                    val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                    val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY)
+                        .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                     context?.let { it1 -> mViewModel.carpologyCallBack(paramsBody, it1) }
                 }
 
@@ -104,11 +109,8 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
         }
     }
 
-    override fun onTimePicked(hour: Int, minute: Int, second: Int) {
-
-    }
-
     override fun onDatePicked(year: Int, month: Int, day: Int) {
-
+        mBind.tvOCRDetailBirthday.text = "$year-$month-$day"
+        birthDay = DatetimeUtil.timeConverter("$year-$month-$day")
     }
 }
