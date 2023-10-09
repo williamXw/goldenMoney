@@ -25,10 +25,27 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customToolbar" />
 
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/swipeRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/dp.15"
+            android:layout_marginTop="@dimen/dp.25"
+            android:layout_marginEnd="@dimen/dp.15"
+            android:layout_marginBottom="@dimen/dp.20"
+            android:background="@drawable/round_white_bg_11dp"
+            android:paddingStart="@dimen/dp.15"
+            android:paddingTop="@dimen/dp.25"
+            android:paddingEnd="@dimen/dp.15"
+            android:paddingBottom="@dimen/dp.25"
+            app:layout_constraintBottom_toTopOf="@+id/tvContactInfoSubmit"
+            app:layout_constraintTop_toBottomOf="@+id/customToolbar" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/tvContactInfoSubmit"
             app:layout_constraintTop_toBottomOf="@+id/customToolbar">
 
@@ -62,7 +79,6 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
-                        android:id="@+id/llContactInfoGender"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp.45"
                         android:layout_marginTop="@dimen/dp.20"
@@ -75,12 +91,12 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gender"
+                            android:text="Name"
                             android:textColor="#828282"
                             android:textSize="@dimen/sp_12" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvContactInfoGender"
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/etContactInfoName"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/dp.15"
@@ -88,7 +104,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="end|center_vertical"
-                            android:hint="please enter Postal code"
+                            android:hint="please enter your name"
                             android:textColorHint="#D0D0D0"
                             android:textSize="@dimen/sp_11" />
 
@@ -124,9 +140,9 @@
                             android:layout_marginEnd="@dimen/dp.6"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:inputType="number"
                             android:gravity="end|center_vertical"
                             android:hint="Example:9900000000"
+                            android:inputType="number"
                             android:textColorHint="#D0D0D0"
                             android:textSize="@dimen/sp_11" />
 
@@ -138,7 +154,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/llContactInfoMaritalStatus"
+                        android:id="@+id/llContactInfoRelationship"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp.45"
                         android:layout_marginTop="@dimen/dp.20"
@@ -151,12 +167,12 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Marital Status"
+                            android:text="Relationship"
                             android:textColor="#828282"
                             android:textSize="@dimen/sp_12" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvContactInfoMaritalStatus"
+                            android:id="@+id/tvContactInfoRelationship"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/dp.15"
@@ -164,7 +180,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="end|center_vertical"
-                            android:hint="please enter Postal code"
+                            android:hint=""
                             android:textColorHint="#D0D0D0"
                             android:textSize="@dimen/sp_11" />
 
@@ -199,7 +215,6 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
-                        android:id="@+id/llContactInfoGender2"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp.45"
                         android:layout_marginTop="@dimen/dp.20"
@@ -212,12 +227,12 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gender"
+                            android:text="Name"
                             android:textColor="#828282"
                             android:textSize="@dimen/sp_12" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvContactInfoGender2"
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/etContactInfoName2"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/dp.15"
@@ -225,7 +240,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="end|center_vertical"
-                            android:hint="please enter Postal code"
+                            android:hint="please enter your name"
                             android:textColorHint="#D0D0D0"
                             android:textSize="@dimen/sp_11" />
 
@@ -262,9 +277,9 @@
                             android:layout_marginEnd="@dimen/dp.6"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:inputType="number"
                             android:gravity="end|center_vertical"
                             android:hint="Example:9900000000"
+                            android:inputType="number"
                             android:textColorHint="#D0D0D0"
                             android:textSize="@dimen/sp_11" />
 
@@ -276,7 +291,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/llContactInfoMaritalStatus2"
+                        android:id="@+id/llContactInfoRelationship2"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp.45"
                         android:layout_marginTop="@dimen/dp.20"
@@ -289,12 +304,12 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Marital Status"
+                            android:text="Relationship"
                             android:textColor="#828282"
                             android:textSize="@dimen/sp_12" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvContactInfoMaritalStatus2"
+                            android:id="@+id/tvContactInfoRelationship2"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/dp.15"
@@ -302,7 +317,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="end|center_vertical"
-                            android:hint="please enter Postal code"
+                            android:hint=""
                             android:textColorHint="#D0D0D0"
                             android:textSize="@dimen/sp_11" />
 

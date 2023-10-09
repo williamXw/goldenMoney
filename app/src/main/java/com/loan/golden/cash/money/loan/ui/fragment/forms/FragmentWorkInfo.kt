@@ -18,8 +18,8 @@ import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.param.FigeaterParam
-import com.loan.golden.cash.money.loan.data.param.LustreParam
 import com.loan.golden.cash.money.loan.data.param.WorkParam
 import com.loan.golden.cash.money.loan.databinding.FragmentBasicInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
@@ -40,7 +40,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
  *  date : 2023/9/25 20:56Ø
  *  description : Work information
  */
-class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBinding>() {
+class FragmentWorkInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBinding>() {
 
     private var parentId = ""
     private var province = ""
@@ -65,7 +65,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         mBind.customToolbar.initBack("Work information") {
             nav().navigateUp()
         }
-        mFormId = arguments?.getString("mFormId").toString()
+        mFormId = arguments?.getString("formId").toString()
     }
 
     override fun onBindViewClick() {
@@ -77,10 +77,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         ) {
             when (it) {
                 mBind.tvBasicInfoSubmit -> {
-//                    submitFormsData()
-                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
-                            putString("formId", mFormId)
-                        })
+                    submitFormsData()
                 }
 
                 mBind.llWorkInfoOccupation -> {
@@ -117,7 +114,7 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 .isEmpty() -> RxToast.showToast("please enter Company PinCode")
 
             else -> {
-                val work = WorkParam(
+                val body = WorkParam(
                     WorkParam.Model(
                         formId = mFormId,
                         submitData = WorkParam.Model.SubmitData(
@@ -136,12 +133,6 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                             ),
                             companyPinCode = mBind.etWorkInfoCompanyPinCode.text.toString().trim()
                         )
-                    )
-                )
-                val body = LustreParam(
-                    LustreParam.Model(
-                        formId = mFormId,
-                        submitData = work
                     )
                 )
                 val gsonData = Gson().toJson(body)
@@ -169,9 +160,10 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
                 }
 
                 0 -> {
-                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
-                        putString("formId", mFormId)
-                    })
+                    getIncompleteForm()
+//                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
+//                        putString("formId", mFormId)
+//                    })
                 }
 
                 else -> {
@@ -212,6 +204,52 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
 
                 else -> {
                     RxToast.showToast(it.message)
+                }
+            }
+        }
+        /** 获取一个未完成的表单 */
+        mViewModel.aesculinAesirResult.observe(viewLifecycleOwner) {
+            var formType = ""
+            if (it.model!!.forms.isNotEmpty() || it.model!!.forms.size != 0) {
+                it.model!!.forms.forEachIndexed { _, _ ->
+                    formType = it.model!!.forms[0].columnField
+                    mFormId = it.model!!.forms[0].formId
+                }
+            }
+            when (formType) {
+                "ocr" -> {//证件识别
+//                        nav().navigateAction(R.id.action_to_fragment_repayment_mode)
+                    nav().navigateAction(R.id.action_to_fragment_orc_inspection)
+                }
+
+                "formPerson" -> {
+                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
+                }
+
+                "formWork" -> {//基础信息
+                    nav().navigateAction(R.id.action_to_fragment_basic_info, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
+                }
+
+                "formEmergency" -> {
+                    nav().navigateAction(R.id.action_to_fragment_contact_information, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
+                }
+
+                "formBank" -> {
+
+                }
+
+                "live" -> {//活体检测
+
+                }
+
+                "ALIVE_H5" -> {//活体检测H5
+
                 }
             }
         }
@@ -320,4 +358,11 @@ class FragmentBasicInfo : BaseFragment<BasicFormsViewModel, FragmentBasicInfoBin
         dialogBottom.show()
     }
 
+    /** 获取一个未完成的表单 */
+    private fun getIncompleteForm() {
+        val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
+        val strData = Gson().toJson(aeSirParam)
+        val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        context?.let { it1 -> mViewModel.aesculinAesirCallBack(paramsBody, it1) }
+    }
 }

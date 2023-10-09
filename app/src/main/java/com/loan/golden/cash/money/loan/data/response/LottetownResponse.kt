@@ -65,7 +65,60 @@ data class LottetownResponse(
                 @Parcelize
                 class PropsBean(
 
-                ) : Parcelable
+                    var relationList: ArrayList<RelationListBean> = arrayListOf(),
+                    var fieldConf: FieldConfBean? = null
+
+                ) : Parcelable {
+
+                    @Parcelize
+                    class FieldConfBean(
+
+                        var nameLabel: String = "",
+                        var phoneLabel: String = "",
+                        var phonePlaceholder: String = "",
+                        var relationLabel: String = "",
+                        var count: Int = 0,
+
+                        ) : Parcelable
+
+                    @Parcelize
+                    class RelationListBean(
+
+                        var id: String = "",
+                        var created: Long = 0,
+                        var modified: Long = 0,
+                        var countryIds: ArrayList<String> = arrayListOf(),
+                        var categoryId: String = "",
+                        var name: String = "",
+                        var value: String = "",
+                        var hasChildren: Boolean = false,
+                        var color: String = "",
+                        var values: ValuesBean? = null,
+                        var sort: Int = 0
+
+                    ) : Parcelable {
+
+                        @Parcelize
+                        class ValuesBean(
+
+                            var values: ValuesBean2? = null
+
+                        ) : Parcelable {
+
+                            @Parcelize
+                            class ValuesBean2(
+
+                                var id: String = "",
+                                var es_NI: String = "",
+                                var en_us: String = "",
+                                var hi: String = "",
+                                var ur: String = "",
+
+                                ) : Parcelable
+
+                        }
+                    }
+                }
 
                 @Parcelize
                 class OptionsBeean(

@@ -37,7 +37,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
             myBinder = p1 as DeviceUpLoadService.mBinder
             myBinder.a()
-            mViewModel.nappyNapraPath()
+            mViewModel.nappyNapraPath(this@MainActivity)
         }
 
         override fun onServiceDisconnected(p0: ComponentName?) {
@@ -72,32 +72,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     override fun onRequestSuccess() {
         super.onRequestSuccess()
         mViewModel.nappyResult.observe(this) {
-            if (it.code == 200) {
-                val dataBody = it.body!!.string()
-                if (dataBody.isNotEmpty()) {
-                    val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
-                    val gson = Gson()
-                    val mData: UpLoadDeviceInfoResponse = gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
-                    if (mData.status == 1012) {
-                        startActivity<LoginActivity>()
-                        return@observe
-                    }
-                    if (mData.status == 0) {
-                        if (mData.list.isNotEmpty()) {
-                            mData.list.forEachIndexed { _, s ->
-                                when (s) {
-                                    "DEVICE" -> {
+            if (it.list.isNotEmpty()) {
+                it.list.forEachIndexed { _, s ->
+                    when (s) {
+                        "DEVICE" -> {
 
-                                    }
-                                }
-                            }
                         }
-                    } else {
-                        val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                        RxToast.showToast(msg)
                     }
-                } else {
-                    RxToast.showToast("dataBody is empty")
                 }
             }
         }

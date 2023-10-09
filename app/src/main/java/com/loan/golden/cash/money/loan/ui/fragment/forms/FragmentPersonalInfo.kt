@@ -15,13 +15,13 @@ import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
+import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.param.CharlottetownParam
 import com.loan.golden.cash.money.loan.data.param.FigeaterParam
-import com.loan.golden.cash.money.loan.data.param.LustrePersonalParam
 import com.loan.golden.cash.money.loan.data.param.PersonalInfoParam
 import com.loan.golden.cash.money.loan.databinding.FragmentPersonalInfoBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
@@ -44,8 +44,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
  * @Date        : 2023/9/28 15:49
  * @Describe    : PersonalInfo
  */
-class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(),
-    OnOptionPickedListener {
+class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalInfoBinding>(), OnOptionPickedListener {
 
     private var selectType = -1
     private var maritalJSonStr: String = ""
@@ -66,6 +65,8 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     private val mAdapter: FigeaterAdapter by lazy { FigeaterAdapter(arrayListOf()) }
     private var parentId = ""
     private var province = ""
+    private var mProvinceId = ""
+    private var mCityId = ""
     private var city = ""
     private var area = ""
     private var town = ""
@@ -81,14 +82,9 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
         mFormId = arguments?.getString("formId").toString()
 
         /** 获取指定表单 */
-        val body = CharlottetownParam(
-            CharlottetownParam.Model(
-                formId = mFormId,
-            )
-        )
+        val body = CharlottetownParam(CharlottetownParam.Model(formId = mFormId))
         val gsonData = Gson().toJson(body)
-        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         showLoadingExt("loading....")
         mViewModel.lottetownCallBack(paramsBody)
     }
@@ -137,11 +133,6 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 }
 
                 mBind.tvPersonalInfoSubmit -> {
-//                    nav().navigateAction(R.id.action_to_fragment_contact_information, Bundle().apply {
-//                        putString("formId", mFormId)
-//                        putString("genderJSonStr", genderJSonStr)
-//                        putString("maritalJSonStr", maritalJSonStr)
-//                    })
                     submitPersonalInfo()
                 }
             }
@@ -153,7 +144,7 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
             mBind.tvPersonalInfoEducation.text.isEmpty() -> RxToast.showToast("Please select your education")
 
             else -> {
-                val personal = PersonalInfoParam(
+                val body = PersonalInfoParam(
                     PersonalInfoParam.ModelBean(
                         formId = mFormId,
                         submitData = PersonalInfoParam.ModelBean.SubmitDataBean(
@@ -165,8 +156,8 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                             residence = mResidence,
                             address = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean(
                                 bigAddress = PersonalInfoParam.ModelBean.SubmitDataBean.AddressBean.BigAddressBean(
-                                    province = province,
-                                    city = city
+                                    province = mProvinceId,
+                                    city = mCityId
                                 ),
                                 detailAddress = mBind.etPersonalAddressDetails.text.toString().trim()
                             ),
@@ -174,12 +165,7 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                         )
                     )
                 )
-                val body = LustrePersonalParam(
-                    LustrePersonalParam.Model(
-                        formId = mFormId,
-                        submitData = personal
-                    )
-                )
+
                 val gsonData = Gson().toJson(body)
                 val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                 mViewModel.lustrationLustreCallBack(paramsBody)
@@ -197,8 +183,7 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     @SuppressLint("SetTextI18n")
     private fun showAddressDialog() {
         dialogBottomAddress = context?.let { BottomSheetDialog(it, R.style.BottomSheetDialog) }!!
-        val dialogView: View =
-            LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
+        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.bottom_figeater_view, null)
         val swipeRecyclerView = dialogView.findViewById<SwipeRecyclerView>(R.id.swipeRecyclerView)
         swipeRecyclerView.run {
             vertical()
@@ -217,10 +202,12 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 val mType = mAdapter.data[position].type
                 when (mType) {
                     "PROVINCES" -> {
+                        mProvinceId = mAdapter.data[position].id
                         province = mAdapter.data[position].name
                     }
 
                     "REGENCIES" -> {
+                        mCityId = mAdapter.data[position].id
                         city = mAdapter.data[position].name
                     }
 
@@ -332,11 +319,6 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
 
                 0 -> {
                     getIncompleteForm()
-//                    nav().navigateAction(R.id.action_to_fragment_contact_information, Bundle().apply {
-//                        putString("formId", mFormId)
-//                        putString("genderJSonStr", genderJSonStr)
-//                        putString("maritalJSonStr", maritalJSonStr)
-//                    })
                 }
 
                 else -> {
@@ -396,8 +378,54 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 }
             }
         }
+
+        /** 获取一个未完成的表单 */
+        mViewModel.aesculinAesirResult.observe(viewLifecycleOwner) {
+            var formType = ""
+            if (it.model!!.forms.isNotEmpty() || it.model!!.forms.size != 0) {
+                it.model!!.forms.forEachIndexed { _, _ ->
+                    formType = it.model!!.forms[0].columnField
+                    mFormId = it.model!!.forms[0].formId
+                }
+            }
+            when (formType) {
+                "ocr" -> {//证件识别
+//                        nav().navigateAction(R.id.action_to_fragment_repayment_mode)
+                    nav().navigateAction(R.id.action_to_fragment_orc_inspection)
+                }
+
+                "formPerson" -> {
+                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
+                }
+
+                "formWork" -> {//基础信息
+                    nav().navigateAction(R.id.action_to_fragment_basic_info, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
+                }
+
+                "formEmergency" -> {
+
+                }
+
+                "formBank" -> {
+
+                }
+
+                "live" -> {//活体检测
+
+                }
+
+                "ALIVE_H5" -> {//活体检测H5
+
+                }
+            }
+        }
     }
 
+    /** 获取一个未完成的表单 */
     private fun getIncompleteForm() {
         val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
         val strData = Gson().toJson(aeSirParam)

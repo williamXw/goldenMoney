@@ -48,24 +48,40 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         mViewModel.aesculinAesirResult.observe(viewLifecycleOwner) {
             var formType = ""
             if (!it.model!!.forms.isNullOrEmpty() || it.model!!.forms.size != 0) {
-                it.model!!.forms.forEachIndexed { index, formsData ->
-                    formType = it.model!!.forms[0].formType
+                it.model!!.forms.forEachIndexed { _, _ ->
+                    formType = it.model!!.forms[0].columnField
                     mFormId = it.model!!.forms[0].formId
                 }
             }
             when (formType) {
-                "OCR" -> {//证件识别
+                "ocr" -> {//证件识别
 //                        nav().navigateAction(R.id.action_to_fragment_repayment_mode)
                     nav().navigateAction(R.id.action_to_fragment_orc_inspection)
                 }
 
-                "BASIC" -> {//基础信息
-                    nav().navigateAction(R.id.action_to_fragment_basic_info, Bundle().apply {
-                        putString("mFormId", mFormId)
+                "formPerson" -> {
+                    nav().navigateAction(R.id.action_to_fragment_personal_information, Bundle().apply {
+                        putString("formId", mFormId)
                     })
                 }
 
-                "ALIVE" -> {//活体检测
+                "formWork" -> {//基础信息
+                    nav().navigateAction(R.id.action_to_fragment_basic_info, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
+                }
+
+                "formEmergency" -> {
+                    nav().navigateAction(R.id.action_to_fragment_contact_information, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
+                }
+
+                "formBank" -> {
+
+                }
+
+                "live" -> {//活体检测
 
                 }
 

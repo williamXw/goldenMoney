@@ -67,8 +67,7 @@ class BasicFormsViewModel : BaseViewModel() {
                         if (mBody.isNotEmpty()) {
                             val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
                             val gson = Gson()
-                            val mData: FigeaterResponse =
-                                gson.fromJson(mResponse, FigeaterResponse::class.java)
+                            val mData: FigeaterResponse = gson.fromJson(mResponse, FigeaterResponse::class.java)
                             figeaterResult.value = mData
                         }
                     }
