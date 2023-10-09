@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:ignore="MissingConstraints">
+
+        <RelativeLayout
+            android:id="@+id/rlHeadPic"
+            android:layout_width="268dp"
+            android:layout_height="268dp"
+            android:layout_marginTop="120dp"
+            android:background="@mipmap/icon_live_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="234dp"
+                android:layout_height="234dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon_live_head_pic" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="306dp"
+                    android:layout_height="115dp"
+                    android:background="@mipmap/icon_live_head_top" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="234dp"
+                    android:layout_height="1dp"
+                    android:background="#4470EC" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp.25"
+            android:gravity="center"
+            android:text="Please take a photo with the camera"
+            android:textColor="#717171"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rlHeadPic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLiveSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp.50"
+            android:layout_marginStart="@dimen/dp.15"
+            android:layout_marginEnd="@dimen/dp.15"
+            android:layout_marginBottom="@dimen/dp_40"
+            android:background="@drawable/btn_gradient_25dp"
+            android:gravity="center"
+            android:text="SUBMIT"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

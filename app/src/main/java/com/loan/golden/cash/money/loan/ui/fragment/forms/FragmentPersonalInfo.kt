@@ -407,15 +407,21 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
                 }
 
                 "formEmergency" -> {
-
+                    nav().navigateAction(R.id.action_to_fragment_contact_information, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
                 }
 
                 "formBank" -> {
-
+                    nav().navigateAction(R.id.action_to_fragment_bank_info, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
                 }
 
                 "live" -> {//活体检测
-
+                    nav().navigateAction(R.id.action_to_fragment_live_detection, Bundle().apply {
+                        putString("formId", mFormId)
+                    })
                 }
 
                 "ALIVE_H5" -> {//活体检测H5
@@ -429,8 +435,7 @@ class FragmentPersonalInfo : BaseFragment<BasicFormsViewModel, FragmentPersonalI
     private fun getIncompleteForm() {
         val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
         val strData = Gson().toJson(aeSirParam)
-        val paramsBody =
-            AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         context?.let { it1 -> mViewModel.aesculinAesirCallBack(paramsBody, it1) }
     }
 }

@@ -14,10 +14,41 @@ import com.blankj.utilcode.util.Utils
 import com.loan.golden.cash.money.loan.R
 import com.tencent.mmkv.MMKV
 import java.lang.reflect.InvocationTargetException
+import java.math.BigDecimal
 import kotlin.math.roundToInt
 
 
 object SettingUtil {
+
+    /**
+     * 提供精确的加法运算。
+     *
+     * @param v1
+     * 被加数
+     * @param v2
+     * 加数
+     * @return 两个参数的和
+     */
+    fun add(v1: Double, v2: Double): String? {
+        val b1 = BigDecimal(v1.toString())
+        val b2 = BigDecimal(v2.toString())
+        return java.lang.String.valueOf(b1.add(b2))
+    }
+
+    /**
+     * 提供精确的加法运算。
+     *
+     * @param v1
+     * 被加数
+     * @param v2
+     * 加数
+     * @return 两个参数的和
+     */
+    fun add(v1: String?, v2: String?): String? {
+        val b1 = BigDecimal(v1)
+        val b2 = BigDecimal(v2)
+        return java.lang.String.valueOf(b1.add(b2))
+    }
 
     fun removeQuotes(s: String?): String? {
         if (s == null || s.length < 2) return s
