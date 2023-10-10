@@ -9,6 +9,9 @@
             name="data"
             type="com.loan.golden.cash.money.loan.data.response.NapperResponse.PageBean.ContentBean" />
 
+        <import type="com.loan.golden.cash.money.loan.app.util.SettingUtil" />
+
+        <import type="com.loan.golden.cash.money.loan.app.util.DatetimeUtil" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.3"
-                        android:text="rs 14900"
+                        android:text='@{"Rs "+SettingUtil.INSTANCE.cns(String.valueOf(data.amount))}'
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_20" />
 
@@ -116,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp.3"
-                        android:text="120"
+                        android:text="@{SettingUtil.INSTANCE.cns(String.valueOf(data.term))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_20" />
 
@@ -156,9 +159,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="rs 8224.8"
+                        android:text='@{"Rs "+SettingUtil.INSTANCE.cns(String.valueOf(data.amount))}'
                         android:textColor="#373737"
-                        android:textSize="@dimen/sp_12" />
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -179,9 +183,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="rs 8224.8"
+                        android:text='@{SettingUtil.INSTANCE.cns(String.valueOf(data.term))+" Days"}'
                         android:textColor="#373737"
-                        android:textSize="@dimen/sp_12" />
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -202,9 +207,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="rs 8224.8"
+                        android:text="@{SettingUtil.INSTANCE.cns(DatetimeUtil.INSTANCE.timeStampToString(data.created))}"
                         android:textColor="#373737"
-                        android:textSize="@dimen/sp_12" />
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -227,7 +233,8 @@
                         android:gravity="end"
                         android:text="rs 8224.8"
                         android:textColor="#373737"
-                        android:textSize="@dimen/sp_12" />
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

@@ -135,6 +135,14 @@ object DatetimeUtil {
     }
 
     /**
+     * 将时间戳转换为时间
+     */
+    fun timeStampToString(timeStamp: Long): String {
+        val sdf = SimpleDateFormat(DATE_PATTERN_SS)
+        return sdf.format(Date(timeStamp))
+    }
+
+    /**
      * 将时间字符串转Date类型
      */
     fun getCustomTime(dateStr: String): Date {
