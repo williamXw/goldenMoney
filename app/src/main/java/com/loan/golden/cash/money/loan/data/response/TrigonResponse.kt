@@ -2,7 +2,6 @@ package com.loan.golden.cash.money.loan.data.response
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.util.ArrayList
 
 /**
  *  author : huxiaowei
@@ -12,7 +11,11 @@ import java.util.ArrayList
 @Parcelize
 data class TrigonResponse(
 
-    var status: Int = 0, var time: Long = 0, var maxAge: Int = 0, var model: ModelBean? = null
+    var status: Int = 0,
+    var time: Long = 0,
+    var maxAge: Int = 0,
+    var model: ArrayList<ModelBean> = arrayListOf(),
+    var message: String = ""
 
 ) : Parcelable {
 
@@ -38,6 +41,7 @@ data class TrigonResponse(
 
             var title: String = "",
             var value: String = "",
-        ) : Parcelable
+
+            ) : Parcelable
     }
 }

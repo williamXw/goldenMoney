@@ -11,10 +11,12 @@ import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
+import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.NapperParam
 import com.loan.golden.cash.money.loan.data.param.TrigonParam
 import com.loan.golden.cash.money.loan.databinding.FragmentProductListBinding
+import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.adapter.NapperAdapter
 import com.loan.golden.cash.money.loan.ui.dialog.RxDialogProductList
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
@@ -25,6 +27,8 @@ import me.hgj.mvvmhelper.ext.vertical
 import me.hgj.mvvmhelper.util.decoration.DividerOrientation
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.jetbrains.anko.startActivity
+import org.json.JSONObject
 
 /**
  * @Author      : hxw
@@ -33,6 +37,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
  */
 class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBinding>() {
 
+    private lateinit var dialog: RxDialogProductList
     private val mAdapter: NapperAdapter by lazy { NapperAdapter(arrayListOf()) }
     private var mPosition = -1
 
@@ -87,7 +92,7 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
             RxToast.showToast("Please select a product")
             return
         }
-        val dialog = RxDialogProductList(context)
+        dialog = RxDialogProductList(context)
         dialog.setLoanData(mAdapter.data[mPosition])
         val tvDialogSubmit = dialog.findViewById<AppCompatTextView>(R.id.tvDialogSubmit)
         tvDialogSubmit.setOnClickListener {
@@ -113,6 +118,36 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
     @SuppressLint("NotifyDataSetChanged")
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        mViewModel.apologiaResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                0 -> {
+                    if (::dialog.isInitialized) {
+                        dialog.dismiss()
+                    }
+                }
+
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+        }
+        /** 产品手续费试算 */
+        mViewModel.trigonResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+        }
+        /** 产品信息列表  */
         mViewModel.napperResult.observe(viewLifecycleOwner) {
             mPosition = -1
             dismissLoadingExt()

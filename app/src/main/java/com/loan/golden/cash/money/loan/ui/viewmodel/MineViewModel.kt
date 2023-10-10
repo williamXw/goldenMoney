@@ -8,9 +8,9 @@ import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.ApologiseParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
-import com.loan.golden.cash.money.loan.data.response.AesirResponse
-import com.loan.golden.cash.money.loan.data.response.LiveResponse
+import com.loan.golden.cash.money.loan.data.response.CommonResponse
 import com.loan.golden.cash.money.loan.data.response.NapperResponse
 import com.loan.golden.cash.money.loan.data.response.TrigonResponse
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
@@ -18,7 +18,9 @@ import me.hgj.mvvmhelper.base.BaseViewModel
 import me.hgj.mvvmhelper.ext.rxHttpRequest
 import me.hgj.mvvmhelper.ext.rxHttpRequestCallBack
 import me.hgj.mvvmhelper.net.LoadingType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
@@ -29,6 +31,8 @@ import org.json.JSONObject
  * @Describe    :
  */
 class MineViewModel : BaseViewModel() {
+
+    private var productId: String = ""
 
     /** 产品信息列表  */
     var napperResult = MutableLiveData<NapperResponse>()
@@ -70,7 +74,11 @@ class MineViewModel : BaseViewModel() {
 
     /** 产品手续费试算 */
     var trigonResult = MutableLiveData<TrigonResponse>()
+
+    /** 贷款申请 */
+    var apologiaResult = MutableLiveData<CommonResponse>()
     fun loanApplicationCallBack(body: RequestBody) {
+        val mListIds: ArrayList<String> = arrayListOf()
         rxHttpRequest {
             onRequest = {
                 val response = UserRepository.trigon(body).await()
@@ -79,14 +87,36 @@ class MineViewModel : BaseViewModel() {
                     if (dataBody.isNotEmpty()) {
                         val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                         val gson = Gson()
-                        val mData: TrigonResponse? = gson.fromJson(mResponse, TrigonResponse::class.java)
-                        trigonResult.value = mData!!
+                        val mData: TrigonResponse = gson.fromJson(mResponse, TrigonResponse::class.java)
+                        if (mData.model.isNotEmpty()) {
+                            productId = mData.model[0].productId
+                        }
+                        trigonResult.value = mData
                     }
                 }
-                loadingType = LoadingType.LOADING_DIALOG
-                loadingMessage = "loading....."
-                requestCode = NetUrl.APOLOGIA_APOLOGISE
+                mListIds.add(productId)
+                val body = ApologiseParam(
+                    model = ApologiseParam.ModelBean(
+                        productIds = mListIds
+                    )
+                )
+                val strData = Gson().toJson(body)
+                val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY)
+                    .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                val response2 = UserRepository.apologiaApologise(paramsBody).await()
+                val dataBody2 = response2.body!!.string()
+                if (response2.code == 200) {
+                    if (dataBody2.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(dataBody2, Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData2: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
+                        apologiaResult.value = mData2
+                    }
+                }
             }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.APOLOGIA_APOLOGISE
         }
     }
 }
