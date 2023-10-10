@@ -56,7 +56,7 @@ class MineViewModel : BaseViewModel() {
                     }
                 }
             }
-            loadingType = LoadingType.LOADING_DIALOG
+            loadingType = LoadingType.LOADING_CUSTOM
             loadingMessage = "loading....."
             requestCode = NetUrl.NAPPER
         }

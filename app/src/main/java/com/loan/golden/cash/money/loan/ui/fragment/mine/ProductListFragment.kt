@@ -14,7 +14,9 @@ import com.loan.golden.cash.money.loan.databinding.FragmentProductListBinding
 import com.loan.golden.cash.money.loan.ui.adapter.NapperAdapter
 import com.loan.golden.cash.money.loan.ui.dialog.RxDialogProductList
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
+import me.hgj.mvvmhelper.ext.dismissLoadingExt
 import me.hgj.mvvmhelper.ext.divider
+import me.hgj.mvvmhelper.ext.showLoadingExt
 import me.hgj.mvvmhelper.ext.vertical
 import me.hgj.mvvmhelper.util.decoration.DividerOrientation
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -34,6 +36,9 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
 
         getNapperList()
         initAdapter()
+        mBind.includedList.swipeRefreshLayout.setOnRefreshListener {
+            getNapperList()
+        }
     }
 
     private fun initAdapter() {
@@ -47,6 +52,7 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
     }
 
     private fun getNapperList() {
+        showLoadingExt("loading.....")
         val body = NapperParam(
             query = NapperParam.QueryBean()
         )
@@ -73,6 +79,10 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
     override fun onRequestSuccess() {
         super.onRequestSuccess()
         mViewModel.napperResult.observe(viewLifecycleOwner) {
+            dismissLoadingExt()
+            if (mBind.includedList.swipeRefreshLayout.isRefreshing) {
+                mBind.includedList.swipeRefreshLayout.isRefreshing = false
+            }
             mAdapter.setList(it.page?.content)
             mAdapter.notifyDataSetChanged()
         }
