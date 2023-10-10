@@ -7,6 +7,7 @@ import com.loan.golden.cash.money.loan.app.api.NetUrl
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.ImageLoaderManager
 import com.loan.golden.cash.money.loan.app.util.RxToast
+import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.AesirParam
@@ -153,7 +154,7 @@ class ORCViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
                         val gson = Gson()
                         val mData: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
                         if (mData != null) {

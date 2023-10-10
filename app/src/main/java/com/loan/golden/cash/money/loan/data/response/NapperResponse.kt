@@ -51,6 +51,7 @@ data class NapperResponse(
         @Parcelize
         class ContentBean(
 
+            var isSelected:Boolean,
             var id: String = "",
             var countryId: String = "",
             var name: String = "",
@@ -78,7 +79,7 @@ data class NapperResponse(
             var platformFirstLoanDayLimit: Int = 0,
             var platformFirstLoanDayCount: Int = 0,
             var term: Int = 0,
-            var contractAmount: Int = 0,
+            var contractAmount: Double = 0.0,
             var amount: Double = 0.0,
             var serviceRate: Double = 0.0,
             var serviceAmount: Double = 0.0,

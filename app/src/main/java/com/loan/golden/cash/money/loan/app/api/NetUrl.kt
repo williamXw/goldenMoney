@@ -54,4 +54,10 @@ object NetUrl {
     /** 产品信息接口 */
     const val NAPPER = "/spermicidal_spermine/napper"
 
+    /** 产品手续费试算 */
+    const val TRIGON = "/movietone_moving/trigon"
+
+    /** 贷款申请 */
+    const val APOLOGIA_APOLOGISE = "/overcurtain_overcut/apologia_apologise"
+
 }

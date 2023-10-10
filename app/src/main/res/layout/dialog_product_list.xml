@@ -74,6 +74,7 @@
                     android:textSize="@dimen/sp_11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogLoanProducts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salary Cash"
@@ -96,6 +97,7 @@
                     android:textSize="@dimen/sp_11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogTerm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salary Cash"
@@ -118,6 +120,7 @@
                     android:textSize="@dimen/sp_11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogLoanAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salary Cash"
@@ -140,6 +143,7 @@
                     android:textSize="@dimen/sp_11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogLoanDailyInterestRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salary Cash"
@@ -162,6 +166,7 @@
                     android:textSize="@dimen/sp_11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogGST"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salary Cash"
@@ -184,6 +189,7 @@
                     android:textSize="@dimen/sp_11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salary Cash"
@@ -206,6 +212,7 @@
                     android:textSize="@dimen/sp_11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogAmountReceived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salary Cash"
@@ -221,6 +228,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogCancel"
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_marginEnd="11dp"
@@ -232,6 +240,7 @@
                     android:textSize="@dimen/sp_12" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDialogSubmit"
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="11dp"

@@ -86,5 +86,15 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.NAPPER).setBody(body).toOkResponse()
     }
 
+    /** 产品手续费试算 */
+    fun trigon(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.TRIGON).setBody(body).toOkResponse()
+    }
+
+    /** 贷款申请 */
+    fun apologiaApologise(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.APOLOGIA_APOLOGISE).setBody(body).toOkResponse()
+    }
+
 }
 

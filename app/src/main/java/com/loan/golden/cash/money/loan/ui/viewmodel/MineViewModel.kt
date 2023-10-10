@@ -9,10 +9,13 @@ import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
+import com.loan.golden.cash.money.loan.data.response.AesirResponse
 import com.loan.golden.cash.money.loan.data.response.LiveResponse
 import com.loan.golden.cash.money.loan.data.response.NapperResponse
+import com.loan.golden.cash.money.loan.data.response.TrigonResponse
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import me.hgj.mvvmhelper.base.BaseViewModel
+import me.hgj.mvvmhelper.ext.rxHttpRequest
 import me.hgj.mvvmhelper.ext.rxHttpRequestCallBack
 import me.hgj.mvvmhelper.net.LoadingType
 import okhttp3.RequestBody
@@ -36,9 +39,11 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = form.body!!.string()
                 if (form.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse =
+                            SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
                         val gson = Gson()
-                        val mData: NapperResponse = gson.fromJson(mResponse, NapperResponse::class.java)
+                        val mData: NapperResponse =
+                            gson.fromJson(mResponse, NapperResponse::class.java)
                         when (mData.status) {
                             1012 -> {
                                 mContext.startActivity<LoginActivity>()
@@ -62,4 +67,26 @@ class MineViewModel : BaseViewModel() {
         }
     }
 
+
+    /** 产品手续费试算 */
+    var trigonResult = MutableLiveData<TrigonResponse>()
+    fun loanApplicationCallBack(body: RequestBody) {
+        rxHttpRequest {
+            onRequest = {
+                val response = UserRepository.trigon(body).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: TrigonResponse? = gson.fromJson(mResponse, TrigonResponse::class.java)
+                        trigonResult.value = mData!!
+                    }
+                }
+                loadingType = LoadingType.LOADING_DIALOG
+                loadingMessage = "loading....."
+                requestCode = NetUrl.APOLOGIA_APOLOGISE
+            }
+        }
+    }
 }
