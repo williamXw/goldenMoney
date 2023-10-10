@@ -84,9 +84,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 }
 
                 "live" -> {//活体检测
-                    nav().navigateAction(R.id.action_to_fragment_live_detection, Bundle().apply {
-                        putString("formId", mFormId)
-                    })
+                    nav().navigateAction(R.id.action_to_fragment_live_detection)
                 }
 
                 "ALIVE_H5" -> {//活体检测H5

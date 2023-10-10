@@ -1,6 +1,7 @@
 package com.loan.golden.cash.money.loan.app.util
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -69,6 +70,22 @@ object ImageLoaderManager {
         val requestOptions = RequestOptions.bitmapTransform(CircleCrop())
         Glide.with(context!!)
             .load(url)
+            .apply(requestOptions)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(imageView!!)
+    }
+
+    /**
+     * 加载圆形图片
+     *
+     * @param context
+     * @param bitmap
+     * @param imageView
+     */
+    fun loadCircleImage(context: Context?, bitmap: Bitmap?, imageView: ImageView?) {
+        val requestOptions = RequestOptions.bitmapTransform(CircleCrop())
+        Glide.with(context!!)
+            .load(bitmap)
             .apply(requestOptions)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(imageView!!)

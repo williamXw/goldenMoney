@@ -24,16 +24,19 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
+                android:id="@+id/ivLiveHead"
                 android:layout_width="234dp"
                 android:layout_height="234dp"
                 android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/icon_live_head_pic" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -46,6 +49,15 @@
                     android:layout_height="1dp"
                     android:background="#4470EC" />
             </LinearLayout>
+
+            <com.makeramen.roundedimageview.RoundedImageView
+
+                android:layout_width="258dp"
+                android:layout_height="258dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                app:riv_corner_radius="60dp"/>
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
