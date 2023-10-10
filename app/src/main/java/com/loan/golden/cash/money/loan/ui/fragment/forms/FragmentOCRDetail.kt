@@ -87,6 +87,8 @@ class FragmentOCRDetail : BaseFragment<ORCViewModel, FragmentOcrDetailBinding>()
                     it.model!!.forms.forEachIndexed { _, _ ->
                         formType = it.model!!.forms[0].formType
                     }
+                } else {
+                    nav().navigateAction(R.id.action_to_fragment_product_list)
                 }
             }
             when (formType) {

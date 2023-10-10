@@ -13,6 +13,7 @@ import com.loan.golden.cash.money.loan.data.response.AesirResponse
 import com.loan.golden.cash.money.loan.data.response.CommonResponse
 import com.loan.golden.cash.money.loan.data.response.FigeaterResponse
 import com.loan.golden.cash.money.loan.data.response.KaliResponse
+import com.loan.golden.cash.money.loan.data.response.LiveResponse
 import com.loan.golden.cash.money.loan.data.response.LottetownResponse
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import me.hgj.mvvmhelper.base.BaseViewModel
@@ -159,6 +160,41 @@ class BasicFormsViewModel : BaseViewModel() {
             loadingType = LoadingType.LOADING_DIALOG
             loadingMessage = "loading....."
             requestCode = NetUrl.AESCULAPIUS_AESCULIN_AESIR
+        }
+    }
+
+    /** 活体检测+人脸对比  */
+    var ghettoizeResult = MutableLiveData<LiveResponse>()
+    fun ghettoizeCallBack(body: RequestBody, mContext: Context): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val form = UserRepository.ghettoize(body).await()
+                val dataBody = form.body!!.string()
+                if (form.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val gson = Gson()
+                        val mData: LiveResponse = gson.fromJson(mResponse, LiveResponse::class.java)
+                        when (mData.status) {
+                            1012 -> {
+                                mContext.startActivity<LoginActivity>()
+                            }
+
+                            0 -> {
+                                ghettoizeResult.value = mData
+                            }
+
+                            else -> {
+                                val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                                RxToast.showToast(msg)
+                            }
+                        }
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.GHETTOIZE
         }
     }
 }

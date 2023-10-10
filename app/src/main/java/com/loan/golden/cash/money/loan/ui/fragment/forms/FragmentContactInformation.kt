@@ -167,6 +167,8 @@ class FragmentContactInformation : BaseFragment<BasicFormsViewModel, FragmentCon
                     formType = it.model!!.forms[0].columnField
                     mFormId = it.model!!.forms[0].formId
                 }
+            }else{
+                nav().navigateAction(R.id.action_to_fragment_product_list)
             }
             when (formType) {
                 "ocr" -> {//证件识别

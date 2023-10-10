@@ -76,5 +76,15 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.CHARLOTTE_CHARLOTTETOWN).setBody(body).toOkResponse()
     }
 
+    /** 活体检测+人脸对比 */
+    fun ghettoize(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.GHETTOIZE).setBody(body).toOkResponse()
+    }
+
+    /** 产品信息接口 */
+    fun napper(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.NAPPER).setBody(body).toOkResponse()
+    }
+
 }
 

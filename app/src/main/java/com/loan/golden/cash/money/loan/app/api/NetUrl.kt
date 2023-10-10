@@ -48,4 +48,10 @@ object NetUrl {
     /** 获取指定表单 */
     const val CHARLOTTE_CHARLOTTETOWN = "/leghorn_legibility_legible/charlotte_charlottetown"
 
+    /** 活体检测+人脸对比 */
+    const val GHETTOIZE = "/hanging_hangman/ghettoize"
+
+    /** 产品信息接口 */
+    const val NAPPER = "/spermicidal_spermine/napper"
+
 }
