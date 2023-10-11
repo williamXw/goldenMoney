@@ -60,4 +60,7 @@ object NetUrl {
     /** 贷款申请 */
     const val APOLOGIA_APOLOGISE = "/overcurtain_overcut/apologia_apologise"
 
+    /** 订单列表 */
+    const val BLACKSHIRT = "/bafflegab_bafflement/blackshirt"
+
 }

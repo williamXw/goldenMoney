@@ -27,8 +27,6 @@ import me.hgj.mvvmhelper.ext.vertical
 import me.hgj.mvvmhelper.util.decoration.DividerOrientation
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.jetbrains.anko.startActivity
-import org.json.JSONObject
 
 /**
  * @Author      : hxw

@@ -50,10 +50,10 @@ class MyLoanFragment : BaseFragment<MineViewModel, FragmentMyLoanBinding>() {
     private fun replaceFragments(position: Int) {
         childFragmentManager.beginTransaction().apply {
             when (position) {
-                0 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(0))
-                1 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(1))
-                2 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(2))
-                3 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(3))
+                0 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(0,"All"))
+                1 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(1,"LOAN_SUCCESS"))
+                2 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(2,"DUNNING"))
+                3 -> replace(R.id.home_activity_frag_container, FragmentMyLoanList.newInstance(3,"FINISH"))
 
             }
         }.commitAllowingStateLoss()

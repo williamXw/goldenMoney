@@ -46,7 +46,7 @@ class MineFragment : BaseFragment<MineViewModel, FragmentMineBinding>() {
                 }
 
                 mBind.ivMineHead -> {
-                    nav().navigateAction(R.id.action_to_fragment_orc_inspection)
+
                 }
 
                 mBind.llMineMyOrder -> {

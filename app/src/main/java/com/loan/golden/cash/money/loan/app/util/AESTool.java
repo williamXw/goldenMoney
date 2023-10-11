@@ -251,18 +251,4 @@ public class AESTool {
         }
         return result;
     }
-
-    public static void test() {
-        String password = "1234512345123456";
-
-        String str = "12382929sadadasd";
-
-        byte[] encryptResult = encrypt(str, password);
-        String encryptResultStr = parseByte2HexStr(encryptResult);
-        System.out.println("加密后：" + encryptResultStr);
-
-        byte[] decryptFrom = parseHexStr2Byte(encryptResultStr);
-        byte[] decryptResult = decrypt(decryptFrom, password);
-        System.out.println("解密后：" + new String(decryptResult));
-    }
 }

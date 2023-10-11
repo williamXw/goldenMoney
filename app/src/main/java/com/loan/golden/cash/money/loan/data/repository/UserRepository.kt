@@ -96,5 +96,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.APOLOGIA_APOLOGISE).setBody(body).toOkResponse()
     }
 
+    /** 订单列表 */
+    fun blackshirt(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.BLACKSHIRT).setBody(body).toOkResponse()
+    }
+
 }
 

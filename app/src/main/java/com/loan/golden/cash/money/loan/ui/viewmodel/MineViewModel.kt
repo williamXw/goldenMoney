@@ -9,7 +9,10 @@ import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.ApologiseParam
+import com.loan.golden.cash.money.loan.data.param.BlackshirtAllParam
+import com.loan.golden.cash.money.loan.data.param.BlackshirtParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
+import com.loan.golden.cash.money.loan.data.response.BlackshirtResponse
 import com.loan.golden.cash.money.loan.data.response.CommonResponse
 import com.loan.golden.cash.money.loan.data.response.NapperResponse
 import com.loan.golden.cash.money.loan.data.response.TrigonResponse
@@ -32,7 +35,52 @@ import org.json.JSONObject
  */
 class MineViewModel : BaseViewModel() {
 
+    private var strData: String = ""
     private var productId: String = ""
+    private var mPageNo = 0
+    private var mPageSize = 10
+
+    /** 产品列表 */
+    var blackshirtResult = MutableLiveData<BlackshirtResponse>()
+    fun blackshirtCallBack(isRefresh: Boolean, status: String): MutableLiveData<Response>? {
+        if (isRefresh) {
+            mPageNo = 1
+        }
+        if (status == "All") {
+            val body = BlackshirtAllParam(
+                query = BlackshirtAllParam.QueryBean(
+                    pageNo = mPageNo,
+                    pageSize = mPageSize
+                )
+            )
+            strData = Gson().toJson(body)
+        } else {
+            val body = BlackshirtParam(
+                query = BlackshirtParam.QueryBean(
+                    status = status,
+                    pageNo = mPageNo,
+                    pageSize = mPageSize
+                )
+            )
+            strData = Gson().toJson(body)
+        }
+        val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        return rxHttpRequestCallBack {
+            onRequest = {
+                mPageNo++
+                val response = UserRepository.blackshirt(paramsBody).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: BlackshirtResponse = gson.fromJson(mResponse, BlackshirtResponse::class.java)
+                        blackshirtResult.value = mData
+                    }
+                }
+            }
+        }
+    }
 
     /** 产品信息列表  */
     var napperResult = MutableLiveData<NapperResponse>()
@@ -43,11 +91,9 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = form.body!!.string()
                 if (form.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse =
-                            SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
                         val gson = Gson()
-                        val mData: NapperResponse =
-                            gson.fromJson(mResponse, NapperResponse::class.java)
+                        val mData: NapperResponse = gson.fromJson(mResponse, NapperResponse::class.java)
                         when (mData.status) {
                             1012 -> {
                                 mContext.startActivity<LoginActivity>()

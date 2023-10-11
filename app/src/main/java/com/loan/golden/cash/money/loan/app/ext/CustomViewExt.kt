@@ -5,10 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.app.util.toHtml
+import com.loan.golden.cash.money.loan.ui.view.DefineLoadMoreView
+import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import me.hgj.mvvmhelper.base.appContext
 
 /**
@@ -104,4 +108,45 @@ fun hideSoftKeyboard(activity: Activity?) {
             )
         }
     }
+}
+
+fun SwipeRefreshLayout.init(onRefreshListener: () -> Unit) {
+    this.run {
+        setOnRefreshListener {
+            onRefreshListener.invoke()
+        }
+        //设置主题颜色
+        setColorSchemeColors(SettingUtil.getColor(appContext))
+    }
+}
+
+fun SwipeRecyclerView.init(
+    layoutManger: RecyclerView.LayoutManager,
+    bindAdapter: RecyclerView.Adapter<*>,
+    isScroll: Boolean = true
+): SwipeRecyclerView {
+    layoutManager = layoutManger
+    setHasFixedSize(true)
+    adapter = bindAdapter
+    isNestedScrollingEnabled = isScroll
+    return this
+}
+
+fun SwipeRecyclerView.initFooter(loadmoreListener: SwipeRecyclerView.LoadMoreListener): DefineLoadMoreView {
+    val footerView = DefineLoadMoreView(appContext)
+    //给尾部设置颜色
+    footerView.setLoadViewColor(SettingUtil.getOneColorStateList(appContext))
+    //设置尾部点击回调
+    footerView.setmLoadMoreListener(SwipeRecyclerView.LoadMoreListener {
+        footerView.onLoading()
+        loadmoreListener.onLoadMore()
+    })
+    this.run {
+        //添加加载更多尾部
+        addFooterView(footerView)
+        setLoadMoreView(footerView)
+        //设置加载更多回调
+        setLoadMoreListener(loadmoreListener)
+    }
+    return footerView
 }
