@@ -10,9 +10,14 @@
         android:layout_height="match_parent"
         android:paddingTop="@dimen/dp.15">
 
-        <include
-            android:id="@+id/includedList"
-            layout="@layout/layout_list" />
+        <LinearLayout
+            android:id="@+id/llList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <include
+                android:id="@+id/includedList"
+                layout="@layout/layout_list" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

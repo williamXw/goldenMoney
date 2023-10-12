@@ -2,12 +2,13 @@ package com.loan.golden.cash.money.loan.ui.fragment.mine
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
+import com.loan.golden.cash.money.loan.app.ext.LiveDataEvent
 import com.loan.golden.cash.money.loan.app.ext.init
 import com.loan.golden.cash.money.loan.app.ext.initFooter
 import com.loan.golden.cash.money.loan.app.util.RxToast
-import com.loan.golden.cash.money.loan.app.util.Util
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.databinding.FragmentMyLoanListBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
@@ -64,11 +65,17 @@ class FragmentMyLoanList : BaseFragment<MineViewModel, FragmentMyLoanListBinding
         mViewModel.blackshirtResult.observe(viewLifecycleOwner) {
             when (it.status) {
                 0 -> {
-                    if (mBind.includedList.swipeRefreshLayout.isRefreshing) {
-                        mBind.includedList.swipeRefreshLayout.isRefreshing = false
+                    if (it.page == null || it.page?.content?.isEmpty() == true) {
+                        mBind.llList.visibility = View.GONE
+                        LiveDataEvent.myLoanData.value = true
+                    } else {
+                        mBind.llList.visibility = View.VISIBLE
+                        if (mBind.includedList.swipeRefreshLayout.isRefreshing) {
+                            mBind.includedList.swipeRefreshLayout.isRefreshing = false
+                        }
+                        mAdapter.setList(it.page?.content)
+                        mAdapter.notifyDataSetChanged()
                     }
-                    mAdapter.setList(it.page?.content)
-                    mAdapter.notifyDataSetChanged()
                 }
 
                 1012 -> {

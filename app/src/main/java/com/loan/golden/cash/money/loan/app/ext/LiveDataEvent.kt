@@ -12,4 +12,6 @@ object LiveDataEvent {
     //示例：登录成功发送通知
     val loginEvent = UnPeekLiveData<Boolean>()
 
+    val myLoanData = UnPeekLiveData<Boolean>()
+
 }
