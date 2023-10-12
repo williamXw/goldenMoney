@@ -1,12 +1,9 @@
 package com.loan.golden.cash.money.loan.ui.fragment.mine
 
 import android.os.Bundle
-import android.view.View
 import com.google.android.material.tabs.TabLayout
-import com.gyf.immersionbar.ImmersionBar
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
-import com.loan.golden.cash.money.loan.app.ext.LiveDataEvent
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.databinding.FragmentMyLoanBinding
@@ -22,12 +19,6 @@ class MyLoanFragment : BaseFragment<MineViewModel, FragmentMyLoanBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("My Loan") { nav().navigateUp() }
         initViewPager()
-
-        LiveDataEvent.myLoanData.observe(viewLifecycleOwner) {
-            if (it) {
-                mBind.tabLayout.visibility = View.GONE
-            }
-        }
     }
 
     private fun initViewPager() {

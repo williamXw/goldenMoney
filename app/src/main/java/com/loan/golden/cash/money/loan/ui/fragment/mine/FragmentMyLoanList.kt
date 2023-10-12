@@ -2,19 +2,23 @@ package com.loan.golden.cash.money.loan.ui.fragment.mine
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
-import com.loan.golden.cash.money.loan.app.ext.LiveDataEvent
 import com.loan.golden.cash.money.loan.app.ext.init
 import com.loan.golden.cash.money.loan.app.ext.initFooter
 import com.loan.golden.cash.money.loan.app.util.RxToast
+import com.loan.golden.cash.money.loan.app.util.nav
+import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.databinding.FragmentMyLoanListBinding
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.adapter.BlackshirtAdapter
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
+import me.hgj.mvvmhelper.ext.dismissLoadingExt
 import me.hgj.mvvmhelper.ext.divider
+import me.hgj.mvvmhelper.ext.showLoadingExt
 import me.hgj.mvvmhelper.ext.vertical
 import me.hgj.mvvmhelper.util.decoration.DividerOrientation
 import me.hgj.mvvmhelper.util.decoration.SpaceItemDecoration
@@ -53,9 +57,18 @@ class FragmentMyLoanList : BaseFragment<MineViewModel, FragmentMyLoanListBinding
         mBind.includedList.swipeRefreshLayout.init {
             refreshData(true)
         }
+        mAdapter.addChildClickViewIds(R.id.tvItemNextBtn)
+        mAdapter.setOnItemChildClickListener { _, view, position ->
+            when (view.id) {
+                R.id.tvItemNextBtn -> {
+                    nav().navigateAction(R.id.action_to_fragment_golden_money)
+                }
+            }
+        }
     }
 
     private fun refreshData(isRefresh: Boolean) {
+        showLoadingExt("loading.....")
         mViewModel.blackshirtCallBack(isRefresh, mStatus)
     }
 
@@ -63,19 +76,19 @@ class FragmentMyLoanList : BaseFragment<MineViewModel, FragmentMyLoanListBinding
     override fun onRequestSuccess() {
         super.onRequestSuccess()
         mViewModel.blackshirtResult.observe(viewLifecycleOwner) {
+            dismissLoadingExt()
             when (it.status) {
                 0 -> {
                     if (it.page == null || it.page?.content?.isEmpty() == true) {
-                        mBind.llList.visibility = View.GONE
-                        LiveDataEvent.myLoanData.value = true
-                    } else {
-                        mBind.llList.visibility = View.VISIBLE
-                        if (mBind.includedList.swipeRefreshLayout.isRefreshing) {
-                            mBind.includedList.swipeRefreshLayout.isRefreshing = false
-                        }
-                        mAdapter.setList(it.page?.content)
-                        mAdapter.notifyDataSetChanged()
+                        mBind.llEmptyData.isVisible = true
+                        mBind.llList.isVisible = false
                     }
+                    if (mBind.includedList.swipeRefreshLayout.isRefreshing) {
+                        mBind.includedList.swipeRefreshLayout.isRefreshing = false
+                    }
+                    mAdapter.setList(it.page?.content)
+                    mAdapter.notifyDataSetChanged()
+
                 }
 
                 1012 -> {

@@ -53,6 +53,7 @@
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvItemNextBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp.26"
                     android:background="@drawable/round_blue_tv_bg_5dp"

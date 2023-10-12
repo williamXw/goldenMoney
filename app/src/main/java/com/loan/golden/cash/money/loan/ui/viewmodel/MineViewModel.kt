@@ -79,6 +79,9 @@ class MineViewModel : BaseViewModel() {
                     }
                 }
             }
+            loadingType = LoadingType.LOADING_CUSTOM
+            loadingMessage = "loading....."
+            requestCode = NetUrl.BLACKSHIRT
         }
     }
 

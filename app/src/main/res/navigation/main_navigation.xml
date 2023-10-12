@@ -259,6 +259,14 @@
         android:label="fragmentMyLoan"
         tools:layout="@layout/fragment_my_loan">
 
+        <action
+            android:id="@+id/action_to_fragment_golden_money"
+            app:destination="@+id/fragmentGoldenMoney"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
@@ -266,6 +274,14 @@
         android:name="com.loan.golden.cash.money.loan.ui.fragment.mine.ProductListFragment"
         android:label="fragmentProductList"
         tools:layout="@layout/fragment_product_list">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentGoldenMoney"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.home.GoldenMoneyFragment"
+        android:label="fragmentGolden"
+        tools:layout="@layout/fragment_golden_money">
 
 
     </fragment>

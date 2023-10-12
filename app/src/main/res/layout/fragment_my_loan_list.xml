@@ -7,17 +7,40 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/dp.15">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/llList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp.15">
 
             <include
                 android:id="@+id/includedList"
                 layout="@layout/layout_list" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llEmptyData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/icon_empty_data_bg" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="There are currently no products to borrow"
+                android:textColor="#717171"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
