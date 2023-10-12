@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorCommBg"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="#ffffff"
+            android:paddingTop="@dimen/sp_20" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp.15"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customToolbar"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView style="@style/register_style_tv_red_sheet" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="question Type" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp.12"
+            android:background="@mipmap/icon_ask_question_bg"
+            android:drawableEnd="@mipmap/icon_arrow_right_gray"
+            android:gravity="center_vertical"
+            android:hint="Please choose question type"
+            android:paddingStart="@dimen/dp.12"
+            android:paddingEnd="@dimen/dp.12"
+            android:textColor="#A5A5A5"
+            android:textSize="@dimen/sp_14" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp.25"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customToolbar"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView style="@style/register_style_tv_red_sheet" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Input Questions and suggestions:" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp.12"
+            android:background="@mipmap/icon_ask_question_bg"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="Please enter your questions and suggestions,we willcontinue to optimize the experience."
+                android:lineSpacingExtra="@dimen/dp.3"
+                android:paddingStart="@dimen/dp.12"
+                android:paddingTop="@dimen/dp.15"
+                android:paddingEnd="@dimen/dp.15"
+                android:paddingBottom="@dimen/dp.15"
+                android:textColor="#A5A5A5"
+                android:textColorHint="#A5A5A5"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp.20"
+            android:layout_marginEnd="@dimen/dp.12"
+            android:background="@mipmap/icon_ask_question_bg"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dp.15"
+            android:paddingTop="@dimen/dp.12"
+            android:paddingEnd="@dimen/dp.15">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Only photos in png format are supported"
+                android:textColor="#A5A5A5"
+                android:textSize="@dimen/sp_14" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

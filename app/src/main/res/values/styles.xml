@@ -37,7 +37,7 @@
     <style name="register_style_tv_red_sheet">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/actionsheet_red</item>
+        <item name="android:textColor">#FF3224</item>
         <item name="android:text">*</item>
         <item name="android:textSize">@dimen/sp_12</item>
     </style>

@@ -14,7 +14,7 @@
         <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
             android:id="@+id/customToolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="70dp"
             android:background="#ffffff"
             android:paddingTop="@dimen/sp_20" />
 
