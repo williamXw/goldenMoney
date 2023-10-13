@@ -74,7 +74,7 @@ class FragmentContactInformation : BaseFragment<BasicFormsViewModel, FragmentCon
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.tvContactInfoSubmit,) {
+        setOnclickNoRepeat(mBind.tvContactInfoSubmit) {
             when (it) {
                 mBind.tvContactInfoSubmit -> {
                     submitContactInfo()

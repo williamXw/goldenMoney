@@ -15,6 +15,7 @@ import com.loan.golden.cash.money.loan.data.param.DiaplasisParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
 import com.loan.golden.cash.money.loan.data.response.BlackshirtResponse
 import com.loan.golden.cash.money.loan.data.response.CommonResponse
+import com.loan.golden.cash.money.loan.data.response.DiaplasisResponse
 import com.loan.golden.cash.money.loan.data.response.NapperResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.data.response.TrigonResponse
@@ -223,7 +224,7 @@ class MineViewModel : BaseViewModel() {
     }
 
     /** 获取反馈列表 */
-    var diaplasisResult = MutableLiveData<UnrighteousnessResponse>()
+    var diaplasisResult = MutableLiveData<DiaplasisResponse>()
     fun diaplasisCallBack(isRefresh: Boolean, id: String): MutableLiveData<Response>? {
         return rxHttpRequestCallBack {
             if (isRefresh) {
@@ -246,7 +247,7 @@ class MineViewModel : BaseViewModel() {
                     if (dataBody.isNotEmpty()) {
                         val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
                         val gson = Gson()
-                        val mData: UnrighteousnessResponse = gson.fromJson(mResponse, UnrighteousnessResponse::class.java)
+                        val mData: DiaplasisResponse = gson.fromJson(mResponse, DiaplasisResponse::class.java)
                         diaplasisResult.value = mData
                     }
                 }

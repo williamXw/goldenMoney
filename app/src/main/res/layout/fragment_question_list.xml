@@ -20,7 +20,7 @@
             android:background="@color/white"
             android:paddingTop="@dimen/dp.20" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -33,7 +33,30 @@
             <include
                 android:id="@+id/includedList"
                 layout="@layout/layout_list" />
-        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llEmptyView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorCommBg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_empty_question_bg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="You have not submitted any questions"
+                    android:textColor="#5A5656"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/llBottomView"
