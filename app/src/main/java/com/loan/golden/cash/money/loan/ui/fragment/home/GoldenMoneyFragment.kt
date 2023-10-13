@@ -26,13 +26,20 @@ class GoldenMoneyFragment : BaseFragment<GoldenMoneyViewModel, FragmentGoldenMon
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.ivCustomerService) {
+        setOnclickNoRepeat(mBind.ivCustomerService, mBind.tvGoldenMoneyRollover) {
             when (it) {
                 mBind.ivCustomerService -> {
                     nav().navigateAction(R.id.action_to_fragment_ask_question_list, Bundle().apply {
                         putString("id", mId)
                     })
                 }
+
+                mBind.tvGoldenMoneyRollover -> {
+                    nav().navigateAction(R.id.action_to_fragment_rollover, Bundle().apply {
+                        putString("id", mId)
+                    })
+                }
+
             }
         }
     }

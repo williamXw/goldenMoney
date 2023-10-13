@@ -291,6 +291,23 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_to_fragment_rollover"
+            app:destination="@+id/fragmentRollover"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentRollover"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.mine.FragmentRollover"
+        android:label="fragmentRollover"
+        tools:layout="@layout/fragment_rollover">
+
+
     </fragment>
 
     <fragment
