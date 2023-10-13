@@ -61,7 +61,9 @@ class FragmentMyLoanList : BaseFragment<MineViewModel, FragmentMyLoanListBinding
         mAdapter.setOnItemChildClickListener { _, view, position ->
             when (view.id) {
                 R.id.tvItemNextBtn -> {
-                    nav().navigateAction(R.id.action_to_fragment_golden_money)
+                    nav().navigateAction(R.id.action_to_fragment_golden_money, Bundle().apply {
+                        putString("id", mAdapter.data[position].id)
+                    })
                 }
             }
         }

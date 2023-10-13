@@ -40,6 +40,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAskQuestionType"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginStart="@dimen/dp.12"
@@ -116,10 +117,23 @@
                 android:textColor="#A5A5A5"
                 android:textSize="@dimen/sp_14" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
+            <cn.mtjsoft.multiimagelibrary.UploadMultiImageView
+                android:id="@+id/uploadMultiImageView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10" />
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="@dimen/dp.20"
+                android:background="#fff"
+                app:addRes="@mipmap/ic_add_image"
+                app:column_count="3"
+                app:deleteRes="@drawable/img_delete"
+                app:deleteResMargin="0dp"
+                app:deleteWH="@dimen/dp.20"
+                app:is_Drag="false"
+                app:is_showAdd="true"
+                app:item_spacing="5dp"
+                app:max_count="2" />
+
         </LinearLayout>
 
     </LinearLayout>

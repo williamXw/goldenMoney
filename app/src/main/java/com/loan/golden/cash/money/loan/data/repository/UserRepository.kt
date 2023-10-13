@@ -101,5 +101,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.BLACKSHIRT).setBody(body).toOkResponse()
     }
 
+    /** 获取反馈类型列表 */
+    fun unrighteousness(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.UNRIGHTEOUSNESS).setBody(body).toOkResponse()
+    }
+
 }
 

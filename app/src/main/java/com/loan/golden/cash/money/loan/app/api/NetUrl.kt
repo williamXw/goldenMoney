@@ -63,4 +63,7 @@ object NetUrl {
     /** 订单列表 */
     const val BLACKSHIRT = "/bafflegab_bafflement/blackshirt"
 
+    /** 获取反馈类型列表 */
+    const val UNRIGHTEOUSNESS = "/checkerberry_checkerbloom/voetsek/unrighteous_unrighteously_unrighteousness"
+
 }

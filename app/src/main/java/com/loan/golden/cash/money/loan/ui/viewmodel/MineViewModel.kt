@@ -15,18 +15,23 @@ import com.loan.golden.cash.money.loan.data.repository.UserRepository
 import com.loan.golden.cash.money.loan.data.response.BlackshirtResponse
 import com.loan.golden.cash.money.loan.data.response.CommonResponse
 import com.loan.golden.cash.money.loan.data.response.NapperResponse
+import com.loan.golden.cash.money.loan.data.response.OCRResponse
 import com.loan.golden.cash.money.loan.data.response.TrigonResponse
+import com.loan.golden.cash.money.loan.data.response.UnrighteousnessResponse
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import me.hgj.mvvmhelper.base.BaseViewModel
 import me.hgj.mvvmhelper.ext.rxHttpRequest
 import me.hgj.mvvmhelper.ext.rxHttpRequestCallBack
 import me.hgj.mvvmhelper.net.LoadingType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
+import java.io.File
 
 /**
  * @Author      : hxw
@@ -168,4 +173,52 @@ class MineViewModel : BaseViewModel() {
             requestCode = NetUrl.APOLOGIA_APOLOGISE
         }
     }
+
+    /** 上传文件2 (串行 请求 写法) */
+    var imageResult = MutableLiveData<OCRResponse>()
+    fun streamStreambedCallBack(imageFile: File) {
+        val body: RequestBody = imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull()) //表单类型
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)//表单类型
+        builder.addFormDataPart("file", imageFile.name, body) //添加图片数据，body创建的请求体
+        val requestBody = builder.build()
+        rxHttpRequest {
+            onRequest = {
+                val upLoadPic = UserRepository.streamStreambed(requestBody).await()
+                val dataBody = upLoadPic.body?.string()
+                if (upLoadPic.code == 200) {
+                    if (dataBody != null) {
+                        if (dataBody.isNotEmpty()) {
+                            val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                            val gson = Gson()
+                            val mData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
+                            imageResult.value = mData
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /** 获取反馈类型列表 */
+    var unrighteousnessResult = MutableLiveData<UnrighteousnessResponse>()
+    fun unrighteousnessCallBack(paramsBody: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.unrighteousness(paramsBody).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: UnrighteousnessResponse = gson.fromJson(mResponse, UnrighteousnessResponse::class.java)
+                        unrighteousnessResult.value = mData
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_CUSTOM
+            loadingMessage = "loading....."
+            requestCode = NetUrl.UNRIGHTEOUSNESS
+        }
+    }
+
 }
