@@ -11,6 +11,7 @@ import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.ApologiseParam
 import com.loan.golden.cash.money.loan.data.param.BlackshirtAllParam
 import com.loan.golden.cash.money.loan.data.param.BlackshirtParam
+import com.loan.golden.cash.money.loan.data.param.DiaplasisParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
 import com.loan.golden.cash.money.loan.data.response.BlackshirtResponse
 import com.loan.golden.cash.money.loan.data.response.CommonResponse
@@ -221,4 +222,38 @@ class MineViewModel : BaseViewModel() {
         }
     }
 
+    /** 获取反馈列表 */
+    var diaplasisResult = MutableLiveData<UnrighteousnessResponse>()
+    fun diaplasisCallBack(isRefresh: Boolean, id: String): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            if (isRefresh) {
+                mPageNo = 1
+            }
+            val body = DiaplasisParam(
+                query = DiaplasisParam.QueryBean(
+                    thirdOrderId = id,
+                    pageNo = mPageNo,
+                    pageSize = mPageSize
+                )
+            )
+            strData = Gson().toJson(body)
+            val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            onRequest = {
+                mPageNo++
+                val response = UserRepository.diaplasis(paramsBody).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: UnrighteousnessResponse = gson.fromJson(mResponse, UnrighteousnessResponse::class.java)
+                        diaplasisResult.value = mData
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_CUSTOM
+            loadingMessage = "loading....."
+            requestCode = NetUrl.DIAPLASIS
+        }
+    }
 }

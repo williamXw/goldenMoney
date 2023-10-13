@@ -106,5 +106,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.UNRIGHTEOUSNESS).setBody(body).toOkResponse()
     }
 
+    /** 获取反馈列表 */
+    fun diaplasis(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.DIAPLASIS).setBody(body).toOkResponse()
+    }
+
 }
 

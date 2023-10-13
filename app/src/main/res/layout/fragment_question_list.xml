@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorCommBg"
+        tools:ignore="MissingConstraints">
+
+        <com.loan.golden.cash.money.loan.app.widget.CustomToolBar
+            android:id="@+id/customToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp.70"
+            android:background="@color/white"
+            android:paddingTop="@dimen/dp.20" />
+
+        <LinearLayout
+            android:id="@+id/llList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp.20"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/llBottomView"
+            app:layout_constraintTop_toBottomOf="@+id/customToolBar">
+
+            <include
+                android:id="@+id/includedList"
+                layout="@layout/layout_list" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBottomView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dp.30"
+            android:paddingTop="@dimen/dp.15"
+            android:paddingEnd="@dimen/dp.30"
+            android:paddingBottom="@dimen/dp.15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llList">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvQuestionListSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_blue_tv_bg_21dp"
+                android:gravity="center"
+                android:text="Submit Ouestions"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -284,6 +284,22 @@
         tools:layout="@layout/fragment_golden_money">
 
         <action
+            android:id="@+id/action_to_fragment_ask_question_list"
+            app:destination="@+id/fragmentQuestionList"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentQuestionList"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.mine.FragmentQuestionList"
+        android:label="fragmentQuestionList"
+        tools:layout="@layout/fragment_question_list">
+
+        <action
             android:id="@+id/action_to_fragment_ask_question"
             app:destination="@+id/fragmentAskQuestion"
             app:enterAnim="@anim/slide_in_right"

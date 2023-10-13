@@ -66,4 +66,7 @@ object NetUrl {
     /** 获取反馈类型列表 */
     const val UNRIGHTEOUSNESS = "/checkerberry_checkerbloom/voetsek/unrighteous_unrighteously_unrighteousness"
 
+    /** 获取反馈列表 */
+    const val DIAPLASIS = "/complexioned_complexionless/elginshire_elhi_elia/diaplasis"
+
 }

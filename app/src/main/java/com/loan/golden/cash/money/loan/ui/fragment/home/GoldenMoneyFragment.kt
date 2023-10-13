@@ -29,7 +29,7 @@ class GoldenMoneyFragment : BaseFragment<GoldenMoneyViewModel, FragmentGoldenMon
         setOnclickNoRepeat(mBind.ivCustomerService) {
             when (it) {
                 mBind.ivCustomerService -> {
-                    nav().navigateAction(R.id.action_to_fragment_ask_question, Bundle().apply {
+                    nav().navigateAction(R.id.action_to_fragment_ask_question_list, Bundle().apply {
                         putString("id", mId)
                     })
                 }
