@@ -13,7 +13,7 @@ object NetUrl {
     const val SUCCESS_CODE = 0
 
     @DefaultDomain //设置为默认域名
-    const val DEV_URL = "https://app.goldenmoney.shop"
+    const val DEV_URL = "https://app.goldenmoney.live"
 
     /** 登录 */
     const val LOGIN = "/slic/pep_peperino/azaiea"

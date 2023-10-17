@@ -7,7 +7,7 @@ package com.loan.golden.cash.money.loan.data.commom
  */
 object Constant {
 
-    const val appId = "BDOJMHBJ"
+    const val appId = "VBREPLKX"
     const val TOKEN = "token"
     const val DEVICE_ID = "device_id"
     const val IS_INIT_LOGIN = "is_init_login"
