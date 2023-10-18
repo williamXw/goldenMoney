@@ -13,23 +13,19 @@ import com.loan.golden.cash.money.loan.databinding.ItemNapperListBinding
  * @Describe    :
  */
 class NapperAdapter(data: ArrayList<NapperResponse.PageBean.ContentBean>) :
-    BaseQuickAdapter<NapperResponse.PageBean.ContentBean, DataBindBaseViewHolder>(
-        R.layout.item_napper_list,
-        data
-    ) {
+    BaseQuickAdapter<NapperResponse.PageBean.ContentBean, DataBindBaseViewHolder>(R.layout.item_napper_list, data) {
 
-    override fun convert(
-        holder: DataBindBaseViewHolder,
-        item: NapperResponse.PageBean.ContentBean
-    ) {
+    override fun convert(holder: DataBindBaseViewHolder, item: NapperResponse.PageBean.ContentBean) {
         val binding = DataBindBaseViewHolder.getBinding(holder) as ItemNapperListBinding
         binding.data = item
         binding.executePendingBindings()//防止列表抖动
 
         if (item.isSelected) {
             holder.setBackgroundResource(R.id.llBottom, R.drawable.round_blue_solid_bg10dp)
+            holder.setBackgroundResource(R.id.ivNapperItemSelected, R.mipmap.icon_selected_napper)
         } else {
             holder.setBackgroundResource(R.id.llBottom, R.drawable.round_white_bg_10dp)
+            holder.setBackgroundResource(R.id.ivNapperItemSelected, R.mipmap.icon_unselected_napper)
         }
     }
 

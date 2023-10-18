@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -7,11 +9,177 @@
             name="data"
             type="com.loan.golden.cash.money.loan.data.response.DiaplasisResponse.PageBean.ContentBean" />
 
+        <import type="com.luck.picture.lib.utils.SpUtils" />
+
+        <import type="com.loan.golden.cash.money.loan.app.util.SettingUtil" />
+
+        <import type="com.loan.golden.cash.money.loan.app.util.DatetimeUtil" />
+
+        <import type="com.loan.golden.cash.money.loan.app.util.KvUtils" />
+
+        <import type="com.loan.golden.cash.money.loan.data.commom.Constant" />
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorCommBg"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp.15"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView style="@style/register_style_tv_red_sheet" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="question"
+                android:textColor="#5A5656"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp.11"
+            android:layout_marginEnd="@dimen/dp.12"
+            android:background="@drawable/round_white_bg_11dp"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dp.15"
+            android:paddingTop="@dimen/dp.12"
+            android:paddingEnd="@dimen/dp.15">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp.28"
+                    android:layout_height="@dimen/dp.28"
+                    android:src="@mipmap/icon_service_head" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp.8"
+                    android:text="@{KvUtils.INSTANCE.decodeString(Constant.USER_PHONE)}"
+                    android:textColor="#101010"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp.37"
+                android:hint="APP unable to repay"
+                android:textColor="#7E7E7E"
+                android:textSize="@dimen/sp_14" />
+
+            <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                android:id="@+id/rvItemQuestionImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp.38"
+                android:layout_marginTop="@dimen/dp.8" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/dp.8"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:text="@{DatetimeUtil.INSTANCE.timeStampToString(data.created)}"
+                android:textColor="#B0B0B0"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp.15"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView style="@style/register_style_tv_red_sheet" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reply"
+                android:textColor="#5A5656"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp.12"
+            android:layout_marginTop="@dimen/dp.11"
+            android:layout_marginEnd="@dimen/dp.12"
+            android:background="@drawable/round_white_bg_11dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dp.15"
+                android:paddingTop="@dimen/dp.12"
+                android:paddingEnd="@dimen/dp.15">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp.28"
+                    android:layout_height="@dimen/dp.28"
+                    android:src="@mipmap/icon_customer_service" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp.8"
+                    android:text="Golden Money"
+                    android:textColor="#101010"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp.52"
+                android:layout_marginEnd="@dimen/dp.15"
+                android:hint="@{SettingUtil.INSTANCE.cns(data.replyContent)}"
+                android:lineSpacingExtra="@dimen/dp.3"
+                android:textColor="#7E7E7E"
+                android:textSize="@dimen/sp_14" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/dp.28"
+                android:layout_marginEnd="@dimen/dp.12"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:text="@{DatetimeUtil.INSTANCE.timeStampToString(data.replyTime)}"
+                android:textColor="#B0B0B0"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+    </LinearLayout>
 </layout>

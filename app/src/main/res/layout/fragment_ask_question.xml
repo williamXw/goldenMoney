@@ -36,6 +36,8 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#5A5656"
                 android:text="question Type" />
         </LinearLayout>
 
@@ -70,6 +72,8 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#5A5656"
                 android:text="Input Questions and suggestions:" />
         </LinearLayout>
 

@@ -109,6 +109,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                     CacheUtil.setUser(loginData)
                     if (loginData.user != null) {
                         KvUtils.encode(Constant.TOKEN, loginData.user!!.token)
+                        KvUtils.encode(Constant.USER_PHONE, loginData.user!!.phone)
                     }
                     startActivity<MainActivity>()
                     finishActivity(LoginActivity::class.java)

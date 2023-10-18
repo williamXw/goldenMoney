@@ -66,9 +66,10 @@
                         android:textSize="@dimen/sp_13" />
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivNapperItemSelected"
                         android:layout_width="19dp"
                         android:layout_height="@dimen/dp.19"
-                        android:src="@mipmap/icon_selected_napper" />
+                        android:src="@mipmap/icon_unselected_napper" />
 
                 </LinearLayout>
 
