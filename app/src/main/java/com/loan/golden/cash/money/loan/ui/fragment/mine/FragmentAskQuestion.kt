@@ -58,6 +58,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
     private var mJsonStr = ""
     private lateinit var mPicker: QuestionTypePicker
     private val mHandler = MyHandler(WeakReference(this))
+    private var mRealPath: String = ""
 
     private class MyHandler(val wrActivity: WeakReference<FragmentAskQuestion>) : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -161,7 +162,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
     private fun addNewData(imageUrl: String) {
         val tempList: MutableList<ImageModel> = ArrayList()
         val model = ImageModel()
-        model.path = imageUrl
+        model.path = mRealPath
         tempList.add(model)
         /** 调用新增数据 */
         mBind.uploadMultiImageView.addNewData(tempList.toList())
@@ -243,7 +244,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
             .isDirectReturnSingle(true)
         selectionModel.forResult(object : OnResultCallbackListener<LocalMedia> {
             override fun onResult(result: java.util.ArrayList<LocalMedia>?) {
-                val mRealPath = result!![0].realPath
+                mRealPath = result!![0].realPath
                 /** 方案2：压缩图片后上传 */
                 val bitmap = BitmapFactory.decodeFile(mRealPath)
                 /** 循环压缩图片 耗时任务  在子线程中运行 */

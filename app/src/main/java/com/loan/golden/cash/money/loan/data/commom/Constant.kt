@@ -12,7 +12,7 @@ object Constant {
     const val DEVICE_ID = "device_id"
     const val IS_INIT_LOGIN = "is_init_login"
     const val IS_AGREE_PRIVACY = "is_agree_privacy"
-    const val AES_KEY = "6mmnZNKbxbkAkERn" //接口请求AES密钥
+    const val AES_KEY = "KBcPRh5pGEfsJ2SE" //接口请求AES密钥
     const val DATA = "data"
 
     const val MESSAGE = "message"
