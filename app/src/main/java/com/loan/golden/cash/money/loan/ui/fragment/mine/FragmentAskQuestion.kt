@@ -42,6 +42,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.language.LanguageConfig
 import com.luck.picture.lib.style.PictureSelectorStyle
+import me.hgj.mvvmhelper.ext.dismissLoadingExt
 import me.hgj.mvvmhelper.ext.showLoadingExt
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -56,7 +57,7 @@ import java.lang.ref.WeakReference
 class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBinding>(), OnOptionPickedListener {
 
     private var typeId: String = ""
-    private var mapImageId: MutableMap<Int, Int> = mutableMapOf()
+    private var mapImageId: MutableMap<Int, String> = mutableMapOf()
     private var mImages: ArrayList<String> = arrayListOf()
     private var mId = ""
     private var mJsonStr = ""
@@ -70,6 +71,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
             wrActivity.get()?.run {
                 when (msg.what) {
                     ORCInspectionFragment.WHAT -> {
+                        showLoadingExt("loading.....")
                         mViewModel.streamStreambedCallBack(msg.obj as File)
                     }
 
@@ -108,6 +110,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
             RxToast.showToast("Please enter your questions and suggestions")
             return
         }
+        mImages = ArrayList(mapImageId.values)
         val body = RaddlemanParam(
             RaddlemanParam.ModelBean(
                 typeId = typeId,
@@ -170,6 +173,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
                 }
             }
         }
+        var index = 0
         /** 上传文件2 (串行 请求 写法) */
         mViewModel.imageResult.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -179,6 +183,8 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
 
                 0 -> {
                     if (it.model != null) {
+                        mapImageId[index] = it.model.ossUrl
+                        index++
                         addNewData()
                     }
                 }
@@ -210,6 +216,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
         tempList.add(model)
         /** 调用新增数据 */
         mBind.uploadMultiImageView.addNewData(tempList.toList())
+        dismissLoadingExt()
     }
 
     private fun upLoadImageAsk() {
