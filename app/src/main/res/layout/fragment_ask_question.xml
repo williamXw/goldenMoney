@@ -87,6 +87,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etAskQuestionContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -139,6 +140,19 @@
                 app:max_count="2" />
 
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvQuestionSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginEnd="@dimen/dp_40"
+            android:layout_marginStart="@dimen/dp_40"
+            android:background="@drawable/round_blue_tv_bg_21dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_40"
+            android:text="Submit Ouestions"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
 
     </LinearLayout>
 </layout>

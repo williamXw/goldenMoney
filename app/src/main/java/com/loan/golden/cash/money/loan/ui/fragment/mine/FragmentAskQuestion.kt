@@ -24,6 +24,7 @@ import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.RaddlemanParam
 import com.loan.golden.cash.money.loan.data.param.UnrighteousnessParam
 import com.loan.golden.cash.money.loan.data.response.ImageModel
 import com.loan.golden.cash.money.loan.databinding.FragmentAskQuestionBinding
@@ -31,6 +32,7 @@ import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.fragment.forms.ORCInspectionFragment
 import com.loan.golden.cash.money.loan.ui.viewmodel.MineViewModel
 import com.loan.golden.cash.money.wheelpicker.contract.OnOptionPickedListener
+import com.loan.golden.cash.money.wheelpicker.entity.MaritalEntity
 import com.loan.golden.cash.money.wheelpicker.widget.QuestionTypePicker
 import com.luck.picture.lib.basic.PictureSelectionModel
 import com.luck.picture.lib.basic.PictureSelector
@@ -53,7 +55,9 @@ import java.lang.ref.WeakReference
  */
 class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBinding>(), OnOptionPickedListener {
 
+    private var typeId: String = ""
     private var mapImageId: MutableMap<Int, Int> = mutableMapOf()
+    private var mImages: ArrayList<String> = arrayListOf()
     private var mId = ""
     private var mJsonStr = ""
     private lateinit var mPicker: QuestionTypePicker
@@ -85,13 +89,36 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.tvAskQuestionType) {
+        setOnclickNoRepeat(mBind.tvAskQuestionType, mBind.tvQuestionSubmit) {
             when (it) {
                 mBind.tvAskQuestionType -> {
                     getUnrighteousness()
                 }
+
+                mBind.tvQuestionSubmit -> {
+                    questionSubmit()
+                }
             }
         }
+    }
+
+    private fun questionSubmit() {
+        val content = mBind.etAskQuestionContent.text.toString().trim()
+        if (content.isEmpty()) {
+            RxToast.showToast("Please enter your questions and suggestions")
+            return
+        }
+        val body = RaddlemanParam(
+            RaddlemanParam.ModelBean(
+                typeId = typeId,
+                content = content,
+                images = mImages,
+                thirdOrderId = mId
+            )
+        )
+        val gsonData = Gson().toJson(body)
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        mViewModel.raddledRaddlemanCallBack(paramsBody)
     }
 
     private fun getUnrighteousness() {
@@ -104,6 +131,24 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
 
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        /** 提交反馈 */
+        mViewModel.raddleedResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                0 -> {
+                    RxToast.showToast("Submitted successfully")
+                    nav().navigateUp()
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+
+        }
         /** 获取反馈类型列表 */
         mViewModel.unrighteousnessResult.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -134,8 +179,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
 
                 0 -> {
                     if (it.model != null) {
-                        val imageUrl = it.model.ossUrl
-                        addNewData(imageUrl)
+                        addNewData()
                     }
                 }
 
@@ -159,7 +203,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
         mPicker.show()
     }
 
-    private fun addNewData(imageUrl: String) {
+    private fun addNewData() {
         val tempList: MutableList<ImageModel> = ArrayList()
         val model = ImageModel()
         model.path = mRealPath
@@ -263,6 +307,7 @@ class FragmentAskQuestion : BaseFragment<MineViewModel, FragmentAskQuestionBindi
     }
 
     override fun onOptionPicked(position: Int, item: Any?) {
+        typeId = (item as MaritalEntity).id
         mBind.tvAskQuestionType.text = mPicker.wheelView.formatItem(position)
     }
 }

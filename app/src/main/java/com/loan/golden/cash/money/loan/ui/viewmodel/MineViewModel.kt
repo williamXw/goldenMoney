@@ -18,6 +18,7 @@ import com.loan.golden.cash.money.loan.data.response.CommonResponse
 import com.loan.golden.cash.money.loan.data.response.DiaplasisResponse
 import com.loan.golden.cash.money.loan.data.response.NapperResponse
 import com.loan.golden.cash.money.loan.data.response.OCRResponse
+import com.loan.golden.cash.money.loan.data.response.RaddlemanResponse
 import com.loan.golden.cash.money.loan.data.response.TrigonResponse
 import com.loan.golden.cash.money.loan.data.response.UnrighteousnessResponse
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
@@ -220,6 +221,28 @@ class MineViewModel : BaseViewModel() {
             loadingType = LoadingType.LOADING_CUSTOM
             loadingMessage = "loading....."
             requestCode = NetUrl.UNRIGHTEOUSNESS
+        }
+    }
+
+    /** 提交反馈 */
+    var raddleedResult = MutableLiveData<RaddlemanResponse>()
+    fun raddledRaddlemanCallBack(paramsBody: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.raddledRaddleman(paramsBody).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: RaddlemanResponse = gson.fromJson(mResponse, RaddlemanResponse::class.java)
+                        raddleedResult.value = mData
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_DIALOG
+            loadingMessage = "loading....."
+            requestCode = NetUrl.RADDLE_RADDLED_RADDLEMAN
         }
     }
 

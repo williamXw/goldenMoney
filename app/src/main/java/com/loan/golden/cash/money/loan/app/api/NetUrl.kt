@@ -69,4 +69,7 @@ object NetUrl {
     /** 获取反馈列表 */
     const val DIAPLASIS = "/complexioned_complexionless/elginshire_elhi_elia/diaplasis"
 
+    /** 提交反馈 */
+    const val RADDLE_RADDLED_RADDLEMAN = "/darwinism/teardown_teardrop/raddle_raddled_raddleman"
+
 }
