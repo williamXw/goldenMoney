@@ -5,10 +5,13 @@ import com.google.gson.Gson
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
+import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
+import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.OrogenyParam
 import com.loan.golden.cash.money.loan.databinding.FragmentRepaymentModeBinding
+import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.viewmodel.RepaymentViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -39,6 +42,20 @@ class RepaymentModeFragment : BaseFragment<RepaymentViewModel, FragmentRepayment
 
     override fun onRequestSuccess() {
         super.onRequestSuccess()
+        mViewModel.orogenyResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
 
+                0 -> {
+
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
+            }
+        }
     }
 }
