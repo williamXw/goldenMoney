@@ -116,5 +116,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.RADDLE_RADDLED_RADDLEMAN).setBody(body).toOkResponse()
     }
 
+    /** 获取订单还款方式列表 */
+    fun orogenicsOrogeny(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.OROGENICS_OROGENY).setBody(body).toOkResponse()
+    }
+
 }
 

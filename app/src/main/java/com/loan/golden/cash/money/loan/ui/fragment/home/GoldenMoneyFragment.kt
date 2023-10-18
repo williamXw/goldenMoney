@@ -26,7 +26,7 @@ class GoldenMoneyFragment : BaseFragment<GoldenMoneyViewModel, FragmentGoldenMon
 
     override fun onBindViewClick() {
         super.onBindViewClick()
-        setOnclickNoRepeat(mBind.ivCustomerService, mBind.tvGoldenMoneyRollover) {
+        setOnclickNoRepeat(mBind.ivCustomerService, mBind.tvGoldenMoneyRollover, mBind.tvGoldenMoneyRepayment) {
             when (it) {
                 mBind.ivCustomerService -> {
                     nav().navigateAction(R.id.action_to_fragment_ask_question_list, Bundle().apply {
@@ -36,6 +36,12 @@ class GoldenMoneyFragment : BaseFragment<GoldenMoneyViewModel, FragmentGoldenMon
 
                 mBind.tvGoldenMoneyRollover -> {
                     nav().navigateAction(R.id.action_to_fragment_rollover, Bundle().apply {
+                        putString("id", mId)
+                    })
+                }
+
+                mBind.tvGoldenMoneyRepayment -> {
+                    nav().navigateAction(R.id.action_to_fragment_repayment_mode, Bundle().apply {
                         putString("id", mId)
                     })
                 }

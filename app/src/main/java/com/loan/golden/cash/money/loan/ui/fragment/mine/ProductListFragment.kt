@@ -69,8 +69,7 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
             query = NapperParam.QueryBean()
         )
         val gsonData = Gson().toJson(body)
-        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         context?.let { mViewModel.napperCallBack(paramsBody, it) }
     }
 

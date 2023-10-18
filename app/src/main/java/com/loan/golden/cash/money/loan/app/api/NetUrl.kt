@@ -72,4 +72,7 @@ object NetUrl {
     /** 提交反馈 */
     const val RADDLE_RADDLED_RADDLEMAN = "/darwinism/teardown_teardrop/raddle_raddled_raddleman"
 
+    /** 获取订单还款方式列表 */
+    const val OROGENICS_OROGENY = "/faint_faintheart_fainthearted/tripos_trippant_tripper/orogenics_orogeny"
+
 }
