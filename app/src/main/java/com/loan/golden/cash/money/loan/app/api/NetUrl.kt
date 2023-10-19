@@ -75,4 +75,7 @@ object NetUrl {
     /** 获取订单还款方式列表 */
     const val OROGENICS_OROGENY = "/faint_faintheart_fainthearted/tripos_trippant_tripper/orogenics_orogeny"
 
+    /** 获取订单还款链接/还款码 */
+    const val CHIPPER_CHIPPEWA_CHIPPIE = "/blackball_blackbeetle/chipper_chippewa_chippie"
+
 }

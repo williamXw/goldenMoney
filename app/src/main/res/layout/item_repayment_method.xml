@@ -16,6 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp.37"
+        android:layout_marginTop="@dimen/dp.20"
         android:background="@drawable/round_blue_solid_bg10dp"
         tools:ignore="MissingConstraints">
 

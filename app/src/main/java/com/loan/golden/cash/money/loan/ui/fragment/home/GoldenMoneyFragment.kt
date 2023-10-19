@@ -37,12 +37,14 @@ class GoldenMoneyFragment : BaseFragment<GoldenMoneyViewModel, FragmentGoldenMon
                 mBind.tvGoldenMoneyRollover -> {
                     nav().navigateAction(R.id.action_to_fragment_rollover, Bundle().apply {
                         putString("id", mId)
+                        putString("repayType", "DELAY")//展期还款
                     })
                 }
 
                 mBind.tvGoldenMoneyRepayment -> {
                     nav().navigateAction(R.id.action_to_fragment_repayment_mode, Bundle().apply {
                         putString("id", mId)
+                        putString("repayType", "IMMEDIATE")//立即还款
                     })
                 }
 

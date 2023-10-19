@@ -121,5 +121,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.OROGENICS_OROGENY).setBody(body).toOkResponse()
     }
 
+    /** 获取订单还款链接/还款码 */
+    fun chippewaChippie(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.CHIPPER_CHIPPEWA_CHIPPIE).setBody(body).toOkResponse()
+    }
+
 }
 

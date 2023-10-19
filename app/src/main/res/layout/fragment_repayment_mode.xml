@@ -91,7 +91,6 @@
                 android:id="@+id/swipeRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp.20"
                 android:layout_marginEnd="@dimen/dp.20" />
 
             <androidx.appcompat.widget.AppCompatTextView
