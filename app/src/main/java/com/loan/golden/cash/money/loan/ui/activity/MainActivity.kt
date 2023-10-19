@@ -98,14 +98,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         }
         while (cur.moveToNext()) {
             val number: String = cur.getString(cur.getColumnIndex("address")) //手机号
-            //   val name: String = cur.getString(cur.getColumnIndexOrThrow("person")) //联系人姓名列表
+            val name: String = cur.getString(cur.getColumnIndex("person")) //联系人姓名列表
             val body: String = cur.getString(cur.getColumnIndex("body")) //短信内容
             //至此就获得了短信的相关的内容, 以下是把短信加入map中，构建listview,非必要。
             val map: HashMap<String, Any> = HashMap()
             map["num"] = number
             map["mess"] = body
+            map["name"] = name
             //list.add(map)
-            LogUtils.debugInfo("输出mapmapnumber:$number+name:$+body:$body")
+            LogUtils.debugInfo("输出mapmapnumber:$number+$name:$+body:$body")
         }
     }
 
