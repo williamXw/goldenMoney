@@ -8,20 +8,12 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
-import com.google.gson.Gson
 import com.hjq.toast.ToastUtils
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseActivity
-import com.loan.golden.cash.money.loan.app.util.AESTool
-import com.loan.golden.cash.money.loan.app.util.RxToast
-import com.loan.golden.cash.money.loan.app.util.SettingUtil
-import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.DeviceUpLoadService
-import com.loan.golden.cash.money.loan.data.commom.Constant
-import com.loan.golden.cash.money.loan.data.response.UpLoadDeviceInfoResponse
 import com.loan.golden.cash.money.loan.databinding.ActivityMainBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.MainViewModel
-import org.json.JSONObject
 
 /**
  * created by : huxiaowei

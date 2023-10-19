@@ -29,7 +29,7 @@ import org.json.JSONObject
  */
 class MainViewModel : BaseViewModel() {
 
-    /** 提交用户信息 */
+    /** 检测设备信息上报情况 */
     var nappyResult = MutableLiveData<UpLoadDeviceInfoResponse>()
     fun nappyNapraPath(mContext: Context): MutableLiveData<Response>? {
         return rxHttpRequestCallBack {
