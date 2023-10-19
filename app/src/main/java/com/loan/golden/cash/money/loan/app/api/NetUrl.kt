@@ -78,4 +78,7 @@ object NetUrl {
     /** 获取订单还款链接/还款码 */
     const val CHIPPER_CHIPPEWA_CHIPPIE = "/blackball_blackbeetle/chipper_chippewa_chippie"
 
+    /** 获取订单还款计划 */
+    const val CLAVICYTHERIUM = "/fishnet_fishpaste_fishplate/comradeliness/clavicytherium"
+
 }

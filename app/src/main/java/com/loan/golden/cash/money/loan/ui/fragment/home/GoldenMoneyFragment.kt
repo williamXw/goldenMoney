@@ -1,14 +1,24 @@
 package com.loan.golden.cash.money.loan.ui.fragment.home
 
 import android.os.Bundle
+import com.google.gson.Gson
 import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.initBack
+import com.loan.golden.cash.money.loan.app.util.AESTool
+import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
 import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.setOnclickNoRepeat
+import com.loan.golden.cash.money.loan.app.util.startActivity
+import com.loan.golden.cash.money.loan.data.commom.Constant
+import com.loan.golden.cash.money.loan.data.param.ClavicytheriumParam
 import com.loan.golden.cash.money.loan.databinding.FragmentGoldenMoneyBinding
+import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import com.loan.golden.cash.money.loan.ui.viewmodel.GoldenMoneyViewModel
+import me.hgj.mvvmhelper.ext.showLoadingExt
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 /**
  * @Author      : hxw
@@ -22,6 +32,19 @@ class GoldenMoneyFragment : BaseFragment<GoldenMoneyViewModel, FragmentGoldenMon
     override fun initView(savedInstanceState: Bundle?) {
         mBind.customToolbar.initBack("Golden Money") { nav().navigateUp() }
         mId = arguments?.getString("id").toString()
+    }
+
+    override fun initData() {
+        super.initData()
+        val body = ClavicytheriumParam(
+            ClavicytheriumParam.ModelBean(
+                orderId = mId
+            )
+        )
+        val gsonData = Gson().toJson(body)
+        val paramsBody = AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        showLoadingExt("loading.....")
+        mViewModel.clavicytheriumCallBack(paramsBody)
     }
 
     override fun onBindViewClick() {
@@ -48,6 +71,26 @@ class GoldenMoneyFragment : BaseFragment<GoldenMoneyViewModel, FragmentGoldenMon
                     })
                 }
 
+            }
+        }
+    }
+
+    override fun onRequestSuccess() {
+        super.onRequestSuccess()
+        /** 获取订单还款计划 */
+        mViewModel.clavicytheriumResult.observe(viewLifecycleOwner) {
+            when (it.status) {
+                1012 -> {
+                    startActivity<LoginActivity>()
+                }
+
+                0 -> {
+                    mBind.data = it.model
+                }
+
+                else -> {
+                    RxToast.showToast(it.message)
+                }
             }
         }
     }

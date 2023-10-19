@@ -62,7 +62,7 @@ class RepaymentViewModel : BaseViewModel() {
             }
             loadingType = LoadingType.LOADING_DIALOG
             loadingMessage = "loading....."
-            requestCode = NetUrl.OROGENICS_OROGENY
+            requestCode = NetUrl.CHIPPER_CHIPPEWA_CHIPPIE
         }
     }
 }

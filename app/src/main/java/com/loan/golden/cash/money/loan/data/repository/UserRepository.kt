@@ -126,5 +126,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.CHIPPER_CHIPPEWA_CHIPPIE).setBody(body).toOkResponse()
     }
 
+    /** 获取订单还款计划 */
+    fun clavicytherium(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.CLAVICYTHERIUM).setBody(body).toOkResponse()
+    }
+
 }
 
