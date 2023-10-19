@@ -9,6 +9,8 @@
 
         <import type="com.loan.golden.cash.money.loan.app.util.SettingUtil" />
 
+        <import type="com.loan.golden.cash.money.loan.app.util.DatetimeUtil" />
+
     </data>
 
     <LinearLayout
@@ -247,7 +249,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="B20221221162124982"
+                            android:text="@{DatetimeUtil.INSTANCE.timeStampToString(data.expiryTime)}"
                             android:textColor="#202020"
                             android:textSize="@dimen/sp_13" />
                     </LinearLayout>

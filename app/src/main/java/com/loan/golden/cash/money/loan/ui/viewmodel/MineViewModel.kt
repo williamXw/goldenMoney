@@ -80,7 +80,7 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: BlackshirtResponse = gson.fromJson(mResponse, BlackshirtResponse::class.java)
                         blackshirtResult.value = mData
@@ -102,7 +102,7 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = form.body!!.string()
                 if (form.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: NapperResponse = gson.fromJson(mResponse, NapperResponse::class.java)
                         when (mData.status) {
@@ -142,7 +142,7 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: TrigonResponse = gson.fromJson(mResponse, TrigonResponse::class.java)
                         if (mData.model.isNotEmpty()) {
@@ -191,7 +191,7 @@ class MineViewModel : BaseViewModel() {
                 if (upLoadPic.code == 200) {
                     if (dataBody != null) {
                         if (dataBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                            val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                             val gson = Gson()
                             val mData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
                             imageResult.value = mData
@@ -214,7 +214,7 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: UnrighteousnessResponse = gson.fromJson(mResponse, UnrighteousnessResponse::class.java)
                         unrighteousnessResult.value = mData
@@ -236,7 +236,7 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: RaddlemanResponse = gson.fromJson(mResponse, RaddlemanResponse::class.java)
                         raddleedResult.value = mData
@@ -271,7 +271,7 @@ class MineViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: DiaplasisResponse = gson.fromJson(mResponse, DiaplasisResponse::class.java)
                         diaplasisResult.value = mData

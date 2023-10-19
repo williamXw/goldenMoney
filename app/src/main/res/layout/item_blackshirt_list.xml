@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.loan.golden.cash.money.loan.data.response.BlackshirtResponse.PageBean.ContentBean.ProductBean" />
+            type="com.loan.golden.cash.money.loan.data.response.BlackshirtResponse.PageBean.ContentBean" />
 
         <import type="com.loan.golden.cash.money.loan.app.util.SettingUtil" />
 
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp.7"
                     android:layout_weight="1"
-                    android:text="@{SettingUtil.INSTANCE.cns(data.name)}"
+                    android:text="@{SettingUtil.INSTANCE.cns(data.product.name)}"
                     android:textColor="#444444"
                     android:textSize="@dimen/sp_13"
                     android:textStyle="bold" />
@@ -62,7 +62,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dp_10"
                     android:paddingEnd="@dimen/dp_10"
-                    android:text="Applying"
+                    android:text="@{SettingUtil.INSTANCE.cns(data.statusName)}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_12" />
 

@@ -41,7 +41,7 @@ class BasicFormsViewModel : BaseViewModel() {
                 if (kaliResult.code == 200) {
                     if (mBody != null) {
                         if (mBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
+                            val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(mBody), Constant.AES_KEY)
                             val gson = Gson()
                             val mData: KaliResponse =
                                 gson.fromJson(mResponse, KaliResponse::class.java)
@@ -66,7 +66,7 @@ class BasicFormsViewModel : BaseViewModel() {
                 if (response.code == 200) {
                     if (mBody != null) {
                         if (mBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
+                            val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(mBody), Constant.AES_KEY)
                             val gson = Gson()
                             val mData: FigeaterResponse = gson.fromJson(mResponse, FigeaterResponse::class.java)
                             figeaterResult.value = mData
@@ -90,7 +90,7 @@ class BasicFormsViewModel : BaseViewModel() {
                 if (response.code == 200) {
                     if (mBody != null) {
                         if (mBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(mBody, Constant.AES_KEY)
+                            val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(mBody), Constant.AES_KEY)
                             val gson = Gson()
                             val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
                             lustreResult.value = mData
@@ -114,7 +114,7 @@ class BasicFormsViewModel : BaseViewModel() {
                 if (response.code == 200) {
                     if (mBody != null) {
                         if (mBody.isNotEmpty()) {
-                            val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(mBody, Constant.AES_KEY))
+                            val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(mBody), Constant.AES_KEY)
                             val gson = Gson()
                             val mData: LottetownResponse = gson.fromJson(mResponse, LottetownResponse::class.java)
                             lottetownResult.value = mData
@@ -137,7 +137,7 @@ class BasicFormsViewModel : BaseViewModel() {
                 val dataBody = form.body!!.string()
                 if (form.code == 200) {
                     if (dataBody != null && dataBody.isNotEmpty()) {
-                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: AesirResponse = gson.fromJson(mResponse, AesirResponse::class.java)
                         when (mData.status) {
@@ -172,7 +172,7 @@ class BasicFormsViewModel : BaseViewModel() {
                 val dataBody = form.body!!.string()
                 if (form.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: LiveResponse = gson.fromJson(mResponse, LiveResponse::class.java)
                         when (mData.status) {

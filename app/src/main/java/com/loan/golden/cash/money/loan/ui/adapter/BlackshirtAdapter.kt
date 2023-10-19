@@ -16,7 +16,21 @@ class BlackshirtAdapter(data: ArrayList<BlackshirtResponse.PageBean.ContentBean>
 
     override fun convert(holder: DataBindBaseViewHolder, item: BlackshirtResponse.PageBean.ContentBean) {
         val binding = DataBindBaseViewHolder.getBinding(holder) as ItemBlackshirtListBinding
-        binding.data = item.product
+        binding.data = item
         binding.executePendingBindings()//防止列表抖动
+
+        when (item.statusName) {
+            "Refuse" -> {
+                holder.setBackgroundResource(R.id.tvItemNextBtn, R.drawable.round_red_tv_bg_5dp)
+            }
+
+            "Applying" -> {
+                holder.setBackgroundResource(R.id.tvItemNextBtn, R.drawable.round_blue_tv_bg_5dp)
+            }
+
+            "Success" -> {
+                holder.setBackgroundResource(R.id.tvItemNextBtn, R.drawable.round_green_tv_bg_5dp)
+            }
+        }
     }
 }

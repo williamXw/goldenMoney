@@ -41,7 +41,8 @@ data class ClavicytheriumResponse(
         var currencyType: String = "",
         var bankCard: String = "",
         var phone: String = "",
+        var expiryTime: Long = 0
 
-        ) : Parcelable
+    ) : Parcelable
 
 }

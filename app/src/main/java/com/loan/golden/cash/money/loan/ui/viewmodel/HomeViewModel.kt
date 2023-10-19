@@ -36,7 +36,7 @@ class HomeViewModel : BaseViewModel() {
                 val dataBody = form.body!!.string()
                 if (form.code == 200) {
                     if (dataBody != null && dataBody.isNotEmpty()) {
-                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: AesirResponse = gson.fromJson(mResponse, AesirResponse::class.java)
                         when (mData.status) {

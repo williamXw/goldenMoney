@@ -131,5 +131,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.CLAVICYTHERIUM).setBody(body).toOkResponse()
     }
 
+    /** 展期试算 */
+    fun breechingBreechless(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.BREECHING_BREECHLESS).setBody(body).toOkResponse()
+    }
+
 }
 

@@ -81,4 +81,7 @@ object NetUrl {
     /** 获取订单还款计划 */
     const val CLAVICYTHERIUM = "/fishnet_fishpaste_fishplate/comradeliness/clavicytherium"
 
+    /** 展期试算 */
+    const val BREECHING_BREECHLESS = "/chomskian_chon/breeching_breechless"
+
 }

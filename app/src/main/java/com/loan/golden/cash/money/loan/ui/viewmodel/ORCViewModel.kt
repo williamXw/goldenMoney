@@ -84,7 +84,7 @@ class ORCViewModel : BaseViewModel() {
                 if (upLoadPic.code == 200) {
                     if (dataBody != null) {
                         if (dataBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(dataBody, Constant.AES_KEY)
+                            val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                             val gson = Gson()
                             val ocrData: OCRResponse = gson.fromJson(mResponse, OCRResponse::class.java)
                             when (ocrData.status) {
@@ -115,7 +115,7 @@ class ORCViewModel : BaseViewModel() {
                 if (diaman.code == 200) {
                     if (mDiamanBody != null) {
                         if (mDiamanBody.isNotEmpty()) {
-                            val mResponse = AESTool.decrypt(mDiamanBody, Constant.AES_KEY)
+                            val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(mDiamanBody), Constant.AES_KEY)
                             val gson = Gson()
                             val dData: DiamantiferousResponse = gson.fromJson(mResponse, DiamantiferousResponse::class.java)
                             diamanResult.value = dData
@@ -154,7 +154,7 @@ class ORCViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: AesirResponse? = gson.fromJson(mResponse, AesirResponse::class.java)
                         if (mData != null) {
@@ -166,9 +166,7 @@ class ORCViewModel : BaseViewModel() {
                                 0 -> {
                                     val aeSirParam = AesirParam(AesirParam.Model("NODE1"))
                                     val strData = Gson().toJson(aeSirParam)
-                                    val paramsBody =
-                                        AESTool.encrypt1(strData, Constant.AES_KEY)
-                                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                                    val paramsBody = AESTool.encrypt1(strData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                                     val aesirResponse = UserRepository.aesculinAesir(paramsBody).await()
                                     val aesirBody = aesirResponse.body!!.string()
                                     if (aesirBody.isNotEmpty()) {

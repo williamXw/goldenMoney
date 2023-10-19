@@ -65,4 +65,26 @@ class RepaymentViewModel : BaseViewModel() {
             requestCode = NetUrl.CHIPPER_CHIPPEWA_CHIPPIE
         }
     }
+
+    /** 展期试算 */
+    var breechlessResult = MutableLiveData<ChippieResponse>()
+    fun breechlessCallBack(paramsBody: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.breechingBreechless(paramsBody).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: ChippieResponse = gson.fromJson(mResponse, ChippieResponse::class.java)
+                        breechlessResult.value = mData
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_CUSTOM
+            loadingMessage = "loading....."
+            requestCode = NetUrl.BREECHING_BREECHLESS
+        }
+    }
 }
