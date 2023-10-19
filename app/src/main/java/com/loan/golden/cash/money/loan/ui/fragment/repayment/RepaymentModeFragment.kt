@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseFragment
 import com.loan.golden.cash.money.loan.app.ext.init
 import com.loan.golden.cash.money.loan.app.ext.initBack
 import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.app.util.nav
+import com.loan.golden.cash.money.loan.app.util.navigateAction
 import com.loan.golden.cash.money.loan.app.util.startActivity
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.ChippewaChippieParam
@@ -92,7 +94,9 @@ class RepaymentModeFragment : BaseFragment<RepaymentViewModel, FragmentRepayment
                 }
 
                 0 -> {
-
+                    nav().navigateAction(R.id.action_to_fragment_repayment_page, Bundle().apply {
+                        putString("url", it.model?.repayCode)
+                    })
                 }
 
                 else -> {

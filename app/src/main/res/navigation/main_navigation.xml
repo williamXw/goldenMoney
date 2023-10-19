@@ -402,6 +402,21 @@
         android:label="fragmentRepaymentMode"
         tools:layout="@layout/fragment_repayment_mode">
 
+        <action
+            android:id="@+id/action_to_fragment_repayment_page"
+            app:destination="@+id/fragmentRepaymentPage"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentRepaymentPage"
+        android:name="com.loan.golden.cash.money.loan.ui.fragment.repayment.FragmentRepaymentPage"
+        android:label="fragmentRepaymentPage"
+        tools:layout="@layout/fragment_repayment_page">
 
     </fragment>
 
