@@ -155,7 +155,7 @@ class ORCInspectionFragment : BaseFragment<ORCViewModel, FragmentOrcInspectionBi
                 if (allGranted) {
                     selectImage()
                 } else {
-                    RxToast.showToast("权限不足，请手动开启权限后重试")
+                    RxToast.showToast("Insufficient permissions. Please manually enable permissions and try again")
                 }
             }
     }

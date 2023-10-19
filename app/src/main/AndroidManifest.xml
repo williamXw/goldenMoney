@@ -91,6 +91,9 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -106,4 +109,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" /> <!-- &lt;!&ndash;读取短信信息的权限&ndash;&gt; -->
+    <uses-permission android:name="android.permission.READ_SMS" /> <!-- android 9.0 挂断电话使用 -->
+    <uses-permission android:name="android.permission.SEND_SMS" /> <!-- &lt;!&ndash; 收短信的权限 &ndash;&gt;-->
 </manifest>
