@@ -38,23 +38,21 @@ class MainViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = SettingUtil.removeQuotes(AESTool.decrypt(dataBody, Constant.AES_KEY))
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
                         val mData: UpLoadDeviceInfoResponse = gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
-                        if (mData != null) {
-                            when (mData.status) {
-                                1012 -> {
-                                    mContext.startActivity<LoginActivity>()
-                                }
+                        when (mData.status) {
+                            1012 -> {
+                                mContext.startActivity<LoginActivity>()
+                            }
 
-                                0 -> {
-                                    nappyResult.value = mData
-                                }
+                            0 -> {
+                                nappyResult.value = mData
+                            }
 
-                                else -> {
-                                    val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
-                                    RxToast.showToast(msg)
-                                }
+                            else -> {
+                                val msg = JSONObject(mResponse).getString(Constant.MESSAGE)
+                                RxToast.showToast(msg)
                             }
                         }
                     }

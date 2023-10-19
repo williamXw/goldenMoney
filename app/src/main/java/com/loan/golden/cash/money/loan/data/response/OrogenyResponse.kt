@@ -29,6 +29,7 @@ data class OrogenyResponse(
         @Parcelize
         class MethodsBean(
 
+            var isSelected:Boolean,
             var methodName: String = "",
             var methodCode: String = "",
             var code: String = "",
