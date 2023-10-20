@@ -17,6 +17,7 @@ import me.hgj.mvvmhelper.base.BaseViewModel
 import me.hgj.mvvmhelper.ext.rxHttpRequestCallBack
 import me.hgj.mvvmhelper.net.LoadingType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.jetbrains.anko.startActivity
@@ -61,6 +62,27 @@ class MainViewModel : BaseViewModel() {
             loadingType = LoadingType.LOADING_NULL
             loadingMessage = "loading....."
             requestCode = NetUrl.NAPPER_NAPPY_NAPRAPATH
+        }
+    }
+
+    /** 报APP信息 */
+    var mnemonMnemonicResult = MutableLiveData<UpLoadDeviceInfoResponse>()
+    fun mnemonMnemonicCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.mnemonMnemonic(body).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: UpLoadDeviceInfoResponse = gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_CUSTOM
+            loadingMessage = "loading....."
+            requestCode = NetUrl.MNEMON_MNEMONIC
         }
     }
 }

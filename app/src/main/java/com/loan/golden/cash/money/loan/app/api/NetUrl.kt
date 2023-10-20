@@ -84,4 +84,7 @@ object NetUrl {
     /** 展期试算 */
     const val BREECHING_BREECHLESS = "/chomskian_chon/breeching_breechless"
 
+    /** 上报APP信息 */
+    const val MNEMON_MNEMONIC = "/desire_desired_desirous/mnemon_mnemonic"
+
 }
