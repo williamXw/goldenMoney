@@ -1,21 +1,40 @@
 package com.loan.golden.cash.money.loan.app.util
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
+import android.os.SystemClock
+import android.provider.MediaStore
 import android.provider.Settings
+import android.telephony.CellInfo
+import android.telephony.CellInfoCdma
+import android.telephony.CellInfoGsm
+import android.telephony.CellInfoLte
+import android.telephony.CellInfoWcdma
+import android.telephony.TelephonyManager
 import android.text.TextUtils
+import androidx.core.app.ActivityCompat
+import com.loan.golden.cash.money.loan.app.util.DriverInfoUtil2.checkSelfPermission
 import me.hgj.mvvmhelper.base.appContext
 import java.io.BufferedReader
+import java.io.File
+import java.io.FileFilter
 import java.io.FileReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.lang.reflect.Method
 import java.util.*
+import java.util.regex.Pattern
+
 
 /**
  * created by :
@@ -407,5 +426,314 @@ object DeviceUtil {
         } catch (e: java.lang.Exception) {
             null
         }
+    }
+
+    fun getSimCountryIso(context: Context): String? {
+        return try {
+            val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            tm.simCountryIso
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun isSimCardReady(context: Context): Boolean? {
+        return try {
+            val telMgr = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val simState = telMgr.simState
+            when (simState) {
+                TelephonyManager.SIM_STATE_ABSENT -> {}
+                TelephonyManager.SIM_STATE_NETWORK_LOCKED -> {}
+                TelephonyManager.SIM_STATE_PIN_REQUIRED -> {}
+                TelephonyManager.SIM_STATE_PUK_REQUIRED -> {}
+                TelephonyManager.SIM_STATE_READY -> return true
+                TelephonyManager.SIM_STATE_UNKNOWN -> {}
+            }
+            false
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun isMobileData(context: Context): Boolean {
+        var mobileDataEnabled = false // Assume disabled
+        try {
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val cmClass = Class.forName(cm.javaClass.name)
+            val method = cmClass.getDeclaredMethod("getMobileDataEnabled")
+            method.isAccessible = true // Make the method callable
+            // get the setting for "mobile data"
+            mobileDataEnabled = method.invoke(cm) as Boolean
+        } catch (e: Exception) {
+            // Some problem accessible private API
+            // TODO do whatever error handling you want here
+        }
+        return mobileDataEnabled
+    }
+
+    fun getDataNetworkType(context: Context): String? {
+        var ret: String? = null
+        try {
+            val telephonyManager =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (ActivityCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_PHONE_STATE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return ret
+                }
+                ret = when (telephonyManager.dataNetworkType) {
+                    TelephonyManager.NETWORK_TYPE_EDGE, TelephonyManager.NETWORK_TYPE_GPRS, TelephonyManager.NETWORK_TYPE_CDMA, TelephonyManager.NETWORK_TYPE_IDEN, TelephonyManager.NETWORK_TYPE_1xRTT ->                         // SMT_RANDOM_SORT_END
+                        "2G"
+
+                    TelephonyManager.NETWORK_TYPE_UMTS, TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyManager.NETWORK_TYPE_HSPA, TelephonyManager.NETWORK_TYPE_HSPAP, TelephonyManager.NETWORK_TYPE_EVDO_0, TelephonyManager.NETWORK_TYPE_EVDO_A, TelephonyManager.NETWORK_TYPE_EVDO_B ->                         // SMT_RANDOM_SORT_END
+                        "3G"
+
+                    TelephonyManager.NETWORK_TYPE_LTE -> "4G"
+                    TelephonyManager.NETWORK_TYPE_NR -> "5G"
+                    else -> "Unknown"
+                }
+            }
+        } catch (_: Exception) {
+        }
+        return ret
+    }
+
+    fun getSystemPhotoList(context: Context?): List<String> {
+        val result: MutableList<String> = ArrayList()
+        try {
+            if (!checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                val contentResolver = context?.contentResolver
+                val cursor = contentResolver?.query(uri, null, null, null, null)
+                if (cursor == null || cursor.count <= 0) {
+                    return emptyList()
+                }
+                while (cursor.moveToNext()) {
+                    val index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                    val path = cursor.getString(index)
+                    val file = File(path)
+                    if (file.exists()) {
+                        result.add(path)
+                    }
+                }
+            }
+        } catch (_: Exception) {
+        }
+        return ArrayList()
+    }
+
+    fun isEmulator(): Boolean {
+        return try {
+            (Build.FINGERPRINT.startsWith("generic") //__xor__
+                    || Build.FINGERPRINT.lowercase(Locale.getDefault()).contains("vbox") //__xor__
+                    || Build.FINGERPRINT.lowercase(Locale.getDefault())
+                .contains("test-keys") //__xor__
+                    //                || Build.FINGERPRINT.startsWith("unknown") // 魅族MX4: unknown
+                    || Build.MODEL.contains("google_sdk") //__xor__
+                    || Build.MODEL.contains("sdk") //__xor__
+                    || Build.MODEL.contains("Emulator") //__xor__
+                    //|| Build.MODEL.contains("Android SDK built for x86")
+                    || Build.MANUFACTURER.contains("Genymotion")) || Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith(
+                "generic"
+            ) || "google_sdk" == Build.PRODUCT //__xor__
+        } catch (e: java.lang.Exception) {
+            false
+        }
+    }
+
+    fun isRooted(): Boolean {
+        return try {
+            // get from build info
+            val buildTags = Build.TAGS
+            if (buildTags != null && buildTags.contains("test-keys")) { //__xor__
+                return true
+            }
+            val paths = arrayOf(
+                "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su",  //__xor__
+                "/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su",  //__xor__
+                "/system/sd/xbin/su",  //__xor__
+                "/system/bin/failsafe/su", "/data/local/su", "/su/bin/su"
+            ) //__xor__
+            for (path in paths) {
+                if (File(path).exists()) return true
+            }
+            var process: Process? = null
+            try {
+                process = Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su")) //__xor__
+                val `in` = BufferedReader(InputStreamReader(process.inputStream))
+                if (`in`.readLine() != null) true else false
+            } catch (t: Throwable) {
+                false
+            } finally {
+                process?.destroy()
+            }
+        } catch (e: java.lang.Exception) {
+            false
+        }
+    }
+
+    fun getLastBootTime(context: Context?): Long {
+        return try {
+            System.currentTimeMillis() - SystemClock.elapsedRealtime()
+        } catch (e: Exception) {
+            0
+        }
+    }
+
+    fun getKeyboard(context: Context): String? {
+        return try {
+            val cfg = context.resources.configuration
+            cfg.keyboard.toString() + ""
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun isDevMode(context: Activity): Boolean {
+        return try {
+            if (Integer.valueOf(Build.VERSION.SDK) == 16) {
+                Settings.Secure.getInt(
+                    context.contentResolver,
+                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0
+                ) != 0
+            } else if (Integer.valueOf(Build.VERSION.SDK) >= 17) {
+                Settings.Secure.getInt(
+                    context.contentResolver,
+                    Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0
+                ) != 0
+            } else false
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun getCellInfo(context: Context): MutableMap<String, Any> {
+        val jsonObject: MutableMap<String, Any> = mutableMapOf()
+        if (!checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            var dbm = -1
+            var cid = -1
+            val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val cellInfoList: List<CellInfo>?
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                cellInfoList = tm.allCellInfo
+                if (null != cellInfoList) {
+                    for (cellInfo in cellInfoList) {
+                        if (cellInfo is CellInfoGsm) {
+                            val cellSignalStrengthGsm = cellInfo.cellSignalStrength
+                            dbm = cellSignalStrengthGsm.dbm
+                            cid = cellInfo.cellIdentity.cid
+                        } else if (cellInfo is CellInfoCdma) {
+                            val cellSignalStrengthCdma = cellInfo.cellSignalStrength
+                            dbm = cellSignalStrengthCdma.dbm
+                            cid = cellInfo.cellIdentity.basestationId
+                        } else if (cellInfo is CellInfoWcdma) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                val cellSignalStrengthWcdma = cellInfo.cellSignalStrength
+                                dbm = cellSignalStrengthWcdma.dbm
+                                cid = cellInfo.cellIdentity.cid
+                            }
+                        } else if (cellInfo is CellInfoLte) {
+                            val cellSignalStrengthLte = cellInfo.cellSignalStrength
+                            dbm = cellSignalStrengthLte.dbm
+                            cid = cellInfo.cellIdentity.ci
+                        }
+                    }
+                }
+            }
+            jsonObject["dbm"] = dbm
+            jsonObject["cid"] = cid
+        }
+        return jsonObject
+    }
+
+    fun getCpuNumCores(): Int {
+        class CpuFilter : FileFilter {
+            override fun accept(pathname: File): Boolean {
+                return Pattern.matches("cpu[0-9]", pathname.name)
+            }
+        }
+        return try {
+            val dir = File("/sys/devices/system/cpu/") //__xor__
+            val files = dir.listFiles(CpuFilter())
+            files.size
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            1
+        }
+    }
+
+    fun getMemory(context: Context?): FloatArray {
+        return try {
+            val appMaxMemory = (Runtime.getRuntime().maxMemory() * 1.0 / (1024 * 1024)).toFloat()
+            val appAvailableMemory =
+                (Runtime.getRuntime().totalMemory() * 1.0 / (1024 * 1024)).toFloat()
+            val appFreeMemory = (Runtime.getRuntime().freeMemory() * 1.0 / (1024 * 1024)).toFloat()
+            floatArrayOf(appMaxMemory, appAvailableMemory, appFreeMemory)
+        } catch (e: Exception) {
+            floatArrayOf(0f, 0f, 0f)
+        }
+    }
+
+    fun getBattery(context: Context): IntArray {
+        return try {
+            val batteryInfoIntent = context.applicationContext.registerReceiver(
+                null,
+                IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+            )
+            val level = batteryInfoIntent!!.getIntExtra("level", 0)
+            val max = batteryInfoIntent.getIntExtra("scale", 100)
+            intArrayOf(max, level)
+        } catch (e: Exception) {
+            intArrayOf(0, 0)
+        }
+    }
+
+    fun getOsTime(context: Context?): LongArray? {
+        return try {
+            longArrayOf(SystemClock.elapsedRealtime(), SystemClock.uptimeMillis())
+        } catch (e: java.lang.Exception) {
+            longArrayOf(0, 0)
+        }
+    }
+
+    fun getRamTotalSize(context: Context): String {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val memoryInfo = ActivityManager.MemoryInfo()
+        activityManager.getMemoryInfo(memoryInfo)
+        return memoryInfo.totalMem.toString() + ""
+    }
+
+    fun getRamAvailSize(context: Context): String {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val memoryInfo = ActivityManager.MemoryInfo()
+        activityManager.getMemoryInfo(memoryInfo)
+        return memoryInfo.availMem.toString() + ""
+    }
+
+    fun getRootDirectory(): String? {
+        return Environment.getExternalStorageDirectory().absolutePath
+    }
+
+    fun getExternalStorageDirectory(): String? {
+        return System.getenv("SECONDARY_STORAGE") //__xor__
+    }
+
+    fun intToIpAddress(ipInt: Int): String {
+        val sb = StringBuffer()
+        sb.append(ipInt and 0xFF).append(".")
+        sb.append(ipInt shr 8 and 0xFF).append(".")
+        sb.append(ipInt shr 16 and 0xFF).append(".")
+        sb.append(ipInt shr 24 and 0xFF)
+        return sb.toString()
     }
 }

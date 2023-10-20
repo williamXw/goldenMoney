@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.telephony.TelephonyManager
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
@@ -28,6 +29,7 @@ import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.data.DeviceUpLoadService
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.AppInfoParam
+import com.loan.golden.cash.money.loan.data.param.DeviceInfoParam
 import com.loan.golden.cash.money.loan.databinding.ActivityMainBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.MainViewModel
 import me.hgj.mvvmhelper.ext.showLoadingExt
@@ -134,7 +136,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                             val generaBody = DriverInfoUtil.getGeneralData(this)
                             val hardware = DriverInfoUtil.getHardware(this)
                             val publicIp = DriverInfoUtil.getPublicIp()
-                            val abis = DriverInfoUtil.getAbis(this)
+                            val simCard = DriverInfoUtil.getSimCard(this)
+                            val otherData = DriverInfoUtil.getOtherData(this)
+                            val location = DriverInfoUtil.getLocation(this)
+                            val storage = DriverInfoUtil.getStorage(this)
+                            val devFile = DriverInfoUtil.getDivFile(this)
+                            val batteryStatus = DriverInfoUtil.getBatteryStatus(this)
+                            val currWifi = DriverInfoUtil.getCurrentWifi(this)
+                            val configWifi = DriverInfoUtil.getConfigWifi(this)
+                            var body = DeviceInfoParam()
                         }
 
                         "APP" -> {
@@ -146,7 +156,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                             )
                             val gsonData = Gson().toJson(body)
                             val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-                            val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                            val paramsBody =
+                                aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                             showLoadingExt("loading.....")
                             mViewModel.mnemonMnemonicCallBack(paramsBody)
                         }
