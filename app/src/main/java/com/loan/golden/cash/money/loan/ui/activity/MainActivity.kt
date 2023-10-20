@@ -133,8 +133,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                         "DEVICE" -> {
                             val generaBody = DriverInfoUtil.getGeneralData(this)
                             val hardware = DriverInfoUtil.getHardware(this)
+                            val publicIp = DriverInfoUtil.getPublicIp()
                             val abis = DriverInfoUtil.getAbis(this)
-                            abis.size
                         }
 
                         "APP" -> {

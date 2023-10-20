@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat
 import com.loan.golden.cash.money.loan.app.App
 import com.loan.golden.cash.money.loan.data.param.DeviceInfoParam
 import com.loan.golden.cash.money.loan.data.param.DeviceInfoParam.ModelBean.GeneralDataBean
+import com.tencent.bugly.proguard.u
 import me.hgj.mvvmhelper.util.LogUtils.warnInfo
 import java.io.BufferedReader
 import java.io.File
@@ -38,7 +39,7 @@ import java.io.InputStreamReader
 import java.io.Reader
 import java.io.StringWriter
 import java.io.Writer
-import java.lang.reflect.Method
+import java.net.InetAddress
 import java.net.NetworkInterface
 import java.util.Collections
 import java.util.Locale
@@ -303,24 +304,29 @@ object DriverInfoUtil {
         return ret
     }
 
-    //    private static DeviceUtils.U getPublicIp(Activity context) {
-    //        DeviceUtils.U u = DeviceUtils.U.init();
-    //        try {
-    //            // 内网地址
-    //            ArrayList<NetworkInterface> nilist = Collections.list(NetworkInterface.getNetworkInterfaces());
-    //            for (NetworkInterface ni : nilist) {
-    //                ArrayList<InetAddress> ialist = Collections.list(ni.getInetAddresses());
-    //                for (InetAddress address : ialist) {
-    //                    if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
-    //                        u.add("intranetIp", isNullText(address.getHostAddress())); //__xor__
-    //                        break;
-    //                    }
-    //                }
-    //            }
-    //        } catch (Exception ex) {
-    //        }
-    //        return u;
-    //    }
+    fun getPublicIp(): DeviceInfoParam.ModelBean.PublicIpBean {
+        var body = DeviceInfoParam.ModelBean.PublicIpBean()
+        try {
+            // 内网地址
+            val niList = Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (ni in niList) {
+                val iaList = Collections.list(ni.inetAddresses)
+                for (address in iaList) {
+                    if (!address.isLoopbackAddress && !address.isLinkLocalAddress) {
+                        body = address.hostAddress?.let {
+                            DeviceInfoParam.ModelBean.PublicIpBean(
+                                intranetIp = it
+                            )
+                        }!!
+                        break
+                    }
+                }
+            }
+        } catch (_: Exception) {
+        }
+        return body
+    }
+
     //    @SuppressLint("MissingPermission")
     //    public static DeviceUtils.U getLocation(Activity context) {
     //        DeviceUtils.U u = DeviceUtils.U.init();
