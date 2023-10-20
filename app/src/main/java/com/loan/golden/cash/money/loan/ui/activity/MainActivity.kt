@@ -9,9 +9,11 @@ import android.content.ServiceConnection
 import android.content.pm.ApplicationInfo
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
@@ -21,6 +23,7 @@ import com.loan.golden.cash.money.loan.R
 import com.loan.golden.cash.money.loan.app.base.BaseActivity
 import com.loan.golden.cash.money.loan.app.permissions.PermissionInterceptor
 import com.loan.golden.cash.money.loan.app.util.AESTool
+import com.loan.golden.cash.money.loan.app.util.DriverInfoUtil
 import com.loan.golden.cash.money.loan.app.util.RxToast
 import com.loan.golden.cash.money.loan.data.DeviceUpLoadService
 import com.loan.golden.cash.money.loan.data.commom.Constant
@@ -85,6 +88,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             .permission(Permission.RECEIVE_SMS)
             .permission(Permission.SEND_SMS)
             .permission(Permission.READ_SMS)
+            .permission(Permission.READ_PHONE_STATE)
             .interceptor(PermissionInterceptor())
             .request { _, allGranted ->
                 if (allGranted) {
@@ -119,6 +123,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onRequestSuccess() {
         super.onRequestSuccess()
         mViewModel.nappyResult.observe(this) {
@@ -126,7 +131,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 it.list.forEachIndexed { _, s ->
                     when (s) {
                         "DEVICE" -> {
-
+                            val generaBody = DriverInfoUtil.getGeneralData(this)
+                            val hardware = DriverInfoUtil.getHardware(this)
+                            val abis = DriverInfoUtil.getAbis(this)
+                            abis.size
                         }
 
                         "APP" -> {
