@@ -31,8 +31,8 @@ data class AppInfoParam(
             var versionCode: String = "",
             var appType: String = "",
             var flags: String = "",
-            var installTime: String = "",
-            var updateTime: String = "",
+            var installTime: Long = 0,
+            var updateTime: Long = 0,
 
             ) : Parcelable
 

@@ -137,8 +137,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                                 )
                             )
                             val gsonData = Gson().toJson(body)
-                            val paramsBody =
-                                AESTool.encrypt1(gsonData, Constant.AES_KEY).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                            val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
+                            val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
                             showLoadingExt("loading.....")
                             mViewModel.mnemonMnemonicCallBack(paramsBody)
                         }
@@ -164,8 +164,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
             val versionName = packageInfo.versionName
             val versionCode = packageInfo.versionCode.toString()
-            val installTime = packageInfo.firstInstallTime.toString()
-            val updateTime = packageInfo.lastUpdateTime.toString()
+            val installTime = packageInfo.firstInstallTime
+            val updateTime = packageInfo.lastUpdateTime
             val applicationInfo = packageInfo.applicationInfo
             val flags = applicationInfo.flags.toString()
             val appType = if (!filterApp(appInfo)) {
