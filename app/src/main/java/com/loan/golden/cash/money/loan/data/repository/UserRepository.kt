@@ -136,9 +136,14 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.BREECHING_BREECHLESS).setBody(body).toOkResponse()
     }
 
-    /** 报APP信息 */
+    /** 上报APP信息 */
     fun mnemonMnemonic(body: RequestBody): Await<Response> {
         return RxHttp.postBody(NetUrl.MNEMON_MNEMONIC).setBody(body).toOkResponse()
+    }
+
+    /** 上报设备信息 */
+    fun ganger(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.GANGER).setBody(body).toOkResponse()
     }
 
 }

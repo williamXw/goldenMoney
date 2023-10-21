@@ -11,6 +11,7 @@ import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.AesirParam
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
 import com.loan.golden.cash.money.loan.data.response.AesirResponse
+import com.loan.golden.cash.money.loan.data.response.CommonResponse
 import com.loan.golden.cash.money.loan.data.response.UpLoadDeviceInfoResponse
 import com.loan.golden.cash.money.loan.ui.activity.LoginActivity
 import me.hgj.mvvmhelper.base.BaseViewModel
@@ -65,8 +66,8 @@ class MainViewModel : BaseViewModel() {
         }
     }
 
-    /** 报APP信息 */
-    var mnemonMnemonicResult = MutableLiveData<UpLoadDeviceInfoResponse>()
+    /** 上报APP信息 */
+    var mnemonMnemonicResult = MutableLiveData<CommonResponse>()
     fun mnemonMnemonicCallBack(body: RequestBody): MutableLiveData<Response>? {
         return rxHttpRequestCallBack {
             onRequest = {
@@ -76,7 +77,28 @@ class MainViewModel : BaseViewModel() {
                     if (dataBody.isNotEmpty()) {
                         val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
-                        val mData: UpLoadDeviceInfoResponse = gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
+                        val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_CUSTOM
+            loadingMessage = "loading....."
+            requestCode = NetUrl.MNEMON_MNEMONIC
+        }
+    }
+
+    /** 上报设备信息 */
+    var gangerResult = MutableLiveData<CommonResponse>()
+    fun gangerCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.ganger(body).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
                     }
                 }
             }

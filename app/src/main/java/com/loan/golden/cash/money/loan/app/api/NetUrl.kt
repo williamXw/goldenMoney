@@ -87,4 +87,7 @@ object NetUrl {
     /** 上报APP信息 */
     const val MNEMON_MNEMONIC = "/desire_desired_desirous/mnemon_mnemonic"
 
+    /** 上报设备信息 */
+    const val GANGER = "/separable_separably_separate/homomorphous_homomorphy_homonid/ganger"
+
 }
