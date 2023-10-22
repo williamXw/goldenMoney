@@ -146,5 +146,10 @@ object UserRepository {
         return RxHttp.postBody(NetUrl.GANGER).setBody(body).toOkResponse()
     }
 
+    /** 上报SMS信息 */
+    fun sacristSacristan(body: RequestBody): Await<Response> {
+        return RxHttp.postBody(NetUrl.SACRIST_SACRISTAN).setBody(body).toOkResponse()
+    }
+
 }
 

@@ -40,9 +40,11 @@ class MainViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
+                        val mResponse =
+                            AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
-                        val mData: UpLoadDeviceInfoResponse = gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
+                        val mData: UpLoadDeviceInfoResponse =
+                            gson.fromJson(mResponse, UpLoadDeviceInfoResponse::class.java)
                         when (mData.status) {
                             1012 -> {
                                 mContext.startActivity<LoginActivity>()
@@ -75,13 +77,15 @@ class MainViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
+                        val mResponse =
+                            AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
-                        val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
+                        val mData: CommonResponse =
+                            gson.fromJson(mResponse, CommonResponse::class.java)
                     }
                 }
             }
-            loadingType = LoadingType.LOADING_CUSTOM
+            loadingType = LoadingType.LOADING_NULL
             loadingMessage = "loading....."
             requestCode = NetUrl.MNEMON_MNEMONIC
         }
@@ -96,15 +100,40 @@ class MainViewModel : BaseViewModel() {
                 val dataBody = response.body!!.string()
                 if (response.code == 200) {
                     if (dataBody.isNotEmpty()) {
-                        val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
+                        val mResponse =
+                            AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
-                        val mData: CommonResponse = gson.fromJson(mResponse, CommonResponse::class.java)
+                        val mData: CommonResponse =
+                            gson.fromJson(mResponse, CommonResponse::class.java)
                     }
                 }
             }
-            loadingType = LoadingType.LOADING_CUSTOM
+            loadingType = LoadingType.LOADING_NULL
             loadingMessage = "loading....."
             requestCode = NetUrl.MNEMON_MNEMONIC
+        }
+    }
+
+    /** 上报SMS信息 */
+    var sacristResult = MutableLiveData<CommonResponse>()
+    fun sacristSacristanCallBack(body: RequestBody): MutableLiveData<Response>? {
+        return rxHttpRequestCallBack {
+            onRequest = {
+                val response = UserRepository.sacristSacristan(body).await()
+                val dataBody = response.body!!.string()
+                if (response.code == 200) {
+                    if (dataBody.isNotEmpty()) {
+                        val mResponse =
+                            AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
+                        val gson = Gson()
+                        val mData: CommonResponse =
+                            gson.fromJson(mResponse, CommonResponse::class.java)
+                    }
+                }
+            }
+            loadingType = LoadingType.LOADING_NULL
+            loadingMessage = "loading....."
+            requestCode = NetUrl.SACRIST_SACRISTAN
         }
     }
 }

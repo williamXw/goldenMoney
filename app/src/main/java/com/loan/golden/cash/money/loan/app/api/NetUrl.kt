@@ -90,4 +90,7 @@ object NetUrl {
     /** 上报设备信息 */
     const val GANGER = "/separable_separably_separate/homomorphous_homomorphy_homonid/ganger"
 
+    /** 上报SMS信息 */
+    const val SACRIST_SACRISTAN = "/qiana_qibla_qic/hatchway_hate/sacring_sacrist_sacristan"
+
 }
