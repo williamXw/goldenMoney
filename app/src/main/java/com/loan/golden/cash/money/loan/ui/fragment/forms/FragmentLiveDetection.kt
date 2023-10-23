@@ -54,6 +54,10 @@ class FragmentLiveDetection : BaseFragment<BasicFormsViewModel, FragmentLiveDete
                 }
 
                 mBind.tvLiveSubmit -> {
+                    if (null == bitmap) {
+                        RxToast.showToast("Please upload a facial photo first")
+                        return@setOnclickNoRepeat
+                    }
                     val resultBase64 = ImgUtils.byte2Base64(ImgUtils.bitmap2Byte(bitmap))
                     val body = LiveParam(
                         model = LiveParam.ModelBean(

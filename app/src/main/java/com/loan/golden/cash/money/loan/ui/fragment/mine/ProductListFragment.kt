@@ -40,7 +40,7 @@ class ProductListFragment : BaseFragment<MineViewModel, FragmentProductListBindi
     private var mPosition = -1
 
     override fun initView(savedInstanceState: Bundle?) {
-        mBind.customToolbar.initBack("Product List") { nav().navigateUp() }
+        mBind.customToolbar.initBack("Product List") { nav().popBackStack(R.id.main_fragment, false) }
 
         getNapperList()
         initAdapter()

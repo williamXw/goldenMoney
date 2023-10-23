@@ -307,6 +307,13 @@
         android:label="fragmentRollover"
         tools:layout="@layout/fragment_rollover">
 
+        <action
+            android:id="@+id/action_to_fragment_repayment_mode"
+            app:destination="@+id/fragmentRepaymentMode"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 

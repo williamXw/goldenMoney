@@ -7,6 +7,7 @@ import com.loan.golden.cash.money.loan.app.util.AESTool
 import com.loan.golden.cash.money.loan.app.util.SettingUtil
 import com.loan.golden.cash.money.loan.data.commom.Constant
 import com.loan.golden.cash.money.loan.data.repository.UserRepository
+import com.loan.golden.cash.money.loan.data.response.BreechlessResponse
 import com.loan.golden.cash.money.loan.data.response.ChippieResponse
 import com.loan.golden.cash.money.loan.data.response.OrogenyResponse
 import me.hgj.mvvmhelper.base.BaseViewModel
@@ -67,7 +68,7 @@ class RepaymentViewModel : BaseViewModel() {
     }
 
     /** 展期试算 */
-    var breechlessResult = MutableLiveData<ChippieResponse>()
+    var breechlessResult = MutableLiveData<BreechlessResponse>()
     fun breechlessCallBack(paramsBody: RequestBody): MutableLiveData<Response>? {
         return rxHttpRequestCallBack {
             onRequest = {
@@ -77,7 +78,7 @@ class RepaymentViewModel : BaseViewModel() {
                     if (dataBody.isNotEmpty()) {
                         val mResponse = AESTool.decrypt(SettingUtil.removeQuotes(dataBody), Constant.AES_KEY)
                         val gson = Gson()
-                        val mData: ChippieResponse = gson.fromJson(mResponse, ChippieResponse::class.java)
+                        val mData: BreechlessResponse = gson.fromJson(mResponse, BreechlessResponse::class.java)
                         breechlessResult.value = mData
                     }
                 }

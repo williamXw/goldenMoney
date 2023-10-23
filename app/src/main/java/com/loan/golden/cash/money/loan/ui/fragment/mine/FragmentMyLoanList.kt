@@ -61,11 +61,11 @@ class FragmentMyLoanList : BaseFragment<MineViewModel, FragmentMyLoanListBinding
         mAdapter.setOnItemChildClickListener { _, view, position ->
             when (view.id) {
                 R.id.tvItemNextBtn -> {
-//                    if (mAdapter.data[position].status == "LOAN_SUCCESS" || mAdapter.data[position].status == "DUNNING") {//放款成功和逾期
-                    nav().navigateAction(R.id.action_to_fragment_golden_money, Bundle().apply {
-                        putString("id", mAdapter.data[position].id)
-                    })
-//                    }
+                    if (mAdapter.data[position].status == "LOAN_SUCCESS" || mAdapter.data[position].status == "DUNNING") {//放款成功和逾期
+                        nav().navigateAction(R.id.action_to_fragment_golden_money, Bundle().apply {
+                            putString("id", mAdapter.data[position].id)
+                        })
+                    }
                 }
             }
         }
